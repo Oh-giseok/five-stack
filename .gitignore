@@ -1,0 +1,43 @@
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node.js
+node_modules/
+.npm/
+.yarn/
+dist/
+build/
+
+# Logs
+*.log
+
+# Local data and model artifacts
+data/
+models/
+checkpoints/
+artifacts/
+*.pkl
+*.joblib
+*.pt
+*.pth
