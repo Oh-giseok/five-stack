@@ -3,7 +3,7 @@
 
 def main():
     print("Hello, five-stack!")
-    numbers = [1, 2, 3, 4, 5]
+    numbers = [1, 2, 3, 4, 5, 6]
     print(f"숫자 목록: {numbers}")
     print(f"합계: {sum(numbers)}")
 
