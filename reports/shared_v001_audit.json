@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "dataset": "shared/v001",
+  "source_processing_version": "v002",
+  "train_rows": 28800,
+  "validation_rows": 12800,
+  "all_source_rows_and_shared_values_preserved": true,
+  "model_input_columns": 57,
+  "shared_columns": 87,
+  "final_test_included": false,
+  "clustering_included": false,
+  "csv_parquet_checksums_verified": true,
+  "nonignored_files_scanned": 126,
+  "actual_credential_matches": 0,
+  "oversized_git_files": 0,
+  "git_identity_configured": true,
+  "total_publishable_bytes": 47918379
+}

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oinq-export-forecast"
+version = "0.1.0"
+description = "Quarterly cosmetics export forecasting project"
+readme = "README.MD"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "PyYAML>=6,<7",
+  "pandas>=2.2,<4",
+  "numpy>=1.26,<3",
+  "pyarrow>=15",
+  "requests>=2.32,<3",
+  "python-dotenv>=1,<2",
+]
+
+[project.optional-dependencies]
+models = [
+  "scikit-learn>=1.4,<2",
+  "xgboost>=2.1,<4",
+  "lightgbm>=4.5,<5",
+  "catboost>=1.2,<2",
+]
+ui = ["streamlit>=1.40,<2", "plotly>=5.24,<7"]
+dev = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

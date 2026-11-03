@@ -1,0 +1,58 @@
+schema_version: 1
+target:
+  column: target_export_value_usd
+  meaning: "한국에서 대상국으로 수출한 제품별 분기 금액"
+  currency: USD
+  valuation: FOB
+  primary: true
+  transform: none
+  minimum_prediction: 0.0
+supervised:
+  sample_key: [country_code, hs_code, origin_quarter, target_quarter]
+  strategy: direct_pooled_horizon
+  categorical: [country_code, region, hs_code]
+  known_future: [target_year, target_quarter_number, horizon_quarters, time_index]
+  descriptive_only: [country_name, product_name]
+  series_group: [country_code, hs_code]
+  lag_columns: [export_value_usd, export_net_weight_kg, export_unit_value_usd_per_kg]
+  lag_quarters: [1, 2, 4]
+  lag_reference: "lag1=origin_quarter의 마지막 관측 분기, lag2=그 직전 분기, lag4=3분기 전"
+  rolling:
+    window_quarters: 4
+    statistics: [sum, mean]
+    columns: [export_value_usd, export_net_weight_kg, export_unit_value_usd_per_kg]
+    end_at_origin: true
+  growth:
+    column: export_value_usd
+    comparison_lag_quarters: 4
+    zero_denominator: null
+  market:
+    columns: [market_import_value_usd, korea_import_value_usd, korea_import_share]
+    join: latest_released_at_origin
+    missing: keep_null_with_indicator
+  macro:
+    enabled: true
+    columns: [gdp_usd, gdp_per_capita_usd, population, inflation_pct, exchange_rate_lcu_per_usd, internet_users_pct]
+    join: latest_released_at_origin
+    future_actuals_allowed: false
+    missing: keep_null_with_indicator
+  ablation:
+    variants: [with_macro, without_macro]
+    compare_same_rows_and_origins: true
+    selection_split: validation
+    primary_metric: wape
+clustering:
+  row_key: country_code
+  columns: [gdp_per_capita_usd, population, internet_users_pct]
+  reference_year: latest_common_released_year
+  allow_mixed_years: false
+  scaler: StandardScaler
+  missing: leave_country_unclassified
+  cluster_label_as_supervised_feature: false
+  display_original_values: true
+quality:
+  allow_future_observed_features: false
+  fill_unreported_trade_with_zero: false
+  unit_value: "export_value_usd / export_net_weight_kg; 중량 누락·0이면 null"
+  quarterly_unit_value: "분기 금액 합계 / 분기 중량 합계; 월별 단가 평균을 대신 쓰지 않는다."
+  interpolation_across_splits: false

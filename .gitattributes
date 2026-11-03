@@ -1,0 +1,5 @@
+# Keep source/config text stable across Windows and other developer systems.
+* text=auto eol=lf
+# CSV checksums must preserve the exact exported bytes.
+*.csv -text whitespace=cr-at-eol
+*.parquet binary

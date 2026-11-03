@@ -1,0 +1,109 @@
+schema_version: 1
+documentation_checked_at: "2026-11-03"
+storage:
+  mode: files
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+  shared_dir: data/shared
+  sample_dir: data/sample
+  artifacts_dir: artifacts
+  reports_dir: reports
+  final_test_dir: .private/evaluation
+  forecast_output: artifacts/production/forecasts_2027.parquet
+  cluster_output: artifacts/production/country_clusters.parquet
+  production_manifest: artifacts/production/manifest.json
+  csv_encoding: utf-8-sig
+  parquet_engine: pyarrow
+  overwrite_existing_snapshot: false
+request_defaults:
+  timeout_seconds: 30
+  max_retries: 3
+  retry_backoff_seconds: [2, 5, 10]
+  retry_status_codes: [429, 500, 502, 503, 504]
+  minimum_interval_seconds: 2
+  log_secret_values: false
+customs:
+  role: primary_korean_exports
+  enabled: true
+  # 총 요청 간격과 동시 연결 수. 단기 429는 제한 재시도, 권한·장기 할당량 오류는 중단한다.
+  minimum_interval_seconds: 0.5
+  max_concurrent_requests: 8
+  access_status: credentials_and_sample_response_verified
+  endpoint: "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList"
+  documentation: "https://www.data.go.kr/data/15100475/openapi.do"
+  response_format: xml
+  api_key_env: CUSTOMS_API_KEY
+  api_key_parameter: serviceKey
+  key_input: decoded_service_key
+  request_fields: {start: strtYymm, end: endYymm, country: cntyCd, hs_code: hsSgn}
+  max_months_per_request: 12
+  country_mapping_field: customs
+  amount_scale: 1
+  currency: USD
+  export_valuation: FOB
+  net_weight_unit: kg
+  response_fields:
+    period: year
+    country: statCd
+    hs_code: hsCd
+    export_value_usd: expDlr
+    export_net_weight_kg: expWgt
+  require_hs6_query_confirmation: true
+  require_success_code_and_complete_response: true
+comtrade:
+  role: secondary_exports_and_import_markets
+  enabled: true
+  minimum_interval_seconds: 3
+  max_concurrent_requests: 2
+  data_endpoint: "https://comtradeapi.un.org/data/v1/get/C/M/HS"
+  preview_endpoint: "https://comtradeapi.un.org/public/v1/preview/C/M/HS"
+  availability_endpoint: "https://comtradeapi.un.org/public/v1/getDA/C/M/HS"
+  reporter_reference: "https://comtradeapi.un.org/files/v1/app/reference/Reporters.json"
+  partner_reference: "https://comtradeapi.un.org/files/v1/app/reference/partnerAreas.json"
+  documentation: "https://uncomtrade.org/docs/un-comtrade-api/"
+  api_key_env: COMTRADE_API_KEY
+  api_key_header: Ocp-Apim-Subscription-Key
+  preview_for_production_dataset: false
+  preview_record_limit: 500
+  require_no_truncation: true
+  frequency: M
+  classification: HS
+  exporter_reporter_code: 410
+  export_flow_code: X
+  import_flow_code: M
+  world_partner_code: 0
+  korea_partner_code: 410
+  partner2_code: 0
+  customs_code: C00
+  mode_of_transport_code: 0
+  amount_scale: 1
+  currency: USD
+  export_valuation: FOB
+  import_valuation: CIF_or_reported
+  net_weight_unit: kg
+  response_fields: {period: period, hs_code: cmdCode, value_usd: primaryValue, net_weight_kg: netWgt}
+  merge_policy: "관세청과 같은 거래는 중복 합산하지 않는다. 원천 연결은 겹치는 기간 비교 후 승인한다."
+world_bank:
+  role: macro_features_and_country_clusters
+  enabled: true
+  base_url: "https://api.worldbank.org/v2"
+  endpoint_template: "/country/{country}/indicator/{indicator}"
+  documentation: "https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures"
+  authentication: none
+  response_format: json
+  frequency: annual
+  source_id: 2
+  page_size: 1000
+  fetch_all_pages: true
+  indicators:
+    gdp_usd: {code: NY.GDP.MKTP.CD, unit: current_USD}
+    gdp_per_capita_usd: {code: NY.GDP.PCAP.CD, unit: current_USD_per_person}
+    population: {code: SP.POP.TOTL, unit: persons}
+    inflation_pct: {code: FP.CPI.TOTL.ZG, unit: percent_per_year}
+    exchange_rate_lcu_per_usd: {code: PA.NUS.FCRF, unit: LCU_per_USD_period_average}
+    internet_users_pct: {code: IT.NET.USER.ZS, unit: percent_of_population}
+  historical_vintage_available: false
+  availability_policy: "개별 값의 원래 공개일은 API 연도·lastupdated로 입증되지 않는다. 공개일 근거·빈티지를 별도 확보하며 없으면 검증을 제한한다."
+  missing_release_evidence: require_documented_assumption_or_exclude
+  future_year_actuals_allowed: false

@@ -1,0 +1,23 @@
+schema_version: 1
+model_id: catboost
+task: supervised_regression
+estimator: catboost.CatBoostRegressor
+parameter_status: initial_experiment_not_tuned
+params:
+  loss_function: RMSE
+  iterations: 300
+  depth: 5
+  learning_rate: 0.05
+  random_seed: 42
+  thread_count: 4
+  verbose: false
+  allow_writing_files: false
+training:
+  categorical_encoding: native_string_with_missing_token
+  categorical_columns: [country_code, region, hs_code]
+  numeric_missing: median_fit_on_train_with_indicator
+  target_transform: none
+  early_stopping: false
+  comparison_variants: [with_macro, without_macro]
+  selection_split: validation
+  selection_metric: wape

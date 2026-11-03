@@ -1,0 +1,41 @@
+schema_version: 1
+country_key: iso3
+reference_checked_at: "2026-11-03"
+references:
+  reporters: "https://comtradeapi.un.org/files/v1/app/reference/Reporters.json"
+  partners: "https://comtradeapi.un.org/files/v1/app/reference/partnerAreas.json"
+exporter:
+  iso3: KOR
+  iso2: KR
+  name_ko: 대한민국
+  comtrade_reporter: 410
+  world_bank: KOR
+expected_count: 20
+expected_regions: {asia: 7, europe: 5, oceania: 2, americas: 4, africa: 2}
+# ISO 숫자와 Comtrade 코드를 혼용하지 않는다. 신고국·상대국도 별도 필드다.
+# 관세청 alpha-2 코드는 공식 규격에 맞춘 매핑이며 실제 응답은 수집 시 확인한다.
+countries:
+  - {iso3: CHN, iso2: CN, name_ko: 중국, region: asia, customs: CN, comtrade_reporter: 156, comtrade_partner: 156, world_bank: CHN}
+  - {iso3: JPN, iso2: JP, name_ko: 일본, region: asia, customs: JP, comtrade_reporter: 392, comtrade_partner: 392, world_bank: JPN}
+  - {iso3: IND, iso2: IN, name_ko: 인도, region: asia, customs: IN, comtrade_reporter: 699, comtrade_partner: 699, world_bank: IND}
+  - {iso3: IDN, iso2: ID, name_ko: 인도네시아, region: asia, customs: ID, comtrade_reporter: 360, comtrade_partner: 360, world_bank: IDN}
+  - {iso3: THA, iso2: TH, name_ko: 태국, region: asia, customs: TH, comtrade_reporter: 764, comtrade_partner: 764, world_bank: THA}
+  - {iso3: SGP, iso2: SG, name_ko: 싱가포르, region: asia, customs: SG, comtrade_reporter: 702, comtrade_partner: 702, world_bank: SGP}
+  - {iso3: VNM, iso2: VN, name_ko: 베트남, region: asia, customs: VN, comtrade_reporter: 704, comtrade_partner: 704, world_bank: VNM}
+  - {iso3: FRA, iso2: FR, name_ko: 프랑스, region: europe, customs: FR, comtrade_reporter: 251, comtrade_partner: 251, world_bank: FRA}
+  - {iso3: DEU, iso2: DE, name_ko: 독일, region: europe, customs: DE, comtrade_reporter: 276, comtrade_partner: 276, world_bank: DEU}
+  - {iso3: GBR, iso2: GB, name_ko: 영국, region: europe, customs: GB, comtrade_reporter: 826, comtrade_partner: 826, world_bank: GBR}
+  - {iso3: ITA, iso2: IT, name_ko: 이탈리아, region: europe, customs: IT, comtrade_reporter: 380, comtrade_partner: 380, world_bank: ITA}
+  - {iso3: ESP, iso2: ES, name_ko: 스페인, region: europe, customs: ES, comtrade_reporter: 724, comtrade_partner: 724, world_bank: ESP}
+  - {iso3: AUS, iso2: AU, name_ko: 호주, region: oceania, customs: AU, comtrade_reporter: 36, comtrade_partner: 36, world_bank: AUS}
+  - {iso3: NZL, iso2: NZ, name_ko: 뉴질랜드, region: oceania, customs: NZ, comtrade_reporter: 554, comtrade_partner: 554, world_bank: NZL}
+  - {iso3: USA, iso2: US, name_ko: 미국, region: americas, customs: US, comtrade_reporter: 842, comtrade_partner: 842, world_bank: USA}
+  - {iso3: CAN, iso2: CA, name_ko: 캐나다, region: americas, customs: CA, comtrade_reporter: 124, comtrade_partner: 124, world_bank: CAN}
+  - {iso3: BRA, iso2: BR, name_ko: 브라질, region: americas, customs: BR, comtrade_reporter: 76, comtrade_partner: 76, world_bank: BRA}
+  - {iso3: GTM, iso2: GT, name_ko: 과테말라, region: americas, customs: GT, comtrade_reporter: 320, comtrade_partner: 320, world_bank: GTM}
+  - {iso3: ZAF, iso2: ZA, name_ko: 남아프리카공화국, region: africa, customs: ZA, comtrade_reporter: 710, comtrade_partner: 710, world_bank: ZAF}
+  - {iso3: MAR, iso2: MA, name_ko: 모로코, region: africa, customs: MA, comtrade_reporter: 504, comtrade_partner: 504, world_bank: MAR}
+coverage_notes:
+  - "France 251은 Comtrade 통계영역 기준이며 250(Metropolitan France)과 자동 합산하지 않는다."
+  - "USA 842는 Comtrade 통계영역 기준이며 840 및 별도 영토와 자동 합산하지 않는다."
+  - "관세청과 Comtrade의 통계영역 차이는 겹치는 기간에서 확인한 뒤 연결한다."

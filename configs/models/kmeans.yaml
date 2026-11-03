@@ -1,0 +1,25 @@
+schema_version: 1
+model_id: kmeans
+task: country_clustering
+estimator: sklearn.cluster.KMeans
+parameter_status: initial_experiment_not_final_cluster_count
+params:
+  n_clusters: 3
+  init: k-means++
+  n_init: 10
+  max_iter: 300
+  random_state: 42
+inputs:
+  row_key: country_code
+  columns: [gdp_per_capita_usd, population, internet_users_pct]
+  reference_year: latest_common_released_year
+  scaler: StandardScaler
+  missing: leave_country_unclassified
+selection:
+  candidate_cluster_counts: [2, 3, 4]
+  criteria: [interpretability, cluster_sizes, silhouette_when_defined]
+  require_more_complete_countries_than_clusters: true
+output:
+  display_original_values: true
+  cluster_id_is_rank: false
+  supervised_feature: false

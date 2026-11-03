@@ -1,0 +1,13 @@
+schema_version: 1
+source_processing_version: v002
+shared_version: v001
+dataset_release_approved: true
+approval_basis: user_instruction
+include_final_test: false
+include_clustering: false
+preserve_all_candidate_rows: true
+formats: [csv, parquet]
+csv_null_value: "\\N"
+historical_release_evidence_verified: false
+evaluation_scope: current_revised_snapshot_with_calendar_aligned_features
+missing_target_handling: retain_with_target_available_flag
