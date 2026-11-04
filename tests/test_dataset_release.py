@@ -1,4 +1,4 @@
-"""Release approval must preserve rows and keep final test labels private."""
+"""Release approval preserves rows and explicitly authorizes final test sharing."""
 
 from pathlib import Path
 import sys
@@ -48,6 +48,19 @@ class DatasetReleaseTests(unittest.TestCase):
             contract["numeric_candidates"].append(forbidden)
             with self.assertRaises(ReleaseError):
                 release_columns(contract)
+
+    def test_approved_final_test_keeps_labels_and_requires_fixed_origin(self):
+        frame = self.frame().assign(split="final_test", origin_quarter="2025Q4",
+                                    target_quarter=["2026Q1", "2026Q2"])
+        bounds = {"start": "2026Q1", "end": "2026Q3"}
+        with self.assertRaises(ReleaseError):
+            select_release(frame, self.contract(), bounds, "final_test")
+        result = select_release(frame, self.contract(), bounds, "final_test", allow_final_test=True)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result.iloc[0].target_export_value_usd, 20)
+        self.assertTrue(pd.isna(result.iloc[1].target_export_value_usd))
+        with self.assertRaises(ReleaseError):
+            select_release(frame.assign(origin_quarter="2026Q1"), self.contract(), bounds, "final_test", allow_final_test=True)
 
     def test_wrong_period_split_and_duplicate_sample_are_rejected(self):
         bounds = {"start": "2013Q1", "end": "2021Q4"}

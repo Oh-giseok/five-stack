@@ -1,10 +1,14 @@
 schema_version: 1
 source_processing_version: v002
-shared_version: v001
+shared_version: v002
 dataset_release_approved: true
 approval_basis: user_instruction
-include_final_test: false
-include_clustering: false
+include_final_test: true
+include_clustering: true
+clustering_processing_version: v002
+final_test_release_approved: true
+final_test_access: team_shared_with_labels
+clustering_context_includes_2026_actuals: true
 preserve_all_candidate_rows: true
 formats: [csv, parquet]
 csv_null_value: "\\N"

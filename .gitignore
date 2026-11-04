@@ -32,3 +32,10 @@ dist/
 
 # data/shared/ and data/sample/ are intentionally not globally ignored.
 # Only reviewed datasets and synthetic examples should be added to Git.
+
+# Superseded local design drafts; the current approved PDF is shared.
+/docs/GEM_전체설계_확정안_v1.2.pdf
+/docs/GEM_전체설계_확정안_v1.3.pdf
+/docs/wireframes/gem_period_v1_2/
+/docs/wireframes/gem_period_v1_3/
+/reports/unsupervised_v001_*

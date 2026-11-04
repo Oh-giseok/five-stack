@@ -17,8 +17,9 @@ DB는 사용하지 않으며 원본·정제·학습·예측 데이터를 파일�
 | Comtrade 월별·분기 전처리·수입시장 3개 변수 | v001: 20개국·8개 제품·64,649행 전수 반영, 제외·분류 보류 0행 |
 | World Bank 연간 거시지표·군집 후보 | v001: 20개국·6개 지표·1,560행 보존, 2024년 동일 연도 후보 20행 |
 | 지도학습 통합·시차·분할 후보 | v002: 학습 36분기·검증 16분기·최종 테스트 3분기, 기존 v001 보존 |
-| 지도학습 공유 데이터 | v001 확정: 처리 v002 기반 train·validation CSV/Parquet·명세 생성 |
+| 전체 공유 데이터 | v002 확정: train·validation·final_test 정답·비지도 10개 표·명세 제공 |
 | 화면 설계 | GEM v1.0 확정: 유스케이스·사용자 흐름·논리 ERD·8개 와이어프레임 이미지, 한 화면 결과 최대 2개 |
+| 기간별 비지도 데이터 | v1.3 사양·로컬 v002 생성: 국가×5구간 100행, 최근 2025~2026Q3 포함; 현재 82행 세 지표 확보 |
 | 모델·예측·화면 | 미구현·미생성, 과거 공개시점 재현은 미검증 |
 
 설정 파일이 준비됐다는 것이 API 인증·전 기간 데이터 확보·모델 성능 검증을 뜻하지는 않는다.
@@ -64,8 +65,8 @@ API → data/raw → data/interim → data/processed
 ```
 
 - 원본·전체 정제 패널·모델 파일은 Git 기본 추적에서 제외한다.
-- 검토한 공통 학습·검증 파일과 국가 지표만 버전별로 공유한다. 최종 테스트 정답은 공용 배포에서 제외한다.
-- 현재 지도학습 공유본은 `data/shared/v001/`이다. train 28,800행·validation 12,800행과 CSV/Parquet·실제 스키마·체크섬 manifest를 제공한다. 비지도 자료와 2026년 최종 테스트 정답은 포함하지 않는다.
+- 사용자 승인 전체 공유 v002에는 학습·검증·최종 테스트 정답과 비지도 10개 표를 포함한다.
+- 현재 전체 공유본은 `data/shared/v002/`이다. train 28,800행·validation 12,800행과 CSV/Parquet·실제 스키마·체크섬 manifest를 제공한다. 최종 테스트 480행과 비지도 전체 10개 표·2026년 수출 맥락도 포함한다.
 
 ## 실행 진입점
 
@@ -114,7 +115,7 @@ Comtrade v001도 모든 국가·제품을 대조했다. 원본 64,649행 전체�
 .\.venv\Scripts\python.exe scripts/audit_world_bank_preprocessing.py --version v001
 ```
 
-World Bank v001은 `data/processed/world_bank/v001/`에 연간 long·wide 표와 국가당 한 행의 `country_indicators_candidate`를 저장한다. 군집 후보는 20개국의 값이 갖춰진 2024년이며, 과거 공개 근거·학습 승인·표준화는 아직 적용하지 않았다.
+World Bank v001은 `data/processed/world_bank/v001/`에 연간 long·wide 표와 당시 단일 연도 후보 `country_indicators_candidate`를 보존한다. 2024년 후보는 처리 이력이며, 현재 군집 학습 입력은 아래의 기간별 비지도 v002이다. 과거 공개 근거는 미검증이다.
 World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로 저장한다. `keep_default_na=False, na_values=[r"\N"]`와 manifest 자료형으로 읽거나 Parquet를 사용한다. 후속 결합·분리·공유 확정 기준은 [참고 사양서](docs/dataset_release_reference.md)를 따른다.
 
 ```powershell
@@ -130,21 +131,22 @@ World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로
 
 ## 확정된 지도학습 공유본
 
-사용자 승인으로 처리 v002를 공유 v001로 확정했다. 팀원은 `data/shared/v001/train.parquet`·`validation.parquet`와 `manifest.json`을 사용한다. [파일 읽기·학습 기준](data/shared/v001/README.md)에 명시한 모델 입력 57개와 식별·정답·시간 등 총 87개 열을 제공하며 원천 내부 경로는 공유 표에서 제외했다. 모든 후보 행과 원래 값·null은 보존했다.
+사용자 승인으로 전체 공유 v002를 확정했다. 팀원은 `data/shared/v002/`의 train·validation·final_test와 unsupervised/를 사용한다. [파일 읽기·학습 기준](data/shared/v002/README.md)에 명시한 지도학습 입력 57개·전체 87개 열과 비지도 입력 세 지표를 구분한다. 모든 후보 행과 원래 값·null은 보존했다.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/package_dataset.py --verify-only
 ```
 
-현재 공유 승인과 과거 공개시점 입증은 구분한다. origin_cutoff_at은 null이고 원천 빈티지는 미확인이다. 현재 수정치·기간 기준 변수로 실험할 수 있으며 과거 공개시점을 재현한 평가로 주장하지 않는다. 정답 없는 행은 적합·정답 평가에서 제외하고 결측 대체·인코딩은 각 학습 구간에서만 수행한다. 최종 테스트는 팀장 로컬에 보존했다. 비지도 작업은 별도 진행한다.
+현재 공유 승인과 과거 공개시점 입증은 구분한다. origin_cutoff_at은 null이고 원천 빈티지는 미확인이다. 현재 수정치·기간 기준 변수로 실험하며 정답 없는 행은 적합·정답 평가에서 제외한다. 최종 테스트 정답과 비지도 전체 자료도 공유됐으며 학습·평가에 사용한 범위와 튜닝 이력을 기록한다.
 
 ## 작업 기준과 읽을 문서
 
 - [사양서](PROJECT_SPEC.md), [로드맵](PROJECT_ROADMAP.md)
-- [GEM 전체 설계 확정안 PDF — 유스케이스·사용자 흐름·ERD·와이어프레임 13쪽](docs/GEM_전체설계_확정안_v1.0.pdf)
-- [컨플루언스 GEM 설계 확정 문서 모음](https://kimdonggyu114.atlassian.net/wiki/spaces/VVhnfE1g5PNR/pages/2457601/GEM+v1.0)
+- [GEM 전체 설계 확정안 PDF — 유스케이스·사용자 흐름·ERD·와이어프레임·전체 공유 정책 v1.4 17쪽](docs/GEM_전체설계_확정안_v1.4.pdf)
+- [컨플루언스 GEM 설계 확정 문서 모음](https://kimdonggyu114.atlassian.net/wiki/spaces/VVhnfE1g5PNR/pages/2457601/GEM+v1.3)
 - [협업 규칙](docs/collaboration.md), [데이터 명세](docs/data_dictionary.md)
 - [전처리 기준](docs/data_processing.md), [모델 인계](docs/model_handoff.md)
+- 유사 국가의 전체 기간 3년 구간·경제지표·결측·최신성 결합은 [자료 확정 참고 사양서 7절](docs/dataset_release_reference.md)을 따른다. PDF v1.0은 기존 배치 이력이며 v1.3 기간별 비교 보완 기준을 우선 적용한다.
 - [원천·코드 확인 근거](docs/data_sources.md)
 - [2026-11-03 원본 수집 결과·누락 범위](reports/collection_20261103.md)
 - [관세청 v001 전처리 결과·보류 항목](reports/customs_v001_preprocessing.md)
@@ -157,3 +159,20 @@ World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로
 - [이전 지도학습 통합 v001 결과](reports/supervised_v001_integration.md)
 
 공통 문서·YAML이 다르면 구현 전에 맞춘다. 개인 문서는 공용 안내·배포에 포함하지 않는다.
+
+## 기간별 비지도 데이터 전처리
+
+```powershell
+.\.venv\Scripts\python.exe scripts/prepare_unsupervised.py --version v002 --as-of-date 2026-11-04
+.\.venv\Scripts\python.exe scripts/audit_unsupervised_preprocessing.py --version v002
+```
+
+기존 버전은 덮어쓰지 않는다. 결과는 `data/processed/unsupervised/v002/`의 10개 표(CSV·Parquet)와 manifest다. 모델에는 country_window_features의 eligible_for_fit=true 행에서 세 지표만 입력한다. 표준화·군집 적합은 후속이다.
+사용자 추가 승인으로 전체 맥락·최종 테스트 입력과 정답을 공유 v002에 포함했다. [전처리 결과](reports/unsupervised_v002_preprocessing.md)와 [검산 결과](reports/unsupervised_v002_audit.json)를 확인한다.
+
+## 전체 공유 정책 — 2026-11-04 사용자 지시
+
+현재 배포는 [전체 공유 v002 안내](data/shared/v002/README.md)다. 학습 28,800행·검증 12,800행·최종 테스트 480행(정답 447/결측 33)과 비지도 전체 10개 표를 포함한다.
+지도학습 입력 57개·전체 87개 열·시간 분할·원래 값·null을 유지한다. 비지도 입력은 100행 보존·82행 세 지표 확보이며 최신 구간은 2025-01~2026-09다.
+팀장 전용 보관 제한을 해제하고 최종 테스트 정답·2026년 수출 맥락까지 공유한다. 원본 처리 캐시는 이동·삭제하지 않는다. 테스트 파일 공유와 학습 입력 사용은 구분하며 테스트로 모델을 조정했다면 해당 결과의 사용 이력을 기록한다.
+과거 v001·로컬 전처리 보고서·Confluence v1.3의 비공개 정책은 당시 처리 이력이며 이 전체 공유 정책과 v002 manifest를 우선한다.

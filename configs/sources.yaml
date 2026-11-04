@@ -10,6 +10,7 @@ storage:
   artifacts_dir: artifacts
   reports_dir: reports
   final_test_dir: .private/evaluation
+  final_test_release_dir: data/shared/v002
   forecast_output: artifacts/production/forecasts_2027.parquet
   cluster_output: artifacts/production/country_clusters.parquet
   production_manifest: artifacts/production/manifest.json

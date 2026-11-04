@@ -33,8 +33,40 @@
 `gdp_usd`, `gdp_per_capita_usd`, `population`, `inflation_pct`, `exchange_rate_lcu_per_usd`, `internet_users_pct`를 사용한다.
 값과 `indicator_year`·공개일 근거를 함께 보관한다. 환율 단위는 현지통화/USD, 인터넷 이용률·물가는 퍼센트다.
 
-K-means 파일은 국가당 한 행에 `country_code`, `reference_year`, `gdp_per_capita_usd`, `population`, `internet_users_pct`, 공개 근거·결측 상태를 포함한다.
-국가 간 같은 기준연도를 사용한다. 표준화 값은 모델 내부 입력이며 원래 지표값을 덮어쓰지 않는다.
+K-means 입력은 국가×window_id 한 행에 세 지표의 과거는 완전 3개년 평균, 최근은 확보된 연간 평균을 저장한다. 모든 국가에 같은 구간을 사용한다. 표준화는 학습 시 공통 변환기로 수행하고 원래 단위를 보존한다. 마지막 기간은 2025-01~2026-09이며 수출 기대 월 수는 21이다.
+
+### 기간별 비지도 데이터 — v1.3
+
+현재 로컬 비지도 v002을 생성했다. 구간은 2013_2015, 2016_2018, 2019_2021, 2022_2024, 2025_2026Q3이다. 100행 중 82행 적합 가능, 실제 지표 결측 18행도 보존이다.
+
+| 컬럼·표 | 의미 |
+|---|---|
+| country_window_features | 국가×구간의 세 지표와 적합 가능 여부; 세 수치 열만 모델 입력 |
+| country_window_profile | GDP·세 지표의 완전 평균, 관측 부분 평균·연도·원천 |
+| macro_annual | 기존 연간 6지표·관측 및 공개 상태 280행 보존 |
+| macro_window_long | 국가×구간×4지표 400행, 지표별 품질 확인 |
+| window_id, start_year, end_year | 분석기간 식별자·시작·끝 |
+| value / gdp_usd·세 지표 | 과거 네 구간은 세 연도 완전 평균; 최근 구간은 확보 연간 값 평균과 관측 연도 표시 |
+| observed_mean / *_observed_mean | 실제 관측 연도만의 부분 평균; 최신 짧은 구간은 실제 확보 연도를 표시해 사용; 과거 완결 구간 결측 대체 금지 |
+| valid_year_count, observed_years | 관측 연도 수·JSON 배열 문자열 |
+| missing_source_years, outside_source_scope_years | 원천 범위 내 값 누락 연도·범위 밖 연도 |
+| future_years, in_progress_years | 기준일 이후 연도·진행 중 연도 |
+| eligible_for_fit, eligibility_reason | 실제 세 지표 확보·관측 연도 집합 일치 여부; 최근 구간의 길이만으로 제외하지 않음 |
+| start_month, end_month, period_month_count, is_short_period | 실제 선택 기간과 월 수; 마지막은 2025-01~2026-09, 21개월 |
+| value_basis, aggregation | 완전 3년 평균 또는 최근 확보 연간 평균의 사용 기준 |
+| export_value_usd, observed_export_value_usd | 완전 수출 합계·관측 부분합; USD·FOB |
+| valid_value_cells, missing_collected_value_cells | 관측 금액 수·수집 범위 내 금액 결측 수 |
+| expected_window_value_cells, expected_collected_value_cells | 완전 구간 기대 수·현재 수집 범위 기대 수 |
+| outside_collection_value_cells | 수집 범위 밖 월별 셀 수 |
+| future_value_cells, elapsed_outside_collection_value_cells, current_month_outside_collection_value_cells | 범위 밖 셀의 미래·과거·현재월 구분 |
+| period_status, coverage_status | 실제 선택 기간 상태·그 범위의 관측 완전성 |
+| observed_period_start/end, latest_observed_export_month | 금액 관측 첫/끝 월과 최신 월 |
+| latest_month_observed_product_count | 최신 관측 월의 제품 수; 국가 전체 최대 8 |
+| previous_window_id, *_change_pct, internet_users_pct_change_pp | 인접 이전 구간 식별자·증감률·인터넷 %p 변화 |
+| source_files, collected_at, historical_release_verified | 원천 경로 JSON 배열·수집시각·과거 공개 검증 여부 |
+| disclosure_status | 공유 v002에서는 team_shared_by_user_instruction; 기존 로컬 처리본의 상태는 원천 처리 이력 |
+
+설명용 GDP·수출·품질은 세 군집 입력에 넣지 않는다. 명목 USD 1인당 GDP는 개인 소득·실질 구매력이 아니다. 표별 키·행 수·결합 규칙은 [참고 사양서 7절](dataset_release_reference.md)에 정의한다.
 
 ## 지도학습 입력과 정답
 
@@ -56,7 +88,7 @@ K-means 파일은 국가당 한 행에 `country_code`, `reference_year`, `gdp_pe
 ## 예측·군집 출력
 
 - 매출: `country_code`, `hs_code`, `origin_quarter`, `origin_cutoff_at`, `target_quarter`, `horizon_quarters`, `predicted_export_value_usd`, `model_id`, `run_id`, `dataset_version`.
-- 군집: `country_code`, `cluster_id`, `reference_year`, 거시 원래 값 3개, `classification_status`, `run_id`.
+- 군집: `country_code`, `window_id`, `cluster_id`, 거시 구간 평균 3개, `classification_status`, `run_id`.
 - 지표 부족으로 미분류이면 `cluster_id`는 null이다. 군집 번호는 순위가 아니다.
 - 예측구간은 검증된 산출법이 구현된 경우에만 추가한다. 임의의 상·하한이나 신뢰도를 채우지 않는다.
 
@@ -129,14 +161,14 @@ long의 키는 `(country_code, indicator_year, indicator_name)`, wide의 키는 
 `record_observed=false`는 원본에 행이 없음, true이면서 value가 null이면 원본에 행은 있으나 숫자가 없음이다. missing_reason으로 no_record_in_successful_response와 null_value_in_source를 구분한다. 실제 0·음의 물가·소수값은 수정하지 않는다. 범위 의문은 quality_issue로만 표시한다.
 wide에는 지표별 `{indicator}_value_missing`, `_record_observed`, `_missing_reason`, `_quality_issue`, `_unit`, `_source_file`, `_collected_at`, `_source_lastupdated`, `_source_obs_status`를 둔다. 연간 관측값을 분기 독립변수로 자동 복제·결합하지 않는다.
 
-군집 후보의 reference_year는 값 완전성에 따른 2024년이다. selection_basis=latest_common_observed_year, reference_year_status=candidate_release_evidence_pending, training_approved=false, scaled=false다. 설정의 latest_common_released_year와 구분하고 운영/과거 평가의 공개시점 기준은 후속 확정한다. 국가를 제외하거나 연도를 섞지 않았다.
+군집 후보의 reference_year는 값 완전성에 따른 2024년이다. selection_basis=latest_common_observed_year, reference_year_status=candidate_release_evidence_pending, training_approved=false, scaled=false다. 이 파일은 World Bank v001 당시 단일 연도 후보 이력이며 현재 기간별 비지도 v002의 학습 입력을 대신하지 않는다. 국가를 제외하거나 연도를 섞지 않았다.
 released_at·release_evidence는 null이며 source_lastupdated는 개별 지표 최초 공개일이 아니다. API source_decimal은 원본 표시 정보이며 값 자체를 반올림하는 지시로 쓰지 않는다.
 
 World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로 저장한다. `pd.read_csv(path, keep_default_na=False, na_values=[r"\N"], dtype=manifest_schema)`로 읽는다. Parquet는 null·빈 문자열과 명시 자료형을 그대로 보존한다. [최종 결합·분리 참고 사양서](dataset_release_reference.md)를 따른다.
 
 ## 지도학습 통합 v002·후보 표본
 
-`data/processed/supervised/v002/`에 월별 관측 26,400행·분기별 관측 8,800행과 origin 변수 후보 9,600행, train 후보 28,800행·validation 후보 12,800행을 저장한다. 학습 대상은 2013Q1~2021Q4의 36분기, 검증 대상은 2022Q1~2025Q4의 16분기다. final_test 후보 480행은 `.private/evaluation/supervised/v002/`에 별도 저장한다. 모든 표는 CSV·Parquet이며 manifest에 기간·스키마·체크섬·열 연결·입력 목록이 있다. 기존 v001은 보존한다.
+`data/processed/supervised/v002/`에 월별 관측 26,400행·분기별 관측 8,800행과 origin 변수 후보 9,600행, train 후보 28,800행·validation 후보 12,800행을 저장한다. 학습 대상은 2013Q1~2021Q4의 36분기, 검증 대상은 2022Q1~2025Q4의 16분기다. final_test 후보 480행의 원본 캐시는 `.private/evaluation/supervised/v002/`에 보존하고, 정답을 포함한 공유 파일은 `data/shared/v002/final_test.parquet`다. 모든 표는 CSV·Parquet이며 manifest에 기간·스키마·체크섬·열 연결·입력 목록이 있다. 기존 v001은 보존한다.
 
 | 표 | 키·달력 | 의미 |
 |---|---|---|
@@ -144,7 +176,7 @@ World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로
 | `integrated_quarterly` | 국가·HS6·quarter, year/quarter_number/month_start/month_end/period_months | 분기 전체 격자, 구성 월 3개 보존 |
 | `origin_feature_candidates` | 국가·HS6·origin_quarter | 수집 전 5개 origin 분기도 포함한 시차·이동통계·기간 기준 후보 |
 | `train_candidates`, `validation_candidates` | 국가·HS6·origin_quarter·target_quarter | 대상 분기별 h=1~5, 정답 결측 행도 보존 |
-| `final_test_candidates` | 같은 표본 키, origin=2025Q4 고정 | 2026Q1~Q3·h=1~3, 비공개 테스트 후보 |
+| `final_test_candidates` | 같은 표본 키, origin=2025Q4 고정 | 2026Q1~Q3·h=1~3, 공유 v002 final_test의 원천 후보 |
 
 국가 코드·이름·지역·HS6·제품명·금액·중량·원천 메타정보를 유지한다. 열 이름 충돌은 comtrade_·world_bank_ 접두어로 구분하며 `column_lineage`에서 각 입력 열을 찾는다. 전체 관측표의 거시값은 같은 달력연도 관측 문맥이며 현재 분기의 예측 입력으로 직접 사용하지 않는다.
 
@@ -160,6 +192,6 @@ CSV null 표식은 `\N`이며 manifest 자료형과 함께 읽는다. 비지도�
 
 ## 확정 지도학습 공유 v001
 
-`data/shared/v001/`의 train·validation CSV/Parquet는 처리 v002에서 모델 입력과 필수 행 메타정보를 선택한 공유본이다. 학습 28,800행·검증 12,800행, 모델 입력 57개·전체 87개 열을 보존했다. 금액 정답·보조 중량·국가/품목 표시명·연도/분기/구성 월·origin/target·결측 표시도 포함한다.
+`data/shared/v002/`의 train·validation CSV/Parquet는 처리 v002에서 모델 입력과 필수 행 메타정보를 선택한 공유본이다. 학습 28,800행·검증 12,800행, 모델 입력 57개·전체 87개 열을 보존했다. 금액 정답·보조 중량·국가/품목 표시명·연도/분기/구성 월·origin/target·결측 표시도 포함한다.
 공유 manifest의 feature_columns만 모델 입력이다. target_export_value_usd와 target_export_net_weight_kg 및 타깃 완전성·기간 분할·기타 메타정보는 feature_columns에 없다. 각 파일의 dtype·행 수·체크섬은 schemas·files에 기록한다.
-사용자 공유 승인은 dataset_release_approved=true, status=released다. historical_release_evidence_verified=false이며 실제 공개일·빈티지는 미검증이다. 원래 처리 후보의 승인 상태는 그 시점 이력으로 보존했다. 공유본에 최종 테스트 정답·비지도 자료·원천 내부 경로를 포함하지 않는다. CSV null은 `\N`이다.
+사용자 공유 승인은 dataset_release_approved=true, status=released다. historical_release_evidence_verified=false이며 실제 공개일·빈티지는 미검증이다. 원래 처리 후보 상태는 이력으로 보존한다. 공유 v002에는 최종 테스트 정답·비지도 전체 표를 포함하며 CSV null은 `\N`이다.
