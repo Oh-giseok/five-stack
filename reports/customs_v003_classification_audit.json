@@ -1,0 +1,21 @@
+{
+  "version": "v003",
+  "snapshot": "collection_20261103",
+  "country_count": 20,
+  "product_count": 8,
+  "country_product_combinations_checked": 160,
+  "requests_independently_checked": 2240,
+  "source_detail_rows_classified": 46594,
+  "source_code_map_rows": 25,
+  "total_rows_excluded": 2160,
+  "source_detail_rows_dropped": 0,
+  "classification_holds": 0,
+  "missing_month_rows": 3052,
+  "classification_and_amount_checks": "passed",
+  "changes_vs_v002": {
+    "period_month_export_value_usd_restored_rows": 24,
+    "period_month_export_net_weight_kg_restored_rows": 24,
+    "quarter_export_value_usd_restored_rows": 10,
+    "quarter_export_net_weight_kg_restored_rows": 10
+  }
+}

@@ -1,0 +1,44 @@
+schema_version: 1
+frequency: quarterly
+quarter_definition: calendar
+collection:
+  monthly_start: "2013-01"
+  monthly_end: "2026-09"
+  coverage_audit_required: true
+  warmup_history: "필요 시 학습 시작 이전 과거자료 확보; 미확보 구간은 결측 표시 후 학습 제외 여부 기록"
+splits:
+  train: {start: "2013Q1", end: "2021Q4"}
+  validation: {start: "2022Q1", end: "2025Q4"}
+  final_test: {start: "2026Q1", end: "2026Q3"}
+split_by: target_quarter
+shuffle: false
+validation:
+  method: expanding_origin
+  # These are target-period partitions. Each historical fit uses only labels
+  # available by its own origin/cutoff, including when origin predates 2022.
+  horizon_quarters: [1, 2, 3, 4, 5]
+  primary_horizons: [2, 3, 4, 5]
+  require_label_available_before_fit: true
+  refit_preprocessing_per_origin: true
+  final_test_for_tuning: false
+final_test:
+  strategy: frozen_origin
+  origin_quarter: "2025Q4"
+  target_quarters: ["2026Q1", "2026Q2", "2026Q3"]
+  horizon_quarters: [1, 2, 3]
+  selection_data_must_be_available_by_origin: true
+  coverage_audit_required: true
+  note: "최신 테스트는 h=1~3이다. 2027년용 h=2~5 중 미포함 h=4~5 및 연간 성능은 과거 검증으로 보완한다."
+forecast:
+  start: "2027Q1"
+  end: "2027Q4"
+  preferred_origin_quarter: "2026Q3"
+  horizon_quarters: [2, 3, 4, 5]
+  updated_origin_quarter: "2026Q4"
+  updated_horizon_quarters: [1, 2, 3, 4]
+  require_actual_coverage_before_origin_use: true
+  partial_quarter_as_actual: false
+refit_for_deployment:
+  after_final_test_recorded: true
+  include_latest_available_actuals: true
+  preserve_final_test_report: true

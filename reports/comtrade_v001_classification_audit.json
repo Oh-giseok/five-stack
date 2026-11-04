@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "snapshot": "collection_20261103",
+  "version": "v001",
+  "audited_at": "2026-11-03T08:07:14.550122+00:00",
+  "raw_requests_verified": 294,
+  "source_rows_matched": 64649,
+  "original_fields_matched": 3038503,
+  "normalized_rows": 64649,
+  "dropped_source_rows": 0,
+  "classification_held_rows": 0,
+  "monthly_cells_verified": 79200,
+  "quarterly_cells_verified": 26400,
+  "market_shares_checked": {
+    "period_month": 20096,
+    "quarter": 5991
+  },
+  "protected_and_output_checksums_verified": 5142,
+  "csv_parquet_exact_values_and_nulls_verified": true,
+  "customs_v003_unchanged": true,
+  "export_comparison": {
+    "monthly": {
+      "paired_cells": 19874,
+      "equal_cells": 19210,
+      "different_cells": 664,
+      "over_10_percent_cells": 10
+    },
+    "quarterly": {
+      "paired_cells": 5992,
+      "equal_cells": 5663,
+      "different_cells": 329,
+      "over_10_percent_cells": 2
+    }
+  },
+  "countries_reviewed": [
+    "AUS",
+    "BRA",
+    "CAN",
+    "CHN",
+    "DEU",
+    "ESP",
+    "FRA",
+    "GBR",
+    "GTM",
+    "IDN",
+    "IND",
+    "ITA",
+    "JPN",
+    "MAR",
+    "NZL",
+    "SGP",
+    "THA",
+    "USA",
+    "VNM",
+    "ZAF"
+  ],
+  "products_reviewed": [
+    "330300",
+    "330410",
+    "330420",
+    "330491",
+    "330499",
+    "330510",
+    "330590",
+    "340130"
+  ]
+}
