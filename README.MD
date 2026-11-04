@@ -1,4 +1,6 @@
-# 화장품 국가별 수출 매출 예측
+# GEM — Global Export Management
+
+화장품 수출 예측 및 생산 계획 지원 서비스다.
 
 20개국·8개 HS 제품의 한국 수출금액을 예측하고 2027Q1~Q4 매출·수요 비교를 제공한다.
 DB는 사용하지 않으며 원본·정제·학습·예측 데이터를 파일로 관리한다.
@@ -16,6 +18,7 @@ DB는 사용하지 않으며 원본·정제·학습·예측 데이터를 파일�
 | World Bank 연간 거시지표·군집 후보 | v001: 20개국·6개 지표·1,560행 보존, 2024년 동일 연도 후보 20행 |
 | 지도학습 통합·시차·분할 후보 | v002: 학습 36분기·검증 16분기·최종 테스트 3분기, 기존 v001 보존 |
 | 지도학습 공유 데이터 | v001 확정: 처리 v002 기반 train·validation CSV/Parquet·명세 생성 |
+| 화면 설계 | GEM v1.0 확정: 유스케이스·사용자 흐름·논리 ERD·8개 와이어프레임 이미지, 한 화면 결과 최대 2개 |
 | 모델·예측·화면 | 미구현·미생성, 과거 공개시점 재현은 미검증 |
 
 설정 파일이 준비됐다는 것이 API 인증·전 기간 데이터 확보·모델 성능 검증을 뜻하지는 않는다.
@@ -138,6 +141,8 @@ World Bank CSV는 원본 빈 문자열을 보존하기 위해 null을 `\N`으로
 ## 작업 기준과 읽을 문서
 
 - [사양서](PROJECT_SPEC.md), [로드맵](PROJECT_ROADMAP.md)
+- [GEM 전체 설계 확정안 PDF — 유스케이스·사용자 흐름·ERD·와이어프레임 13쪽](docs/GEM_전체설계_확정안_v1.0.pdf)
+- [컨플루언스 GEM 설계 확정 문서 모음](https://kimdonggyu114.atlassian.net/wiki/spaces/VVhnfE1g5PNR/pages/2457601/GEM+v1.0)
 - [협업 규칙](docs/collaboration.md), [데이터 명세](docs/data_dictionary.md)
 - [전처리 기준](docs/data_processing.md), [모델 인계](docs/model_handoff.md)
 - [원천·코드 확인 근거](docs/data_sources.md)
