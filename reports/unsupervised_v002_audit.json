@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "processing_version": "v002",
+  "protected_existing_files": 38,
+  "csv_parquet_files_verified": 20,
+  "macro_window_cells_verified": 400,
+  "trade_aggregate_rows_verified": 3420,
+  "countries": 20,
+  "products": 8,
+  "feature_rows": 100,
+  "fit_eligible_rows": 82,
+  "new_model_fitted": false,
+  "shared_release_created": false
+}

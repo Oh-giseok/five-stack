@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "shared_version": "v002",
+  "shared_data_files_verified": 26,
+  "train_validation_byte_identical_to_v001": true,
+  "final_test_rows": 480,
+  "final_test_available": 447,
+  "final_test_missing": 33,
+  "final_test_values_equal_original": true,
+  "unsupervised_tables_verified": 10,
+  "unsupervised_values_unchanged": true,
+  "csv_parquet_exact_roundtrip": true,
+  "credential_scan_passed": true,
+  "local_links_checked": 61
+}
