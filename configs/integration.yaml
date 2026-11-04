@@ -1,0 +1,28 @@
+schema_version: 1
+input_versions:
+  customs: v003
+  comtrade: v001
+  world_bank: v001
+output:
+  source: supervised
+  csv_null_value: "\\N"
+  preserve_all_country_product_period_cells: true
+observation_tables:
+  trade_join: exact_country_hs_period
+  macro_join: same_calendar_year_observation_context_only
+  keep_monthly_table: true
+  keep_quarter_month_list: true
+candidate_features:
+  # Observation-period alignment only; these are NOT publication lag assumptions.
+  market_period: exact_origin_quarter
+  macro_year: previous_calendar_year
+  carry_forward_missing_values: false
+  release_policy_status: pending_user_review
+  origin_cutoff_at: null
+  historical_release_verified: false
+  training_approved: false
+  shared_release_approved: false
+  retain_missing_targets_in_candidates: true
+  fill_feature_nulls: false
+  fit_scaler_or_encoder: false
+  generate_clustering_data: false

@@ -1,0 +1,35 @@
+schema_version: 1
+product_key: hs_code
+hs_digits: 6
+expected_count: 8
+classification_policy:
+  query: HS
+  preserve_reported_edition: true
+  check_concordance_before_merge: true
+  allow_parent_child_double_counting: false
+products:
+  - {hs_code: "330410", name_ko: 립스틱·입술 메이크업, category: makeup}
+  - {hs_code: "330420", name_ko: 아이 메이크업, category: makeup}
+  - {hs_code: "330499", name_ko: 스킨·선·보습 케어, category: skin_care}
+  - {hs_code: "330510", name_ko: 샴푸, category: hair_care}
+  - {hs_code: "330590", name_ko: 기타 헤어케어, category: hair_care}
+  - {hs_code: "340130", name_ko: 액상 피부세정제, category: cleansing}
+  - {hs_code: "330491", name_ko: 화장용 파우더, category: makeup}
+  - {hs_code: "330300", name_ko: 향수·오드뚜왈렛, category: fragrance}
+notes:
+  - "제품명은 HS 묶음의 표시명이다. 개별 SKU·브랜드 분류가 아니다."
+  - "330499의 스킨·선·보습을 별도 제품으로 중복 집계하지 않는다."
+  - "HS 4단위 합계와 그 하위 6단위 값을 동시에 더하지 않는다."
+customs_aggregation:
+  mode: sum_reported_non_total_rows_within_hs6
+  rule_id: all_configured_countries_products_hs6_reported_details
+  decision_basis: user_instruction
+  country_scope: configured_countries
+  product_scope: configured_hs6_products
+  period_scope: configured_collection_period
+  require_amount_reconciliation: true
+  exclude_explicit_total_rows: true
+  retain_original_hs_codes: true
+  hold_based_only_on_hs_length: false
+  note: "사용자 지시에 따라 모든 지정 국가·제품·기간의 조회 상세를 HS6 제품군으로 합산한다. 코드 길이만으로 보류하지 않고 명시적 총계와 중복 키를 구분해 검산한다."
+  product_scope_note: "330499에는 기초화장용·메이크업용·어린이용·기타 세부 항목이 포함된다. 표시명 단어를 기준으로 하위 항목을 제외하지 않는다."

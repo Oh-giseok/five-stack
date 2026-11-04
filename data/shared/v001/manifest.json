@@ -1,0 +1,2508 @@
+{
+  "dataset_version": "v001",
+  "status": "released",
+  "released_at": "2026-11-03T08:47:52.542331+00:00",
+  "dataset_release_approved": true,
+  "approval_basis": "user_instruction",
+  "source_processing_version": "v002",
+  "source_manifest_sha256": "1255c868e38636afab3901aa6ea373a70741723504e37379897ab17d0d0475db",
+  "source_versions": {
+    "customs": "v003",
+    "comtrade": "v001",
+    "world_bank": "v001"
+  },
+  "source_inputs": [
+    {
+      "table": "customs_monthly_hs6",
+      "path": "data/processed/customs/v003/customs_monthly_hs6.parquet",
+      "sha256": "1ed2a5305aa0854dd15269300f9d109da1696543703e654cbebcae03d9606522",
+      "rows": 26400,
+      "columns": 38
+    },
+    {
+      "table": "customs_quarterly_hs6",
+      "path": "data/processed/customs/v003/customs_quarterly_hs6.parquet",
+      "sha256": "d1da6f32249f909148e2028f34d9622b1b16a3785dca910855ecf54fa098910c",
+      "rows": 8800,
+      "columns": 37
+    },
+    {
+      "table": "market_monthly_hs6",
+      "path": "data/processed/comtrade/v001/market_monthly_hs6.parquet",
+      "sha256": "1f4b9bcb92626d8f977ac67be617de2e3dfde183242bbdbbf0296b87682445c5",
+      "rows": 26400,
+      "columns": 35
+    },
+    {
+      "table": "market_quarterly_hs6",
+      "path": "data/processed/comtrade/v001/market_quarterly_hs6.parquet",
+      "sha256": "19b3177e0d49097d0a41c98a142ac21f85386943f0ce04305b9cc4e813b3aa96",
+      "rows": 8800,
+      "columns": 39
+    },
+    {
+      "table": "macro_annual",
+      "path": "data/processed/world_bank/v001/macro_annual.parquet",
+      "sha256": "00fa53a19105e9a3d621ddfa029449b689042c6748d6578a778dda1a4f654e3d",
+      "rows": 280,
+      "columns": 73
+    }
+  ],
+  "train_period": {
+    "start": "2013Q1",
+    "end": "2021Q4",
+    "quarters": 36
+  },
+  "validation_period": {
+    "start": "2022Q1",
+    "end": "2025Q4",
+    "quarters": 16
+  },
+  "final_test_period": {
+    "start": "2026Q1",
+    "end": "2026Q3",
+    "quarters": 3
+  },
+  "split_by": "target_quarter",
+  "validation_method": "expanding_origin",
+  "final_test_included": false,
+  "clustering_included": false,
+  "forecast_period": {
+    "start": "2027Q1",
+    "end": "2027Q4"
+  },
+  "country_codes": [
+    "CHN",
+    "JPN",
+    "IND",
+    "IDN",
+    "THA",
+    "SGP",
+    "VNM",
+    "FRA",
+    "DEU",
+    "GBR",
+    "ITA",
+    "ESP",
+    "AUS",
+    "NZL",
+    "USA",
+    "CAN",
+    "BRA",
+    "GTM",
+    "ZAF",
+    "MAR"
+  ],
+  "hs_codes": [
+    "330410",
+    "330420",
+    "330499",
+    "330510",
+    "330590",
+    "340130",
+    "330491",
+    "330300"
+  ],
+  "candidate_source_version": "v002",
+  "candidate_manifest_path": "data/processed/supervised/v002/manifest.json",
+  "feature_contract": {
+    "categorical": [
+      "country_code",
+      "region",
+      "hs_code"
+    ],
+    "known_future": [
+      "target_year",
+      "target_quarter_number",
+      "horizon_quarters",
+      "time_index"
+    ],
+    "numeric_candidates": [
+      "export_value_usd_lag1",
+      "export_value_usd_lag2",
+      "export_value_usd_lag4",
+      "export_value_usd_rolling4_sum",
+      "export_value_usd_rolling4_mean",
+      "export_net_weight_kg_lag1",
+      "export_net_weight_kg_lag2",
+      "export_net_weight_kg_lag4",
+      "export_net_weight_kg_rolling4_sum",
+      "export_net_weight_kg_rolling4_mean",
+      "export_unit_value_usd_per_kg_lag1",
+      "export_unit_value_usd_per_kg_lag2",
+      "export_unit_value_usd_per_kg_lag4",
+      "export_unit_value_usd_per_kg_rolling4_sum",
+      "export_unit_value_usd_per_kg_rolling4_mean",
+      "export_value_yoy_growth",
+      "market_import_value_usd",
+      "korea_import_value_usd",
+      "korea_import_share",
+      "gdp_usd",
+      "gdp_per_capita_usd",
+      "population",
+      "inflation_pct",
+      "exchange_rate_lcu_per_usd",
+      "internet_users_pct",
+      "export_value_usd_lag1_missing",
+      "export_value_usd_lag2_missing",
+      "export_value_usd_lag4_missing",
+      "export_value_usd_rolling4_sum_missing",
+      "export_value_usd_rolling4_mean_missing",
+      "export_net_weight_kg_lag1_missing",
+      "export_net_weight_kg_lag2_missing",
+      "export_net_weight_kg_lag4_missing",
+      "export_net_weight_kg_rolling4_sum_missing",
+      "export_net_weight_kg_rolling4_mean_missing",
+      "export_unit_value_usd_per_kg_lag1_missing",
+      "export_unit_value_usd_per_kg_lag2_missing",
+      "export_unit_value_usd_per_kg_lag4_missing",
+      "export_unit_value_usd_per_kg_rolling4_sum_missing",
+      "export_unit_value_usd_per_kg_rolling4_mean_missing",
+      "export_value_yoy_growth_missing",
+      "market_import_value_usd_missing",
+      "korea_import_value_usd_missing",
+      "korea_import_share_missing",
+      "gdp_usd_missing",
+      "gdp_per_capita_usd_missing",
+      "population_missing",
+      "inflation_pct_missing",
+      "exchange_rate_lcu_per_usd_missing",
+      "internet_users_pct_missing"
+    ],
+    "descriptive_only": [
+      "country_name",
+      "product_name"
+    ],
+    "target": "target_export_value_usd",
+    "forbidden_feature_columns": [
+      "target_export_value_usd",
+      "target_export_net_weight_kg",
+      "target_available",
+      "target_data_status",
+      "target_observed_months",
+      "split"
+    ],
+    "training_approved": true,
+    "dataset_release_approved": true,
+    "historical_asof_use_verified": false
+  },
+  "feature_columns": [
+    "country_code",
+    "region",
+    "hs_code",
+    "target_year",
+    "target_quarter_number",
+    "horizon_quarters",
+    "time_index",
+    "export_value_usd_lag1",
+    "export_value_usd_lag2",
+    "export_value_usd_lag4",
+    "export_value_usd_rolling4_sum",
+    "export_value_usd_rolling4_mean",
+    "export_net_weight_kg_lag1",
+    "export_net_weight_kg_lag2",
+    "export_net_weight_kg_lag4",
+    "export_net_weight_kg_rolling4_sum",
+    "export_net_weight_kg_rolling4_mean",
+    "export_unit_value_usd_per_kg_lag1",
+    "export_unit_value_usd_per_kg_lag2",
+    "export_unit_value_usd_per_kg_lag4",
+    "export_unit_value_usd_per_kg_rolling4_sum",
+    "export_unit_value_usd_per_kg_rolling4_mean",
+    "export_value_yoy_growth",
+    "market_import_value_usd",
+    "korea_import_value_usd",
+    "korea_import_share",
+    "gdp_usd",
+    "gdp_per_capita_usd",
+    "population",
+    "inflation_pct",
+    "exchange_rate_lcu_per_usd",
+    "internet_users_pct",
+    "export_value_usd_lag1_missing",
+    "export_value_usd_lag2_missing",
+    "export_value_usd_lag4_missing",
+    "export_value_usd_rolling4_sum_missing",
+    "export_value_usd_rolling4_mean_missing",
+    "export_net_weight_kg_lag1_missing",
+    "export_net_weight_kg_lag2_missing",
+    "export_net_weight_kg_lag4_missing",
+    "export_net_weight_kg_rolling4_sum_missing",
+    "export_net_weight_kg_rolling4_mean_missing",
+    "export_unit_value_usd_per_kg_lag1_missing",
+    "export_unit_value_usd_per_kg_lag2_missing",
+    "export_unit_value_usd_per_kg_lag4_missing",
+    "export_unit_value_usd_per_kg_rolling4_sum_missing",
+    "export_unit_value_usd_per_kg_rolling4_mean_missing",
+    "export_value_yoy_growth_missing",
+    "market_import_value_usd_missing",
+    "korea_import_value_usd_missing",
+    "korea_import_share_missing",
+    "gdp_usd_missing",
+    "gdp_per_capita_usd_missing",
+    "population_missing",
+    "inflation_pct_missing",
+    "exchange_rate_lcu_per_usd_missing",
+    "internet_users_pct_missing"
+  ],
+  "column_roles": {
+    "features": [
+      "country_code",
+      "region",
+      "hs_code",
+      "target_year",
+      "target_quarter_number",
+      "horizon_quarters",
+      "time_index",
+      "export_value_usd_lag1",
+      "export_value_usd_lag2",
+      "export_value_usd_lag4",
+      "export_value_usd_rolling4_sum",
+      "export_value_usd_rolling4_mean",
+      "export_net_weight_kg_lag1",
+      "export_net_weight_kg_lag2",
+      "export_net_weight_kg_lag4",
+      "export_net_weight_kg_rolling4_sum",
+      "export_net_weight_kg_rolling4_mean",
+      "export_unit_value_usd_per_kg_lag1",
+      "export_unit_value_usd_per_kg_lag2",
+      "export_unit_value_usd_per_kg_lag4",
+      "export_unit_value_usd_per_kg_rolling4_sum",
+      "export_unit_value_usd_per_kg_rolling4_mean",
+      "export_value_yoy_growth",
+      "market_import_value_usd",
+      "korea_import_value_usd",
+      "korea_import_share",
+      "gdp_usd",
+      "gdp_per_capita_usd",
+      "population",
+      "inflation_pct",
+      "exchange_rate_lcu_per_usd",
+      "internet_users_pct",
+      "export_value_usd_lag1_missing",
+      "export_value_usd_lag2_missing",
+      "export_value_usd_lag4_missing",
+      "export_value_usd_rolling4_sum_missing",
+      "export_value_usd_rolling4_mean_missing",
+      "export_net_weight_kg_lag1_missing",
+      "export_net_weight_kg_lag2_missing",
+      "export_net_weight_kg_lag4_missing",
+      "export_net_weight_kg_rolling4_sum_missing",
+      "export_net_weight_kg_rolling4_mean_missing",
+      "export_unit_value_usd_per_kg_lag1_missing",
+      "export_unit_value_usd_per_kg_lag2_missing",
+      "export_unit_value_usd_per_kg_lag4_missing",
+      "export_unit_value_usd_per_kg_rolling4_sum_missing",
+      "export_unit_value_usd_per_kg_rolling4_mean_missing",
+      "export_value_yoy_growth_missing",
+      "market_import_value_usd_missing",
+      "korea_import_value_usd_missing",
+      "korea_import_share_missing",
+      "gdp_usd_missing",
+      "gdp_per_capita_usd_missing",
+      "population_missing",
+      "inflation_pct_missing",
+      "exchange_rate_lcu_per_usd_missing",
+      "internet_users_pct_missing"
+    ],
+    "target": "target_export_value_usd",
+    "auxiliary_target": "target_export_net_weight_kg",
+    "metadata": [
+      "country_name",
+      "product_name",
+      "origin_quarter",
+      "origin_year",
+      "origin_quarter_number",
+      "origin_period_end_at",
+      "origin_cutoff_at",
+      "origin_cutoff_status",
+      "origin_in_collection_range",
+      "origin_export_data_status",
+      "target_quarter",
+      "target_period_months",
+      "target_month_start",
+      "target_month_end",
+      "target_observed_months",
+      "target_data_status",
+      "target_available",
+      "label_status",
+      "split",
+      "currency",
+      "valuation",
+      "market_candidate_quarter",
+      "market_selection_status",
+      "macro_candidate_year",
+      "macro_selection_status",
+      "macro_candidate_row_exists",
+      "historical_release_verified",
+      "feature_selection_status"
+    ]
+  },
+  "row_counts": {
+    "train": {
+      "rows": 28800,
+      "target_available": 23290,
+      "target_missing": 5510,
+      "target_quarters": 36
+    },
+    "validation": {
+      "rows": 12800,
+      "target_available": 11455,
+      "target_missing": 1345,
+      "target_quarters": 16
+    }
+  },
+  "schemas": {
+    "train": [
+      {
+        "name": "country_code",
+        "dtype": "string"
+      },
+      {
+        "name": "region",
+        "dtype": "string"
+      },
+      {
+        "name": "hs_code",
+        "dtype": "string"
+      },
+      {
+        "name": "target_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_quarter_number",
+        "dtype": "Int64"
+      },
+      {
+        "name": "horizon_quarters",
+        "dtype": "Int64"
+      },
+      {
+        "name": "time_index",
+        "dtype": "Int64"
+      },
+      {
+        "name": "export_value_usd_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_yoy_growth",
+        "dtype": "Float64"
+      },
+      {
+        "name": "market_import_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "korea_import_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "korea_import_share",
+        "dtype": "Float64"
+      },
+      {
+        "name": "gdp_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "gdp_per_capita_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "population",
+        "dtype": "Float64"
+      },
+      {
+        "name": "inflation_pct",
+        "dtype": "Float64"
+      },
+      {
+        "name": "exchange_rate_lcu_per_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "internet_users_pct",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_yoy_growth_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "market_import_value_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "korea_import_value_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "korea_import_share_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "gdp_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "gdp_per_capita_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "population_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "inflation_pct_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "exchange_rate_lcu_per_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "internet_users_pct_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "country_name",
+        "dtype": "string"
+      },
+      {
+        "name": "product_name",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "origin_quarter_number",
+        "dtype": "Int64"
+      },
+      {
+        "name": "origin_period_end_at",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_cutoff_at",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_cutoff_status",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_in_collection_range",
+        "dtype": "boolean"
+      },
+      {
+        "name": "origin_export_data_status",
+        "dtype": "string"
+      },
+      {
+        "name": "target_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "target_period_months",
+        "dtype": "string"
+      },
+      {
+        "name": "target_month_start",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_month_end",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_export_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "target_export_net_weight_kg",
+        "dtype": "Float64"
+      },
+      {
+        "name": "target_observed_months",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_data_status",
+        "dtype": "string"
+      },
+      {
+        "name": "target_available",
+        "dtype": "boolean"
+      },
+      {
+        "name": "label_status",
+        "dtype": "string"
+      },
+      {
+        "name": "split",
+        "dtype": "string"
+      },
+      {
+        "name": "currency",
+        "dtype": "string"
+      },
+      {
+        "name": "valuation",
+        "dtype": "string"
+      },
+      {
+        "name": "market_candidate_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "market_selection_status",
+        "dtype": "string"
+      },
+      {
+        "name": "macro_candidate_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "macro_selection_status",
+        "dtype": "string"
+      },
+      {
+        "name": "macro_candidate_row_exists",
+        "dtype": "boolean"
+      },
+      {
+        "name": "historical_release_verified",
+        "dtype": "boolean"
+      },
+      {
+        "name": "feature_selection_status",
+        "dtype": "string"
+      }
+    ],
+    "validation": [
+      {
+        "name": "country_code",
+        "dtype": "string"
+      },
+      {
+        "name": "region",
+        "dtype": "string"
+      },
+      {
+        "name": "hs_code",
+        "dtype": "string"
+      },
+      {
+        "name": "target_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_quarter_number",
+        "dtype": "Int64"
+      },
+      {
+        "name": "horizon_quarters",
+        "dtype": "Int64"
+      },
+      {
+        "name": "time_index",
+        "dtype": "Int64"
+      },
+      {
+        "name": "export_value_usd_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag1",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag2",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag4",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_sum",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_mean",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_yoy_growth",
+        "dtype": "Float64"
+      },
+      {
+        "name": "market_import_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "korea_import_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "korea_import_share",
+        "dtype": "Float64"
+      },
+      {
+        "name": "gdp_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "gdp_per_capita_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "population",
+        "dtype": "Float64"
+      },
+      {
+        "name": "inflation_pct",
+        "dtype": "Float64"
+      },
+      {
+        "name": "exchange_rate_lcu_per_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "internet_users_pct",
+        "dtype": "Float64"
+      },
+      {
+        "name": "export_value_usd_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_usd_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_net_weight_kg_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag1_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag2_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_lag4_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "export_value_yoy_growth_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "market_import_value_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "korea_import_value_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "korea_import_share_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "gdp_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "gdp_per_capita_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "population_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "inflation_pct_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "exchange_rate_lcu_per_usd_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "internet_users_pct_missing",
+        "dtype": "boolean"
+      },
+      {
+        "name": "country_name",
+        "dtype": "string"
+      },
+      {
+        "name": "product_name",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "origin_quarter_number",
+        "dtype": "Int64"
+      },
+      {
+        "name": "origin_period_end_at",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_cutoff_at",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_cutoff_status",
+        "dtype": "string"
+      },
+      {
+        "name": "origin_in_collection_range",
+        "dtype": "boolean"
+      },
+      {
+        "name": "origin_export_data_status",
+        "dtype": "string"
+      },
+      {
+        "name": "target_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "target_period_months",
+        "dtype": "string"
+      },
+      {
+        "name": "target_month_start",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_month_end",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_export_value_usd",
+        "dtype": "Float64"
+      },
+      {
+        "name": "target_export_net_weight_kg",
+        "dtype": "Float64"
+      },
+      {
+        "name": "target_observed_months",
+        "dtype": "Int64"
+      },
+      {
+        "name": "target_data_status",
+        "dtype": "string"
+      },
+      {
+        "name": "target_available",
+        "dtype": "boolean"
+      },
+      {
+        "name": "label_status",
+        "dtype": "string"
+      },
+      {
+        "name": "split",
+        "dtype": "string"
+      },
+      {
+        "name": "currency",
+        "dtype": "string"
+      },
+      {
+        "name": "valuation",
+        "dtype": "string"
+      },
+      {
+        "name": "market_candidate_quarter",
+        "dtype": "string"
+      },
+      {
+        "name": "market_selection_status",
+        "dtype": "string"
+      },
+      {
+        "name": "macro_candidate_year",
+        "dtype": "Int64"
+      },
+      {
+        "name": "macro_selection_status",
+        "dtype": "string"
+      },
+      {
+        "name": "macro_candidate_row_exists",
+        "dtype": "boolean"
+      },
+      {
+        "name": "historical_release_verified",
+        "dtype": "boolean"
+      },
+      {
+        "name": "feature_selection_status",
+        "dtype": "string"
+      }
+    ]
+  },
+  "missing_targets_retained": true,
+  "nulls_imputed": false,
+  "scaler_or_encoder_fitted": false,
+  "historical_release_evidence_verified": false,
+  "origin_cutoff_at_set": false,
+  "evaluation_scope": "current_revised_snapshot_with_calendar_aligned_features",
+  "availability_limitation": "Current revised snapshots; market at origin quarter and macro at previous calendar year are period-aligned features. Original publication dates/vintages are unverified. Do not claim a historically reproducible as-of backtest.",
+  "fit_labels_must_be_available_by_origin_cutoff": true,
+  "fit_guidance": "Use only feature_columns. Fit models and transformations per origin on past labels only. Exclude rows with missing targets from fitting/scoring; retain them in the shared file. For exact as-of evaluation, resolve publication availability first.",
+  "formats": [
+    "csv",
+    "parquet"
+  ],
+  "csv_encoding": "utf-8-sig",
+  "csv_null_value": "\\N",
+  "csv_keep_default_na": false,
+  "files": [
+    {
+      "path": "data/shared/v001/train.csv",
+      "rows": 28800,
+      "format": "csv",
+      "sha256": "0008f7282bfd09b5239aab3f0ddbf0844c56cc7646bd4ef28495d08ba0651332",
+      "bytes": 23590078,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "target_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "horizon_quarters",
+          "dtype": "Int64"
+        },
+        {
+          "name": "time_index",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_value_usd_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_yoy_growth",
+          "dtype": "Float64"
+        },
+        {
+          "name": "market_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_share",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_yoy_growth_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "market_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_share_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_period_end_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_status",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_in_collection_range",
+          "dtype": "boolean"
+        },
+        {
+          "name": "origin_export_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "target_period_months",
+          "dtype": "string"
+        },
+        {
+          "name": "target_month_start",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_month_end",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_observed_months",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_available",
+          "dtype": "boolean"
+        },
+        {
+          "name": "label_status",
+          "dtype": "string"
+        },
+        {
+          "name": "split",
+          "dtype": "string"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "market_candidate_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "market_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "macro_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_row_exists",
+          "dtype": "boolean"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "feature_selection_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "train.csv"
+    },
+    {
+      "path": "data/shared/v001/train.parquet",
+      "rows": 28800,
+      "format": "parquet",
+      "sha256": "f4f27c77556638dff04bdef77926d455663f98740804e9df8be164e31647e027",
+      "bytes": 1074801,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "target_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "horizon_quarters",
+          "dtype": "Int64"
+        },
+        {
+          "name": "time_index",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_value_usd_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_yoy_growth",
+          "dtype": "Float64"
+        },
+        {
+          "name": "market_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_share",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_yoy_growth_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "market_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_share_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_period_end_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_status",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_in_collection_range",
+          "dtype": "boolean"
+        },
+        {
+          "name": "origin_export_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "target_period_months",
+          "dtype": "string"
+        },
+        {
+          "name": "target_month_start",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_month_end",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_observed_months",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_available",
+          "dtype": "boolean"
+        },
+        {
+          "name": "label_status",
+          "dtype": "string"
+        },
+        {
+          "name": "split",
+          "dtype": "string"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "market_candidate_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "market_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "macro_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_row_exists",
+          "dtype": "boolean"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "feature_selection_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "train.parquet"
+    },
+    {
+      "path": "data/shared/v001/validation.csv",
+      "rows": 12800,
+      "format": "csv",
+      "sha256": "2142952e4edbaa90cc7f072dad1ea485f717566824936b92f09e4516f215e01b",
+      "bytes": 11335873,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "target_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "horizon_quarters",
+          "dtype": "Int64"
+        },
+        {
+          "name": "time_index",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_value_usd_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_yoy_growth",
+          "dtype": "Float64"
+        },
+        {
+          "name": "market_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_share",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_yoy_growth_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "market_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_share_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_period_end_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_status",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_in_collection_range",
+          "dtype": "boolean"
+        },
+        {
+          "name": "origin_export_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "target_period_months",
+          "dtype": "string"
+        },
+        {
+          "name": "target_month_start",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_month_end",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_observed_months",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_available",
+          "dtype": "boolean"
+        },
+        {
+          "name": "label_status",
+          "dtype": "string"
+        },
+        {
+          "name": "split",
+          "dtype": "string"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "market_candidate_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "market_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "macro_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_row_exists",
+          "dtype": "boolean"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "feature_selection_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "validation.csv"
+    },
+    {
+      "path": "data/shared/v001/validation.parquet",
+      "rows": 12800,
+      "format": "parquet",
+      "sha256": "117cee8687be87bcdea698f1c2203ced82dc2c70ef2d01af66b5a09947da6690",
+      "bytes": 720838,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "target_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "horizon_quarters",
+          "dtype": "Int64"
+        },
+        {
+          "name": "time_index",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_value_usd_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_yoy_growth",
+          "dtype": "Float64"
+        },
+        {
+          "name": "market_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "korea_import_share",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_usd_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_net_weight_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag1_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag2_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_lag4_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_sum_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg_rolling4_mean_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "export_value_yoy_growth_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "market_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_value_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "korea_import_share_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_quarter_number",
+          "dtype": "Int64"
+        },
+        {
+          "name": "origin_period_end_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_at",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_cutoff_status",
+          "dtype": "string"
+        },
+        {
+          "name": "origin_in_collection_range",
+          "dtype": "boolean"
+        },
+        {
+          "name": "origin_export_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "target_period_months",
+          "dtype": "string"
+        },
+        {
+          "name": "target_month_start",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_month_end",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "target_observed_months",
+          "dtype": "Int64"
+        },
+        {
+          "name": "target_data_status",
+          "dtype": "string"
+        },
+        {
+          "name": "target_available",
+          "dtype": "boolean"
+        },
+        {
+          "name": "label_status",
+          "dtype": "string"
+        },
+        {
+          "name": "split",
+          "dtype": "string"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "market_candidate_quarter",
+          "dtype": "string"
+        },
+        {
+          "name": "market_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "macro_selection_status",
+          "dtype": "string"
+        },
+        {
+          "name": "macro_candidate_row_exists",
+          "dtype": "boolean"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "feature_selection_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "validation.parquet"
+    }
+  ],
+  "release_policy_sha256": "a3ecf202eb1f10f93c1213f3b58051f8d9a91a57b4d851cdf423c8bcbbfd3aed"
+}

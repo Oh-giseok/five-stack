@@ -1,0 +1,34 @@
+# Local credentials and private working documents
+.env
+.env.*
+!.env.example
+/.private/
+/.streamlit/secrets.toml
+
+# Python environments and generated files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+build/
+dist/
+
+# Original, intermediate and complete processed data
+/data/raw/*
+!/data/raw/.gitkeep
+/data/interim/*
+!/data/interim/.gitkeep
+/data/processed/*
+!/data/processed/.gitkeep
+/data/reference/
+
+# Models and experiment outputs; approved reports are stored in reports/
+/artifacts/*
+!/artifacts/.gitkeep
+*.log
+
+# data/shared/ and data/sample/ are intentionally not globally ignored.
+# Only reviewed datasets and synthetic examples should be added to Git.

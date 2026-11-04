@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "version": "v001",
+  "audited_at": "2026-11-03T08:33:33.805183+00:00",
+  "monthly_rows_verified": 26400,
+  "quarterly_rows_verified": 8800,
+  "all_input_column_mappings_verified": 295,
+  "dropped_observation_cells": 0,
+  "identifier_or_calendar_null_cells": 0,
+  "source_amount_weight_and_macro_values_preserved": true,
+  "origin_features_verified": 9600,
+  "lag_values_verified": 86400,
+  "model_feature_columns": 57,
+  "target_or_target_quality_used_as_features": false,
+  "candidate_splits": {
+    "train": {
+      "rows": 35200,
+      "target_available": 28930,
+      "target_missing": 6270
+    },
+    "validation": {
+      "rows": 6400,
+      "target_available": 5815,
+      "target_missing": 585
+    },
+    "final_test": {
+      "rows": 480,
+      "target_available": 447,
+      "target_missing": 33
+    }
+  },
+  "csv_parquet_exact_verified": true,
+  "protected_source_shared_and_clustering_files_verified": 5155,
+  "clustering_data_modified": false,
+  "shared_dataset_modified": false,
+  "public_release_policy_approved": false,
+  "training_approved": false
+}

@@ -1,0 +1,297 @@
+{
+  "source_version": "v002",
+  "raw_snapshot": "collection_20261103",
+  "raw_requests_independently_checked": 1680,
+  "raw_detail_rows_checked": 38081,
+  "normalization_dropped_rows": 0,
+  "held_month_rows": 24,
+  "held_source_rows": 84,
+  "held_hs6_reported_usd": 118713,
+  "held_hs10_reported_usd": 672781017,
+  "missing_month_rows": 2320,
+  "final_test_missing_month_rows": 50,
+  "products": [
+    {
+      "hs_code": "330420",
+      "product_name": "아이 메이크업",
+      "held_month_rows": 6,
+      "held_quarter_rows": 2,
+      "held_months": [
+        "2016-07",
+        "2016-08",
+        "2016-09",
+        "2016-10",
+        "2016-11",
+        "2016-12"
+      ],
+      "held_quarters": [
+        "2016Q3",
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3304201000 아이섀도",
+        "3304209000 기타"
+      ],
+      "held_hs6_reported_usd": 7194,
+      "held_hs10_reported_usd": 10497833,
+      "missing_month_rows": 408,
+      "missing_country_counts": {
+        "과테말라": 116,
+        "남아프리카공화국": 28,
+        "뉴질랜드": 3,
+        "모로코": 147,
+        "브라질": 85,
+        "스페인": 14,
+        "인도": 15
+      },
+      "test_missing_months": {
+        "모로코": [
+          "2026-01",
+          "2026-02",
+          "2026-03",
+          "2026-04",
+          "2026-08",
+          "2026-09"
+        ],
+        "브라질": [
+          "2026-02"
+        ]
+      }
+    },
+    {
+      "hs_code": "330499",
+      "product_name": "스킨·선·보습 케어",
+      "held_month_rows": 6,
+      "held_quarter_rows": 2,
+      "held_months": [
+        "2016-07",
+        "2016-08",
+        "2016-09",
+        "2016-10",
+        "2016-11",
+        "2016-12"
+      ],
+      "held_quarters": [
+        "2016Q3",
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3304991000 기초화장용 제품류",
+        "3304992000 메이크업용 제품류",
+        "3304993000 어린이용 제품류",
+        "3304999000 기타"
+      ],
+      "held_hs6_reported_usd": 85247,
+      "held_hs10_reported_usd": 643230156,
+      "missing_month_rows": 38,
+      "missing_country_counts": {
+        "과테말라": 25,
+        "남아프리카공화국": 1,
+        "모로코": 8,
+        "브라질": 4
+      },
+      "test_missing_months": {}
+    },
+    {
+      "hs_code": "330590",
+      "product_name": "기타 헤어케어",
+      "held_month_rows": 1,
+      "held_quarter_rows": 1,
+      "held_months": [
+        "2016-11"
+      ],
+      "held_quarters": [
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3305901000 헤어린스",
+        "3305902000 헤어크림",
+        "3305909000 기타"
+      ],
+      "held_hs6_reported_usd": 4,
+      "held_hs10_reported_usd": 3450777,
+      "missing_month_rows": 276,
+      "missing_country_counts": {
+        "과테말라": 100,
+        "남아프리카공화국": 67,
+        "모로코": 106,
+        "브라질": 3
+      },
+      "test_missing_months": {
+        "과테말라": [
+          "2026-01"
+        ],
+        "모로코": [
+          "2026-02",
+          "2026-04"
+        ]
+      }
+    },
+    {
+      "hs_code": "330491",
+      "product_name": "화장용 파우더",
+      "held_month_rows": 6,
+      "held_quarter_rows": 2,
+      "held_months": [
+        "2016-07",
+        "2016-08",
+        "2016-09",
+        "2016-10",
+        "2016-11",
+        "2016-12"
+      ],
+      "held_quarters": [
+        "2016Q3",
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3304911000 페이스파우다",
+        "3304912000 베이비파우다(탈쿰파우다를 포함한다)",
+        "3304919000 기타"
+      ],
+      "held_hs6_reported_usd": 23710,
+      "held_hs10_reported_usd": 5345837,
+      "missing_month_rows": 566,
+      "missing_country_counts": {
+        "과테말라": 112,
+        "남아프리카공화국": 95,
+        "뉴질랜드": 7,
+        "독일": 1,
+        "모로코": 150,
+        "브라질": 116,
+        "스페인": 46,
+        "인도": 36,
+        "인도네시아": 2,
+        "호주": 1
+      },
+      "test_missing_months": {
+        "과테말라": [
+          "2026-07",
+          "2026-09"
+        ],
+        "남아프리카공화국": [
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09"
+        ],
+        "모로코": [
+          "2026-01",
+          "2026-02",
+          "2026-03",
+          "2026-04",
+          "2026-05",
+          "2026-06",
+          "2026-08",
+          "2026-09"
+        ],
+        "스페인": [
+          "2026-03"
+        ]
+      }
+    },
+    {
+      "hs_code": "330300",
+      "product_name": "향수·오드뚜왈렛",
+      "held_month_rows": 1,
+      "held_quarter_rows": 1,
+      "held_months": [
+        "2016-12"
+      ],
+      "held_quarters": [
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3303001000 향수",
+        "3303002000 화장수"
+      ],
+      "held_hs6_reported_usd": 11,
+      "held_hs10_reported_usd": 122452,
+      "missing_month_rows": 703,
+      "missing_country_counts": {
+        "과테말라": 160,
+        "남아프리카공화국": 134,
+        "뉴질랜드": 29,
+        "모로코": 150,
+        "베트남": 4,
+        "브라질": 128,
+        "인도": 64,
+        "인도네시아": 34
+      },
+      "test_missing_months": {
+        "과테말라": [
+          "2026-01",
+          "2026-02",
+          "2026-03",
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09"
+        ],
+        "남아프리카공화국": [
+          "2026-01",
+          "2026-03",
+          "2026-08"
+        ],
+        "뉴질랜드": [
+          "2026-01",
+          "2026-05"
+        ],
+        "모로코": [
+          "2026-01",
+          "2026-04",
+          "2026-05",
+          "2026-08"
+        ],
+        "브라질": [
+          "2026-01",
+          "2026-05",
+          "2026-09"
+        ],
+        "인도": [
+          "2026-02",
+          "2026-06",
+          "2026-07",
+          "2026-08"
+        ]
+      }
+    },
+    {
+      "hs_code": "340130",
+      "product_name": "액상 피부세정제",
+      "held_month_rows": 4,
+      "held_quarter_rows": 2,
+      "held_months": [
+        "2016-08",
+        "2016-10",
+        "2016-11",
+        "2016-12"
+      ],
+      "held_quarters": [
+        "2016Q3",
+        "2016Q4"
+      ],
+      "hs10_source_codes_and_names": [
+        "3401300000 피부세척용 유기계면활성제품과 조제품(액체나 크림 형태의 소매용으로 한정하며, 비누를 함유한 것인지에 상관없다)"
+      ],
+      "held_hs6_reported_usd": 2547,
+      "held_hs10_reported_usd": 10133962,
+      "missing_month_rows": 329,
+      "missing_country_counts": {
+        "과테말라": 79,
+        "남아프리카공화국": 66,
+        "뉴질랜드": 1,
+        "모로코": 95,
+        "브라질": 74,
+        "스페인": 5,
+        "이탈리아": 1,
+        "인도": 7,
+        "인도네시아": 1
+      },
+      "test_missing_months": {}
+    }
+  ],
+  "preprocessing_modified": false
+}

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "audited_at": "2026-11-03T08:43:37.703855+00:00",
+  "previous_version": "v001",
+  "current_version": "v002",
+  "old_train_rows": 35200,
+  "new_train_rows": 28800,
+  "old_validation_rows": 6400,
+  "new_validation_rows": 12800,
+  "moved_from_train_to_validation": 6400,
+  "combined_candidate_rows_before": 41600,
+  "combined_candidate_rows_after": 41600,
+  "dropped_or_added_sample_keys": 0,
+  "candidate_values_unchanged_except_split": true,
+  "unchanged_file_checksums": [
+    "integrated_monthly.csv",
+    "integrated_monthly.parquet",
+    "integrated_quarterly.csv",
+    "integrated_quarterly.parquet",
+    "origin_feature_candidates.csv",
+    "origin_feature_candidates.parquet",
+    "final_test_candidates.csv",
+    "final_test_candidates.parquet"
+  ],
+  "shared_json_periods_match_actual_candidates": true,
+  "shared_data_released": false,
+  "private_final_test_unchanged": true
+}

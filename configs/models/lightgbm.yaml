@@ -1,0 +1,23 @@
+schema_version: 1
+model_id: lightgbm
+task: supervised_regression
+estimator: lightgbm.LGBMRegressor
+parameter_status: initial_experiment_not_tuned
+params:
+  objective: regression
+  n_estimators: 300
+  num_leaves: 15
+  learning_rate: 0.05
+  min_child_samples: 20
+  colsample_bytree: 0.8
+  random_state: 42
+  n_jobs: 4
+  verbosity: -1
+training:
+  categorical_encoding: one_hot_fit_on_train
+  numeric_missing: median_fit_on_train_with_indicator
+  target_transform: none
+  early_stopping: false
+  comparison_variants: [with_macro, without_macro]
+  selection_split: validation
+  selection_metric: wape
