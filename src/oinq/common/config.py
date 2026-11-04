@@ -170,6 +170,24 @@ def _validate(data):
     _require(clustering["allow_mixed_years"] is False
              and clustering["cluster_label_as_supervised_feature"] is False
              and clustering["scaler"] == "StandardScaler", "군집 기준연도·표준화·참고용 정책 오류")
+    _require(clustering["row_key"] == ["country_code", "window_id"]
+             and clustering["reference_year"] == "three_year_window"
+             and clustering["aggregation"] == "complete_period_mean_with_observed_mean_for_latest_short_period"
+             and clustering["shared_scaler_and_centroids_across_windows"] is True
+             and clustering["historical_backtest_claim"] is False,
+             "군집은 같은 3년 구간의 세 지표 평균과 공통 비교 기준을 사용합니다.")
+    trade = clustering["context"]["trade"]
+    windows = trade["windows"]
+    _require(trade["window_years"] == 3 and trade["window_anchor_year"] == 2013
+             and trade["overlapping_windows"] is False and len(windows) == 5
+             and [(w["start_year"], w["end_year"]) for w in windows]
+             == [(2013, 2015), (2016, 2018), (2019, 2021), (2022, 2024), (2025, 2026)]
+             and all(w["window_id"] == f"{w['start_year']}_{w['end_year']}" for w in windows[:-1])
+             and windows[-1]["window_id"] == "2025_2026Q3"
+             and windows[-1]["start_month"] == "2025-01"
+             and windows[-1]["end_month"] == trade["collection_end_month"] == "2026-09"
+             and windows[-1]["short_period"] is True,
+             "마지막 군집 분석기간은 2025-01~2026-09의 실제 확보 구간입니다.")
     _require(features["quality"]["allow_future_observed_features"] is False
              and features["quality"]["fill_unreported_trade_with_zero"] is False
              and features["quality"]["interpolation_across_splits"] is False,
@@ -196,7 +214,10 @@ def _validate(data):
         _require(model["model_id"] == name, f"모델 ID와 파일명 불일치: {name}")
         if name == "kmeans":
             _require(model["inputs"]["columns"] == clustering["columns"]
+                     and model["inputs"]["row_key"] == clustering["row_key"]
                      and model["inputs"]["reference_year"] == clustering["reference_year"]
+                     and all(model["inputs"][key] == clustering[key] for key in (
+                         "aggregation", "fit_scope", "shared_scaler_and_centroids_across_windows", "historical_backtest_claim"))
                      and model["inputs"]["scaler"] == clustering["scaler"], "K-means 입력 설정 불일치")
             _require(model["output"]["supervised_feature"] is False
                      and model["output"]["cluster_id_is_rank"] is False, "군집 번호는 순위·지도학습 변수가 아닙니다.")

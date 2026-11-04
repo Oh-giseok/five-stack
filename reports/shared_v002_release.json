@@ -1,0 +1,31 @@
+{
+  "dataset_version": "v002",
+  "status": "released",
+  "row_counts": {
+    "train": {
+      "rows": 28800,
+      "target_available": 23290,
+      "target_missing": 5510,
+      "target_quarters": 36
+    },
+    "validation": {
+      "rows": 12800,
+      "target_available": 11455,
+      "target_missing": 1345,
+      "target_quarters": 16
+    },
+    "final_test": {
+      "rows": 480,
+      "target_available": 447,
+      "target_missing": 33,
+      "target_quarters": 3
+    }
+  },
+  "unsupervised_tables": 10,
+  "unsupervised_rows": 100,
+  "unsupervised_fit_eligible": 82,
+  "data_files": 26,
+  "final_test_included": true,
+  "clustering_included": true,
+  "previous_shared_v001_unchanged": true
+}

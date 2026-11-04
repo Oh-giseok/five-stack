@@ -1,4 +1,4 @@
-"""Package approved supervised files without source internals or test labels."""
+"""Package approved datasets; v002 includes user-authorized final test labels."""
 
 import json
 from pathlib import Path
@@ -37,10 +37,15 @@ def release_columns(contract):
     return list(dict.fromkeys([*model, *RELEASE_METADATA]))
 
 
-def select_release(frame, contract, bounds, split):
+def select_release(frame, contract, bounds, split, allow_final_test=False):
     require(frame["split"].eq(split).all(), "공유 대상 분할 불일치")
     require(frame.target_quarter.between(bounds["start"], bounds["end"]).all(), "공유 기간 밖 대상 정답")
-    require(frame.target_quarter.lt("2026Q1").all(), "최종 테스트 정답 공유 금지")
+    if split == "final_test":
+        require(allow_final_test, "최종 테스트 공유 승인이 필요합니다.")
+        require(frame.target_quarter.between("2026Q1", "2026Q3").all()
+                and frame.origin_quarter.eq("2025Q4").all(), "최종 테스트 기간·origin 불일치")
+    else:
+        require(frame.target_quarter.lt("2026Q1").all(), "학습·검증 파일에 최종 테스트 행이 섞였습니다.")
     require(not frame.duplicated(["country_code", "hs_code", "origin_quarter", "target_quarter"]).any(), "공유 표본 중복")
     result = frame[release_columns(contract)].copy()
     require(len(result) == len(frame), "공유 표본 누락")
@@ -55,6 +60,9 @@ def verify_shared(root, version):
     path = folder / "manifest.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     require(manifest["status"] == "released" and manifest["dataset_release_approved"], "공유 승인 상태 불일치")
+    if manifest.get("final_test_included") or manifest.get("clustering_included"):
+        from oinq.preprocessing.full_release import verify_full_shared
+        return verify_full_shared(root, version)
     require(manifest["final_test_included"] is False and manifest["clustering_included"] is False, "공유 범위 불일치")
     for record in manifest["files"]:
         file = folder / record["file"]
@@ -77,6 +85,9 @@ def package_dataset(root):
     validate_project_config(config)
     policy = load_yaml(root / "configs/release.yaml")
     require(policy["dataset_release_approved"] and policy["approval_basis"] == "user_instruction", "사용자 공유 승인 필요")
+    if policy["include_final_test"] and policy["include_clustering"]:
+        from oinq.preprocessing.full_release import package_full_dataset
+        return package_full_dataset(root, config, policy)
     require(not policy["include_final_test"] and not policy["include_clustering"] and policy["preserve_all_candidate_rows"], "공유 범위 또는 행 보존 기준 오류")
     source_version, shared_version = policy["source_processing_version"], policy["shared_version"]
     require(all(isinstance(v, str) and v.isalnum() for v in (source_version, shared_version)), "버전 형식 오류")

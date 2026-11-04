@@ -1,0 +1,4329 @@
+{
+  "processing_version": "v002",
+  "spec_version": "v1.3",
+  "processed_at": "2026-11-04T06:35:42.409389+00:00",
+  "as_of_date": "2026-11-04",
+  "status": "released",
+  "countries": 20,
+  "products": 8,
+  "windows": [
+    {
+      "window_id": "2013_2015",
+      "start_year": 2013,
+      "end_year": 2015,
+      "countries": 20,
+      "fit_eligible": 20,
+      "trade_country_product_rows": 160,
+      "complete_trade_rows": 106,
+      "valid_monthly_value_cells": 4705,
+      "missing_collected_value_cells": 1055
+    },
+    {
+      "window_id": "2016_2018",
+      "start_year": 2016,
+      "end_year": 2018,
+      "countries": 20,
+      "fit_eligible": 20,
+      "trade_country_product_rows": 160,
+      "complete_trade_rows": 120,
+      "valid_monthly_value_cells": 4925,
+      "missing_collected_value_cells": 835
+    },
+    {
+      "window_id": "2019_2021",
+      "start_year": 2019,
+      "end_year": 2021,
+      "countries": 20,
+      "fit_eligible": 20,
+      "trade_country_product_rows": 160,
+      "complete_trade_rows": 122,
+      "valid_monthly_value_cells": 5172,
+      "missing_collected_value_cells": 588
+    },
+    {
+      "window_id": "2022_2024",
+      "start_year": 2022,
+      "end_year": 2024,
+      "countries": 20,
+      "fit_eligible": 20,
+      "trade_country_product_rows": 160,
+      "complete_trade_rows": 131,
+      "valid_monthly_value_cells": 5341,
+      "missing_collected_value_cells": 419
+    },
+    {
+      "window_id": "2025_2026Q3",
+      "start_year": 2025,
+      "end_year": 2026,
+      "start_month": "2025-01",
+      "end_month": "2026-09",
+      "short_period": true,
+      "countries": 20,
+      "fit_eligible": 2,
+      "trade_country_product_rows": 160,
+      "complete_trade_rows": 140,
+      "valid_monthly_value_cells": 3205,
+      "missing_collected_value_cells": 155
+    }
+  ],
+  "feature_columns": [
+    "gdp_per_capita_usd",
+    "population",
+    "internet_users_pct"
+  ],
+  "feature_key": [
+    "country_code",
+    "window_id"
+  ],
+  "feature_rows": 100,
+  "fit_eligible_rows": 82,
+  "annual_macro_rows_preserved": 280,
+  "source_monthly_trade_rows_reviewed": 26400,
+  "scaling_applied": false,
+  "model_fitted": false,
+  "cluster_assignments_generated": false,
+  "shared_scaler_and_centroids_required": true,
+  "fit_scope": "eligible_observed_periods_retrospective_only",
+  "historical_backtest_claim": false,
+  "historical_release_verified": false,
+  "imputation_applied": false,
+  "source_modified": false,
+  "supervised_release_modified": false,
+  "approved_for_shared_release": true,
+  "contains_private_final_test_amounts": false,
+  "release_policy": "all_preprocessed_tables_and_2026_actuals_shared_by_user_instruction",
+  "csv_null_value": "\\N",
+  "csv_keep_default_na": false,
+  "csv_parquet_roundtrip_exact": true,
+  "inputs": [
+    {
+      "path": "data/processed/world_bank/v001/manifest.json",
+      "sha256": "989312ff25276b111171f9afc3bc67c2aa3594ef573e211cffeb4254de5bd49b"
+    },
+    {
+      "path": "data/interim/world_bank/v001/world_bank_details.csv",
+      "sha256": "92fbe0679e6bd06b11a66a5f600fb7e4351c10cc64c9c5d3f25c5b3c58d6380e"
+    },
+    {
+      "path": "data/interim/world_bank/v001/world_bank_details.parquet",
+      "sha256": "b4fd537323d269c2eceeaa68ce6321ef1126d6a8b6e2a2a2662832a786a9f192"
+    },
+    {
+      "path": "data/interim/world_bank/v001/request_reconciliation.csv",
+      "sha256": "d5c52029cb65c26ffa2264f1d93ad777c5e953df497b01fd48c14e102a4df4bb"
+    },
+    {
+      "path": "data/interim/world_bank/v001/request_reconciliation.parquet",
+      "sha256": "a5b44f03996c34bfd68b0102ccdb992909ac4d53bab72e4d010ab5632d54cf02"
+    },
+    {
+      "path": "data/processed/world_bank/v001/macro_annual_long.csv",
+      "sha256": "0ed77f00a3743820b7edd049de99974ba74a5ea45b3fd8ffc0c1f892d5387851"
+    },
+    {
+      "path": "data/processed/world_bank/v001/macro_annual_long.parquet",
+      "sha256": "effb06562e029696b26f662aacd4f81e65990ecfd6c3eab3155cdc5d0094de16"
+    },
+    {
+      "path": "data/processed/world_bank/v001/macro_annual.csv",
+      "sha256": "f6cb721b44bb323ffa07b7c790f0fa1ed6732b9095e0bcaee784c7872ce951a1"
+    },
+    {
+      "path": "data/processed/world_bank/v001/macro_annual.parquet",
+      "sha256": "00fa53a19105e9a3d621ddfa029449b689042c6748d6578a778dda1a4f654e3d"
+    },
+    {
+      "path": "data/processed/world_bank/v001/country_indicators_candidate.csv",
+      "sha256": "ec1a85af43e614e56f7bce806eb03a92dc50c125b78655605de70a919571072a"
+    },
+    {
+      "path": "data/processed/world_bank/v001/country_indicators_candidate.parquet",
+      "sha256": "2cf3121fd4b00704edcceff5c06752085dd6957ff4bc81270f468ae872aa66fc"
+    },
+    {
+      "path": "data/processed/customs/v003/manifest.json",
+      "sha256": "a98b6a70ab67cec250cd0e1e6e5d856053404fa25f71871bfbbe8a9abba66e33"
+    },
+    {
+      "path": "data/interim/customs/v003/customs_details.csv",
+      "sha256": "a569fcca8edcaadc063c190f3f1615fa87fc3a14785116f4e08b55b702d16f61"
+    },
+    {
+      "path": "data/interim/customs/v003/customs_details.parquet",
+      "sha256": "b711a60ed0eda88a68995381f68dc3c2bf72e30f7d0a7a51c58241b3873e78d5"
+    },
+    {
+      "path": "data/interim/customs/v003/request_reconciliation.csv",
+      "sha256": "6249bf9373150ca0643d74870f7397b7833e08f0ddf70d03ee93a869a4eee691"
+    },
+    {
+      "path": "data/interim/customs/v003/request_reconciliation.parquet",
+      "sha256": "b00f714310343cc2e51a07164a785683ef4636ccf5f51e53e1e7f66b25e92460"
+    },
+    {
+      "path": "data/processed/customs/v003/customs_monthly_hs6.csv",
+      "sha256": "e8bd4af20577bc3e6851101bac59f77e699efb5d5a65d821a55582f74f4969ce"
+    },
+    {
+      "path": "data/processed/customs/v003/customs_monthly_hs6.parquet",
+      "sha256": "1ed2a5305aa0854dd15269300f9d109da1696543703e654cbebcae03d9606522"
+    },
+    {
+      "path": "data/processed/customs/v003/customs_quarterly_hs6.csv",
+      "sha256": "7707544af43a061cc00972f60f060681500e3bec50014bb275735c237cc484a1"
+    },
+    {
+      "path": "data/processed/customs/v003/customs_quarterly_hs6.parquet",
+      "sha256": "d1da6f32249f909148e2028f34d9622b1b16a3785dca910855ecf54fa098910c"
+    },
+    {
+      "path": "data/interim/customs/v003/hs_level_user_approved_details.csv",
+      "sha256": "afbea78dff86451aa7f8db6fb56694f0eaab140827f76d095414cb9caeba7347"
+    },
+    {
+      "path": "data/interim/customs/v003/hs_level_user_approved_details.parquet",
+      "sha256": "dcce121257812169d6e2b4d0bdc46a0428f03284e9cbf09bd543edf79e9f5a34"
+    }
+  ],
+  "config_sha256": {
+    "configs/features.yaml": "ddfc0aa13ca9cf28b964851bc55b823aad1d1af20ecffec969e9f00f4a4371e7",
+    "configs/models/kmeans.yaml": "ace526aa49919675c33509962154e551162b96e0df565eb0682dd6c308b92b2a",
+    "configs/countries.yaml": "f6c79784022ea4c785b5b9602fd8b0d602d3e65c545a45d4b75fd343a25674e1",
+    "configs/products.yaml": "747fd08efa0ec34afc9b907cebb288bc431c72c5ded814684cbc1b9751fa6f7d"
+  },
+  "files": [
+    {
+      "path": "data/shared/v002/unsupervised/macro_annual.csv",
+      "rows": 280,
+      "format": "csv",
+      "sha256": "f6cb721b44bb323ffa07b7c790f0fa1ed6732b9095e0bcaee784c7872ce951a1",
+      "bytes": 309129,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "indicator_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "population_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "population_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "available_indicator_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "all_indicators_present",
+          "dtype": "boolean"
+        },
+        {
+          "name": "clustering_values_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "source",
+          "dtype": "string"
+        },
+        {
+          "name": "frequency",
+          "dtype": "string"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_status",
+          "dtype": "string"
+        },
+        {
+          "name": "released_at",
+          "dtype": "string"
+        },
+        {
+          "name": "release_evidence",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/macro_annual.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/macro_annual.parquet",
+      "rows": 280,
+      "format": "parquet",
+      "sha256": "637e1be0cfeaa8427b62edcaa737577f51257f702a35066c1a1ac71200cb575f",
+      "bytes": 66599,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "indicator_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "population_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "population_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "inflation_pct_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "inflation_pct_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "inflation_pct_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "exchange_rate_lcu_per_usd_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_value_missing",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_record_observed",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_missing_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_quality_issue",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_file",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_lastupdated",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_obs_status",
+          "dtype": "string"
+        },
+        {
+          "name": "available_indicator_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "all_indicators_present",
+          "dtype": "boolean"
+        },
+        {
+          "name": "clustering_values_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "source",
+          "dtype": "string"
+        },
+        {
+          "name": "frequency",
+          "dtype": "string"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_status",
+          "dtype": "string"
+        },
+        {
+          "name": "released_at",
+          "dtype": "string"
+        },
+        {
+          "name": "release_evidence",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/macro_annual.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/macro_window_long.csv",
+      "rows": 400,
+      "format": "csv",
+      "sha256": "e488a0e606e2abb651911bbd15f0d73d0610cba500fb87b0be7e6e8077cefbac",
+      "bytes": 111683,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "indicator_name",
+          "dtype": "string"
+        },
+        {
+          "name": "unit",
+          "dtype": "string"
+        },
+        {
+          "name": "value",
+          "dtype": "Float64"
+        },
+        {
+          "name": "value_basis",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "missing_source_years",
+          "dtype": "string"
+        },
+        {
+          "name": "outside_source_scope_years",
+          "dtype": "string"
+        },
+        {
+          "name": "future_years",
+          "dtype": "string"
+        },
+        {
+          "name": "in_progress_years",
+          "dtype": "string"
+        },
+        {
+          "name": "complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        }
+      ],
+      "file": "unsupervised/macro_window_long.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/macro_window_long.parquet",
+      "rows": 400,
+      "format": "parquet",
+      "sha256": "796d4d75bc5c7e5739e769e197964adaa756f0a4a354e4519e933acb078d4d66",
+      "bytes": 21104,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "indicator_name",
+          "dtype": "string"
+        },
+        {
+          "name": "unit",
+          "dtype": "string"
+        },
+        {
+          "name": "value",
+          "dtype": "Float64"
+        },
+        {
+          "name": "value_basis",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "missing_source_years",
+          "dtype": "string"
+        },
+        {
+          "name": "outside_source_scope_years",
+          "dtype": "string"
+        },
+        {
+          "name": "future_years",
+          "dtype": "string"
+        },
+        {
+          "name": "in_progress_years",
+          "dtype": "string"
+        },
+        {
+          "name": "complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        }
+      ],
+      "file": "unsupervised/macro_window_long.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_profile.csv",
+      "rows": 100,
+      "format": "csv",
+      "sha256": "720b8bc8bcc6e7d893127774e4d5fc65872d0ecd1114659018108eb75524b0a7",
+      "bytes": 84873,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_window_profile.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_profile.parquet",
+      "rows": 100,
+      "format": "parquet",
+      "sha256": "68b5a7a9296a721d461284d1ce18d9887e96e035fdbe55fa8339a5fe5657ebff",
+      "bytes": 39216,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_window_profile.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_features.csv",
+      "rows": 100,
+      "format": "csv",
+      "sha256": "45fe87741b6864aeff4008bda1628d0017550018d4afd3fd38425811ea2d516d",
+      "bytes": 23820,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        }
+      ],
+      "file": "unsupervised/country_window_features.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_features.parquet",
+      "rows": 100,
+      "format": "parquet",
+      "sha256": "0b94629c96ee6269b07859701fcd86892e683639a151697c422e2bfc74881936",
+      "bytes": 17054,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        }
+      ],
+      "file": "unsupervised/country_window_features.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_export_annual.csv",
+      "rows": 2240,
+      "format": "csv",
+      "sha256": "286f9eb93b45f90c9db5c0f3f6a368d4c057f46a4db59efde6cff249c1105802",
+      "bytes": 893860,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_product_export_annual.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_export_annual.parquet",
+      "rows": 2240,
+      "format": "parquet",
+      "sha256": "721f7cef5209d7662f97a39329ad7301af47439d716935a650d35f23691c7967",
+      "bytes": 151008,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_product_export_annual.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_export_annual.csv",
+      "rows": 280,
+      "format": "csv",
+      "sha256": "7a4c20b29a77f085364be55d4bf51a810ec3cbd3886b0f9fd0974ab67a158978",
+      "bytes": 243281,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_export_annual.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_export_annual.parquet",
+      "rows": 280,
+      "format": "parquet",
+      "sha256": "83edd06069af920ab4542fa3574994063a47006f67e1c4e175c70d237c706930",
+      "bytes": 56310,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_export_annual.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_export_window.csv",
+      "rows": 800,
+      "format": "csv",
+      "sha256": "b4fcee52807c5474e047bf98bf821b73944ef4bb30401fea639d6e800530bd6e",
+      "bytes": 428553,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_product_export_window.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_export_window.parquet",
+      "rows": 800,
+      "format": "parquet",
+      "sha256": "26d24a55c89cc1f9cb6f9f4244b8ed7e18713d558e0d9d435d46092faa294771",
+      "bytes": 84087,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_product_export_window.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_export_window.csv",
+      "rows": 100,
+      "format": "csv",
+      "sha256": "ad6c2e4d7d83f6652c8330ab7e0fb02a627cad9c16263a384e0b368a95f88279",
+      "bytes": 189442,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_export_window.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_export_window.parquet",
+      "rows": 100,
+      "format": "parquet",
+      "sha256": "82f3d5138e6e0bf29ce2ba57fe5078b0e937e81480ad35abd898d88590ab5066",
+      "bytes": 51054,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        }
+      ],
+      "file": "unsupervised/country_export_window.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_context.csv",
+      "rows": 100,
+      "format": "csv",
+      "sha256": "4e0110a7b6cfa118e969f09ada67f192822bdaef9b4b60fd91de6e3c920c1a5b",
+      "bytes": 275907,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "previous_window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_change_pp",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_comparison_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_window_context.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_window_context.parquet",
+      "rows": 100,
+      "format": "parquet",
+      "sha256": "27c7f37fd3aad2147992cdb505e44f080e5cc09bc069c84272ce16d8d6d63995",
+      "bytes": 90011,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "previous_window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_change_pp",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_comparison_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_window_context.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_window_context.csv",
+      "rows": 800,
+      "format": "csv",
+      "sha256": "08fa5bfa422a07f19f1cc143e6418bae21464c014311217126161498127bcdee",
+      "bytes": 1114888,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "previous_window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_change_pp",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_comparison_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_product_window_context.csv",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    },
+    {
+      "path": "data/shared/v002/unsupervised/country_product_window_context.parquet",
+      "rows": 800,
+      "format": "parquet",
+      "sha256": "82d68514a3e8e34bcfd686798404e2ba2242ee5fca088a7f69499370a1afc8f5",
+      "bytes": 126518,
+      "schema": [
+        {
+          "name": "country_code",
+          "dtype": "string"
+        },
+        {
+          "name": "country_name",
+          "dtype": "string"
+        },
+        {
+          "name": "region",
+          "dtype": "string"
+        },
+        {
+          "name": "window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "start_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "end_year",
+          "dtype": "Int64"
+        },
+        {
+          "name": "start_month",
+          "dtype": "string"
+        },
+        {
+          "name": "end_month",
+          "dtype": "string"
+        },
+        {
+          "name": "period_month_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "is_short_period",
+          "dtype": "boolean"
+        },
+        {
+          "name": "period_status",
+          "dtype": "string"
+        },
+        {
+          "name": "aggregation",
+          "dtype": "string"
+        },
+        {
+          "name": "historical_release_verified",
+          "dtype": "boolean"
+        },
+        {
+          "name": "snapshot_kind",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "gdp_per_capita_usd_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_per_capita_usd_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "population",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "population_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "population_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "population_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "population_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_complete",
+          "dtype": "boolean"
+        },
+        {
+          "name": "internet_users_pct_observed_mean",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_valid_year_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "internet_users_pct_observed_years",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "internet_users_pct_collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "eligible_for_fit",
+          "dtype": "boolean"
+        },
+        {
+          "name": "eligibility_reason",
+          "dtype": "string"
+        },
+        {
+          "name": "hs_code",
+          "dtype": "string"
+        },
+        {
+          "name": "product_name",
+          "dtype": "string"
+        },
+        {
+          "name": "expected_window_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "expected_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "future_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "elapsed_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "current_month_outside_collection_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "currency",
+          "dtype": "string"
+        },
+        {
+          "name": "valuation",
+          "dtype": "string"
+        },
+        {
+          "name": "weight_unit",
+          "dtype": "string"
+        },
+        {
+          "name": "source_version",
+          "dtype": "string"
+        },
+        {
+          "name": "disclosure_status",
+          "dtype": "string"
+        },
+        {
+          "name": "export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_value_usd",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_value_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "observed_export_net_weight_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "valid_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "missing_collected_weight_cells",
+          "dtype": "Int64"
+        },
+        {
+          "name": "coverage_status",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_start",
+          "dtype": "string"
+        },
+        {
+          "name": "observed_period_end",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_observed_export_month",
+          "dtype": "string"
+        },
+        {
+          "name": "latest_month_observed_product_count",
+          "dtype": "Int64"
+        },
+        {
+          "name": "source_missing_reasons",
+          "dtype": "string"
+        },
+        {
+          "name": "source_files",
+          "dtype": "string"
+        },
+        {
+          "name": "collected_at",
+          "dtype": "string"
+        },
+        {
+          "name": "export_unit_value_usd_per_kg",
+          "dtype": "Float64"
+        },
+        {
+          "name": "previous_window_id",
+          "dtype": "string"
+        },
+        {
+          "name": "gdp_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "gdp_per_capita_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "population_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "internet_users_pct_change_pp",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_usd_change_pct",
+          "dtype": "Float64"
+        },
+        {
+          "name": "export_value_comparison_status",
+          "dtype": "string"
+        }
+      ],
+      "file": "unsupervised/country_product_window_context.parquet",
+      "dataset_role": "unsupervised",
+      "local_only": false
+    }
+  ],
+  "shared_version": "v002",
+  "released_at": "2026-11-04T06:58:05.383245+00:00",
+  "approval_basis": "user_instruction",
+  "contains_shared_2026_actuals": true,
+  "source_processing_manifest_sha256": "0ae6aff1c2dc0d2759d50bc2983268bcc214ee1913c878181f96420acc1b0c8c"
+}

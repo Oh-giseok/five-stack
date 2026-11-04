@@ -42,14 +42,90 @@ supervised:
     selection_split: validation
     primary_metric: wape
 clustering:
-  row_key: country_code
+  row_key: [country_code, window_id]
   columns: [gdp_per_capita_usd, population, internet_users_pct]
-  reference_year: latest_common_released_year
+  reference_year: three_year_window
   allow_mixed_years: false
+  aggregation: complete_period_mean_with_observed_mean_for_latest_short_period
+  fit_scope: eligible_observed_periods_for_retrospective_comparison
+  shared_scaler_and_centroids_across_windows: true
+  historical_backtest_claim: false
   scaler: StandardScaler
   missing: leave_country_unclassified
   cluster_label_as_supervised_feature: false
   display_original_values: true
+  # Raw-scale period inputs; StandardScaler and K-means are fitted later.
+  context:
+    status: preprocessing_contract_v1_3
+    role: display_only
+    use_as_clustering_features: false
+    macro:
+      source: world_bank
+      version: v001
+      join: country_and_same_three_year_window
+      columns: [gdp_usd, gdp_per_capita_usd, population, internet_users_pct]
+      allow_mixed_indicator_years: false
+      incomplete_window_model_value: observed_mean_for_latest_short_period_only
+      observed_partial_mean: preserve_separately_with_observed_years
+      preserve_original_annual_values: true
+      gdp_per_capita_meaning: national_average_output_not_personal_income_or_wealth
+    trade:
+      source: customs
+      version: v003
+      coverage: all_collected_export_history
+      collection_start_month: "2013-01"
+      collection_end_month: "2026-09"
+      window_years: 3
+      window_anchor_year: 2013
+      overlapping_windows: false
+      windows:
+        - {window_id: "2013_2015", start_year: 2013, end_year: 2015}
+        - {window_id: "2016_2018", start_year: 2016, end_year: 2018}
+        - {window_id: "2019_2021", start_year: 2019, end_year: 2021}
+        - {window_id: "2022_2024", start_year: 2022, end_year: 2024}
+        - {window_id: "2025_2026Q3", start_year: 2025, end_year: 2026, start_month: "2025-01", end_month: "2026-09", short_period: true}
+      product_scope: all_configured_hs6
+      currency: USD
+      valuation: FOB
+      keep_country_product_year_grid: true
+      expected_country_product_year_rows: 2240
+      expected_country_year_rows: 280
+      expected_country_product_window_rows: 800
+      expected_country_window_rows: 100
+      annual_product_expected_months: 12
+      three_year_product_expected_months: 36
+      annual_country_expected_monthly_cells: 96
+      three_year_country_expected_monthly_cells: 288
+      complete_sum_requires_all_expected_cells: true
+      preserve_observed_partial_sums_separately: true
+      fill_missing_with_zero: false
+      country_specific_window_fallback: false
+      latest_observed_month: latest_non_null_export_value_month_in_source
+      latest_period: clip_at_collection_cutoff_and_use_available_values
+      short_period_fit_requires_all_three_features: true
+      expected_cells_basis: actual_selected_period_months
+      distinguish_future_months_from_missing_elapsed_months: true
+      outside_collection_months_are_not_automatically_future: true
+      predicted_values_in_observed_window_sum: false
+      final_test_amounts_public_before_evaluation: true
+      disclosure_policy: user_authorized_team_shared
+    quality:
+      preserve_all_configured_countries: true
+      trade_missing_does_not_make_macro_cluster_unclassified: true
+      metadata_as_features: false
+      report_macro_and_trade_observation_coverage_separately: true
+      report_source_collection_and_observation_dates_separately: true
+      claim_historical_release_verified: false
+    display:
+      page: P02B
+      modes: [cluster_distribution, period_changes]
+      window_selection: all_defined_windows_available_no_fixed_recent_window
+      chart_count: 1
+      comparison_table_count: 1
+      period_label: analysis_period
+      trend_x_axis: window_id
+      trend_selectable_metrics: [gdp_per_capita_usd, population, internet_users_pct, export_value_usd]
+      detail_columns: [economy, annual_exports, completeness_and_recency]
 quality:
   allow_future_observed_features: false
   fill_unreported_trade_with_zero: false

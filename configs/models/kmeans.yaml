@@ -10,9 +10,13 @@ params:
   max_iter: 300
   random_state: 42
 inputs:
-  row_key: country_code
+  row_key: [country_code, window_id]
   columns: [gdp_per_capita_usd, population, internet_users_pct]
-  reference_year: latest_common_released_year
+  reference_year: three_year_window
+  aggregation: complete_period_mean_with_observed_mean_for_latest_short_period
+  fit_scope: eligible_observed_periods_for_retrospective_comparison
+  shared_scaler_and_centroids_across_windows: true
+  historical_backtest_claim: false
   scaler: StandardScaler
   missing: leave_country_unclassified
 selection:
