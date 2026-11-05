@@ -8,7 +8,11 @@ import streamlit as st
 
 from oinq.common.config import load_yaml
 from oinq.ui.components import install_styles
-from oinq.ui.data import discover_forecast_runs, load_forecast_run
+from oinq.ui.data import load_forecast_run
+from oinq.ui.forecasting import (
+    MODEL_LABELS, VARIANT_LABELS, saved_forecast_models, matching_forecast_runs,
+    create_forecast_run, saved_training_end,
+)
 from oinq.ui.pages import countries, demand, main, performance, products, production
 
 
@@ -21,7 +25,7 @@ COUNTRY_CODES = tuple(row["iso3"] for row in COUNTRIES)
 HS_CODES = tuple(row["hs_code"] for row in PRODUCTS)
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, max_entries=24)
 def _read_run(folder: str, signature: tuple, country_codes: tuple, hs_codes: tuple):
     # Signature changes when any run file is replaced, while filter reruns reuse this result.
     del signature
@@ -34,6 +38,51 @@ def _signature(folder: Path) -> tuple:
         (name, (folder / name).stat().st_size, (folder / name).stat().st_mtime_ns)
         for name in names
     )
+
+
+@st.cache_data(show_spinner=False, max_entries=4)
+def _training_end(path: str, size: int, mtime_ns: int):
+    return saved_training_end(path)
+
+
+def _select_forecast():
+    models = saved_forecast_models(ROOT)
+    if not models:
+        st.sidebar.info("공유 폴더에 저장된 수출액 예측 모델이 없습니다.")
+        return None
+    families = list(dict.fromkeys(key.split("/")[0] for key in models))
+    default = "xgboost_l2" if "xgboost_l2" in families else families[0]
+    model_id = st.sidebar.selectbox("예측 모델", families, index=families.index(default),
+                                    format_func=lambda value: MODEL_LABELS.get(value, value), key="gem_model")
+    variants = [value for value in VARIANT_LABELS if f"{model_id}/{value}" in models]
+    variant = st.sidebar.selectbox("거시지표 구성", variants, format_func=VARIANT_LABELS.get,
+                                   key=f"gem_variant_{model_id}")
+    key = f"{model_id}/{variant}"
+    path = models[key]
+    if model_id in {"random_forest", "elastic_net"}:
+        try:
+            stat = path.stat()
+            cutoff = _training_end(str(path), stat.st_size, stat.st_mtime_ns)
+            st.sidebar.caption(f"학습 정답 종료: {cutoff or '모델에 미기록'}")
+        except (ImportError, OSError, ValueError) as error:
+            st.sidebar.error(f"저장 모델 정보 조회 실패: {error}")
+    st.sidebar.caption("2026Q3 기준 → 2027Q1~Q4 · 저장 모델 사용")
+    try:
+        run_ids = matching_forecast_runs(ROOT, key, path)
+        if st.sidebar.button("저장 모델로 예측 생성", key="gem_generate_forecast"):
+            with st.spinner("저장 모델로 예측 중입니다. 재학습하지 않습니다."):
+                generated = create_forecast_run(ROOT, key)
+            run_ids = [generated, *run_ids]
+            st.session_state[f"gem_forecast_run_{key}"] = generated
+        if not run_ids:
+            st.sidebar.info("이 모델의 저장된 예측이 없습니다. 위 버튼으로 생성하세요.")
+            return None
+        selected = st.sidebar.selectbox("예측 실행", run_ids, key=f"gem_forecast_run_{key}")
+        folder = ROOT / ".private/forecasts" / selected
+        return _read_run(str(folder), _signature(folder), COUNTRY_CODES, HS_CODES)
+    except (ImportError, OSError, ValueError, RuntimeError) as error:
+        st.sidebar.error(f"예측 생성·조회 실패: {error}")
+        return None
 
 
 def main_app() -> None:
@@ -54,18 +103,11 @@ def main_app() -> None:
     elif page_label == "모델 성능":
         subpage = st.sidebar.radio("모델 성능", ["검증 비교", "최종 테스트"], key="gem_performance_navigation")
 
-    run = None
-    run_ids = discover_forecast_runs(ROOT)
-    if run_ids:
-        default_index = run_ids.index("ui_demo") if "ui_demo" in run_ids else 0
-        selected_run = st.sidebar.selectbox("예측 실행", run_ids, index=default_index, key="gem_forecast_run")
-        run_dir = ROOT / ".private" / "forecasts" / selected_run
-        try:
-            run = _read_run(str(run_dir), _signature(run_dir), COUNTRY_CODES, HS_CODES)
-        except (OSError, ValueError) as error:
-            st.sidebar.error(f"예측 결과를 읽지 못했습니다: {error}")
-    else:
-        st.sidebar.caption("저장된 예측 실행이 없습니다.")
+    # Similar-country analysis and evaluation pages do not load regressors.
+    uses_forecasts = page_label in {"메인", "제품별 분석", "수요 예측"} or (
+        page_label == "국가별 분석" and subpage == "수출 비교"
+    )
+    run = _select_forecast() if uses_forecasts else None
 
     if page_label == "메인":
         main.render(COUNTRIES, PRODUCTS, run)

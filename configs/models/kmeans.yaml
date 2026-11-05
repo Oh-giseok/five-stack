@@ -2,7 +2,7 @@ schema_version: 1
 model_id: kmeans
 task: country_clustering
 estimator: sklearn.cluster.KMeans
-parameter_status: initial_experiment_not_final_cluster_count
+parameter_status: selected_by_retrospective_comparison
 params:
   n_clusters: 3
   init: k-means++
@@ -21,6 +21,7 @@ inputs:
   missing: leave_country_unclassified
 selection:
   candidate_cluster_counts: [2, 3, 4]
+  selected_n_clusters: 3
   criteria: [interpretability, cluster_sizes, silhouette_when_defined]
   require_more_complete_countries_than_clusters: true
 output:

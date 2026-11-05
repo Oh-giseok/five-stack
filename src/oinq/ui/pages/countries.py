@@ -1,6 +1,7 @@
 """P02A country comparison and P02B similar-country views."""
 
 import math
+from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
@@ -14,18 +15,10 @@ from oinq.ui.components import (
     render_run_caption,
 )
 from oinq.ui.data import ForecastRun, sum_if_complete
-
-
-WINDOWS = ["2013_2015", "2016_2018", "2019_2021", "2022_2024", "2025_2026Q3"]
-WINDOW_LABELS = {
-    "2013_2015": "2013–2015", "2016_2018": "2016–2018", "2019_2021": "2019–2021",
-    "2022_2024": "2022–2024", "2025_2026Q3": "2025–2026Q3",
-}
-INDICATORS = {
-    "1인당 GDP": ("gdp_per_capita_usd", "USD/인", "1인당 GDP (USD/인)"),
-    "인구": ("population", "명", "인구 (명)"),
-    "인터넷 이용률": ("internet_users_pct", "%", "인터넷 이용률 (%)"),
-}
+from oinq.ui.clustering import (
+    WINDOWS, WINDOW_LABELS, INDICATORS, cluster_source_signature, load_country_clusters,
+    distribution_figure, distribution_table, country_history, history_figure,
+)
 
 
 def _country_quarter_summary(run: ForecastRun, country_codes: list[str], hs_codes: list[str]):
@@ -117,7 +110,7 @@ def render_comparison(countries: list[dict], products: list[dict], run: Forecast
             fig = px.bar(chart, x="백만 USD", y="국가명", orientation="h", color_discrete_sequence=["#205f73"])
             fig.update_layout(height=max(500, 34 * len(chart) + 100), margin={"l": 20, "r": 20, "t": 20, "b": 20},
                               xaxis_title="예상 수출액 (백만 USD)", yaxis_title="국가", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch", alt="국가별 연간 예상 수출액 비교")
 
     with onepage_section("p02a_table"):
         st.subheader("국가별 분기·연간 예상 수출액 (백만 USD)")
@@ -125,93 +118,86 @@ def render_comparison(countries: list[dict], products: list[dict], run: Forecast
         for column in ("Q1", "Q2", "Q3", "Q4", "연간"):
             display[column] = display[column].map(format_musd)
         display = display.rename(columns={"국가명": "국가"})
-        st.dataframe(display, hide_index=True, use_container_width=True, height=min(650, 42 * len(display) + 45))
+        st.dataframe(display, hide_index=True, width="stretch", height=min(650, 42 * len(display) + 45),
+                     alt="국가별 분기 및 연간 예상 수출액")
         if len(hs_codes) > 1:
             st.caption("분기·연간 금액은 선택된 품목 전부의 예측값이 있을 때만 합산됩니다.")
 
 
-@st.cache_data(show_spinner=False)
-def _load_context() -> tuple[pd.DataFrame, pd.DataFrame]:
-    root = __import__("pathlib").Path(__file__).resolve().parents[4]
-    folder = root / "data" / "shared" / "v002" / "unsupervised"
-    return (
-        pd.read_parquet(folder / "country_window_features.parquet"),
-        pd.read_parquet(folder / "country_window_context.parquet"),
-    )
+@st.cache_data(show_spinner=False, max_entries=2)
+def _read_clusters(root: str, signature: tuple):
+    del signature  # Used as a cache key, alongside the project root.
+    return load_country_clusters(root)
 
 
 def render_similar(countries: list[dict], products: list[dict]) -> None:
     labels = country_labels(countries)
     with onepage_section("p02b_filters"):
         st.title("국가별 분석 | 유사 국가")
-        st.caption("기간별 거시지표 원래 단위와 관측 연도를 확인합니다.")
+        st.caption("저장된 K-means 모델로 국가 특성과 기간별 군집 변화를 확인합니다.")
         view = st.radio("보기", ["군집 분포", "기간별 변화"], horizontal=True, key="p02b_view")
-        try:
-            features, context = _load_context()
-            data_available = True
-        except (OSError, ValueError):
-            features, context, data_available = pd.DataFrame(), pd.DataFrame(), False
         if view == "기간별 변화":
             st.caption("분석기간: 2013–2015부터 2025–2026Q3까지")
             country = st.selectbox("국가", list(labels), format_func=labels.get, key="p02b_country")
             indicator_label = st.selectbox("지표", list(INDICATORS), key="p02b_indicator")
         else:
             window = st.selectbox("분석기간", WINDOWS, index=3, format_func=WINDOW_LABELS.get, key="p02b_window")
-            country = None
-            indicator_label = None
-        if not data_available:
-            render_empty_result("공유 비지도 원천 자료를 읽을 수 없어 화면을 준비 중입니다.")
+        root = Path(__file__).resolve().parents[4]
+        try:
+            clusters = _read_clusters(str(root), cluster_source_signature(root))
+        except FileNotFoundError:
+            render_empty_result("저장된 K-means 모델 또는 공유 자료가 없습니다.",
+                                detail="artifacts/shared_models/kmeans/pipeline.joblib과 data/shared/v002를 확인하세요.")
+            return
+        except ImportError:
+            st.error("K-means 조회에 필요한 scikit-learn·joblib 등 모델 실행 라이브러리가 설치되지 않았습니다.")
+            return
+        except (OSError, ValueError) as error:
+            st.error(f"군집 모델·공유 데이터 확인에 실패했습니다: {error}")
+            return
+        results = clusters.results
+        st.caption(f"전체 {len(results)}행 · 분류 {results.cluster_id.notna().sum()}행 · "
+                   f"미분류 {results.cluster_id.isna().sum()}행 · K-means k={clusters.n_clusters}")
+        st.caption("모든 기간에 같은 표준화기·군집 중심을 적용합니다. 군집 번호는 국가 특성 그룹이며 수출 유망도 순위가 아닙니다.")
+        st.caption("관측자료를 함께 사용한 사후 비교입니다. 마지막 구간은 2025-01~2026-09의 21개월입니다.")
 
-    if not data_available:
-        return
     if view == "군집 분포":
-        selected = features.loc[features.window_id.astype(str).eq(window)].copy()
+        selected = results.loc[results.window_id.eq(window)]
         label = WINDOW_LABELS[window]
         with onepage_section("p02b_distribution_chart"):
             st.subheader(f"{label} | 국가 특성·군집 분포")
-            st.info("K-means 군집 결과가 아직 연결되지 않았습니다. 결과가 준비되면 GDP·인터넷 이용률·인구를 표시합니다.")
+            missing = int(selected.cluster_id.isna().sum())
+            st.caption(f"전체 {len(selected)}개국 · 분류 {len(selected) - missing}개국 · 미분류 {missing}개국")
+            st.plotly_chart(distribution_figure(results, window), width="stretch", theme=None,
+                            key="p02b_distribution", alt="1인당 GDP와 인터넷 이용률에 따른 국가 군집, 점 면적은 인구")
+            st.caption("X축=1인당 GDP · Y축=인터넷 이용률 · 점 면적=인구 · 색상=군집. 축 범위와 인구 크기 척도는 기간 간 동일합니다.")
+            if missing:
+                st.info(f"입력 결측으로 미분류된 {missing}개국은 아래 표에 유지합니다. 좌표가 없는 국가는 산점도에 표시하지 않습니다.")
         with onepage_section("p02b_distribution_table"):
-            st.subheader(f"{label} | 국가별 원천 지표")
-            columns = ["country_code", "country_name", "gdp_per_capita_usd", "internet_users_pct", "population",
-                       "gdp_per_capita_usd_observed_years", "internet_users_pct_observed_years", "eligible_for_fit"]
-            display = selected[columns].rename(columns={
-                "country_code": "국가 코드", "country_name": "국가", "gdp_per_capita_usd": "1인당 GDP (USD/인)",
-                "internet_users_pct": "인터넷 이용률 (%)", "population": "인구 (명)",
-                "gdp_per_capita_usd_observed_years": "GDP 관측 연도", "internet_users_pct_observed_years": "인터넷 관측 연도",
-                "eligible_for_fit": "군집 입력 가능",
-            })
-            display["군집 상태"] = "준비 중"
-            st.dataframe(display, hide_index=True, use_container_width=True, height=620)
-            st.caption("인구는 점 크기 기준입니다. 군집 번호와 색상은 실제 학습 결과가 연결될 때 표시합니다.")
+            st.subheader(f"{label} | 전체 국가의 군집·경제지표·수출 맥락")
+            st.dataframe(distribution_table(selected), hide_index=True, width="stretch", height=620,
+                         alt="미분류를 포함한 20개국 군집과 실제 지표 관측 연도 및 관측 수출액")
+            st.caption("관측 수출액은 확보된 월·품목의 합계입니다. 수출 집계 상태를 함께 확인하세요. 수출액은 군집 학습에 사용하지 않습니다.")
         return
 
-    indicator, unit, axis_title = INDICATORS[indicator_label]
-    values = context.loc[
-        context.country_code.astype(str).eq(country)
-        & context[f"{indicator}_observed_mean"].notna()
-    ].copy()
-    values["window_order"] = values.window_id.astype(str).map({key: idx for idx, key in enumerate(WINDOWS)})
-    values = values.sort_values("window_order")
+    indicator, axis_title = INDICATORS[indicator_label]
+    values = country_history(results, country)
     values["기간"] = values.window_id.astype(str).map(WINDOW_LABELS)
     value_col = f"{indicator}_observed_mean"
-    if value_col not in values:
-        value_col = indicator
     with onepage_section("p02b_change_chart"):
         st.subheader(f"{labels[country]} | {axis_title} 기간별 변화")
-        if values.empty:
-            render_empty_result("선택한 지표의 관측값이 없습니다.")
+        if values[value_col].notna().any():
+            st.plotly_chart(history_figure(values, indicator, axis_title), width="stretch", theme=None,
+                            key="p02b_history", alt="다섯 분석기간의 국가 경제지표 추이와 군집 변화")
         else:
-            fig = px.line(values, x="기간", y=value_col, markers=True)
-            fig.update_traces(line={"color": "#205f73", "width": 3}, marker={"size": 9})
-            fig.update_layout(height=500, margin={"l": 20, "r": 20, "t": 20, "b": 20},
-                              xaxis_title="분석기간", yaxis_title=f"{axis_title} · {unit}", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            render_empty_result("선택한 지표의 관측값이 없습니다.")
+        st.caption("색상은 해당 기간의 군집입니다. 선택한 지표가 있어도 다른 군집 입력이 결측이면 회색 미분류로 표시합니다. 지표 결측 구간은 선으로 연결하지 않습니다.")
     with onepage_section("p02b_change_table"):
-        st.subheader("원래 단위와 실제 관측 연도")
+        st.subheader("다섯 분석기간의 지표·군집·관측 연도")
         observed_years = f"{indicator}_observed_years"
-        display = values[["기간", "start_month", "end_month", value_col, observed_years]].rename(columns={
-            "start_month": "시작월", "end_month": "종료월", value_col: f"{axis_title} ({unit})",
-            observed_years: "실제 관측 연도",
+        display = values[["기간", "start_month", "end_month", "군집", value_col, observed_years, "missing_features"]].rename(columns={
+            "start_month": "시작월", "end_month": "종료월", value_col: axis_title,
+            observed_years: "실제 관측 연도", "missing_features": "군집 입력 결측",
         })
-        st.dataframe(display, hide_index=True, use_container_width=True)
-        st.caption("마지막 기간은 2025-01~2026-09의 21개월이며, 확보된 실제 관측 연도만 반영합니다.")
+        st.dataframe(display, hide_index=True, width="stretch", alt="결측과 미분류를 유지한 다섯 기간의 국가 지표 및 군집")
+        st.caption("지표는 확보된 실제 관측 연도의 평균입니다. 결측은 0으로 대체하지 않습니다.")
