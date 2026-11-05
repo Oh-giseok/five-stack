@@ -111,11 +111,12 @@ def metric_table(predictions: pd.DataFrame) -> pd.DataFrame:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--data-dir", type=Path, default=ROOT / "data/shared/v001")
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data/shared/v002")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--iterations", type=int)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--l2-leaf-reg", type=float)
+    parser.add_argument("--resume", action="store_true", help="Reuse saved models in an incomplete output directory")
     args = parser.parse_args()
 
     try:
@@ -127,6 +128,10 @@ def main() -> int:
     data_dir = args.data_dir.resolve()
     manifest_path = data_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    from oinq.modeling.supervised.lightgbm import load_inputs, frame_hash, KEY
+    checked_train, checked_validation, checked_manifest, *_ = load_inputs(ROOT)
+    if manifest != checked_manifest:
+        raise ValueError("Expected the current approved shared v002 manifest")
     file_schemas = {Path(item["path"]).stem: item["schema"] for item in manifest["files"]}
     train, train_path = load_frame(data_dir, "train", file_schemas["train"])
     validation, validation_path = load_frame(data_dir, "validation", file_schemas["validation"])
@@ -182,23 +187,30 @@ def main() -> int:
     evaluation = validation.loc[target_available].copy()
     if evaluation.empty:
         raise ValueError("검증 가능한 정답 행이 없습니다.")
+    if len(train) != len(checked_train) or len(validation) != len(checked_validation):
+        raise ValueError("Shared input row count mismatch")
+    pool = pd.concat([train, validation], ignore_index=True)
 
     run_id = datetime.now(timezone.utc).strftime("catboost_%Y%m%dT%H%M%SZ")
     output_dir = args.output_dir.resolve() if args.output_dir else ROOT / "artifacts" / run_id
-    output_dir.mkdir(parents=True, exist_ok=False)
+    if args.resume and (output_dir / "run_manifest.json").exists():
+        raise FileExistsError("Run already complete; reuse its results")
+    output_dir.mkdir(parents=True, exist_ok=args.resume)
+    run_id = output_dir.name
     predictions = []
     fitted_models = []
+    fit_audit = []
     origins = sorted(evaluation["_origin_q"].unique())
     origin_labels = (evaluation[["_origin_q", "origin_quarter"]]
                      .drop_duplicates().set_index("_origin_q")["origin_quarter"].to_dict())
 
     for origin_index in origins:
         origin = origin_labels[origin_index]
-        fit_mask = (train["target_export_value_usd"].notna()
-                    & train["_target_q"].le(origin_index)
-                    & train["_origin_q"].le(origin_index))
-        fit = train.loc[fit_mask]
-        score = evaluation.loc[evaluation["_origin_q"].eq(origin_index)]
+        fit_mask = (pool[TARGET].notna() & pool["target_available"].fillna(False)
+                    & pool["_target_q"].le(origin_index)
+                    & pool["_origin_q"].le(origin_index))
+        fit = pool.loc[fit_mask].sort_values(KEY)
+        score = evaluation.loc[evaluation["_origin_q"].eq(origin_index)].sort_values(KEY)
         if fit.empty:
             raise ValueError(f"{origin}: 사용 가능한 학습 정답이 없습니다.")
         if (fit["_target_q"] > origin_index).any():
@@ -209,17 +221,43 @@ def main() -> int:
         for variant, columns in variants.items():
             x_fit = build_features(fit, columns, [name for name in categorical if name in columns])
             x_score = build_features(score, columns, [name for name in categorical if name in columns])
-            model = CatBoostRegressor(**params)
-            model.fit(x_fit, fit[TARGET].astype(float), cat_features=[name for name in categorical if name in columns])
-            predicted = np.maximum(model.predict(x_score), 0.0)
             file_stem = f"{variant}_{origin}"
             model_path = output_dir / f"{file_stem}.cbm"
-            model.save_model(str(model_path))
+            resumed = bool(args.resume and model_path.exists())
+            model = CatBoostRegressor(**params)
+            if resumed:
+                model.load_model(str(model_path))
+                native = model.get_all_params()
+                for key in ["iterations", "depth", "l2_leaf_reg", "random_seed", "learning_rate", "loss_function"]:
+                    if isinstance(params[key], (int,float)):
+                        if not np.isclose(native[key], params[key]): raise ValueError(f"Checkpoint parameter differs: {key}")
+                    elif native[key] != params[key]: raise ValueError(f"Checkpoint parameter differs: {key}")
+                if model.feature_names_ != columns: raise ValueError("Checkpoint features differ")
+            else:
+                model.fit(x_fit, fit[TARGET].astype(float), cat_features=[name for name in categorical if name in columns])
+            predicted = np.maximum(model.predict(x_score), 0.0)
+            if not np.isfinite(predicted).all():
+                raise ValueError("Non-finite CatBoost prediction")
+            if not resumed:
+                model.save_model(str(model_path))
+            restored = CatBoostRegressor()
+            restored.load_model(str(model_path))
+            replay = np.maximum(restored.predict(x_score), 0.0)
+            if not np.array_equal(predicted, replay):
+                raise AssertionError("Saved CatBoost prediction replay differs")
+            audit = {"variant": variant, "origin_quarter": origin, "fit_rows": len(fit),
+                     "past_train_rows": int(fit["split"].eq("train").sum()),
+                     "past_validation_rows": int(fit["split"].eq("validation").sum()),
+                     "max_fit_target": str(fit["target_quarter"].max()),
+                     "fit_rows_sha256": frame_hash(fit, KEY), "score_rows": len(score),
+                     "reload_max_abs_diff": float(np.max(np.abs(predicted-replay))), "resumed_checkpoint": resumed}
+            fit_audit.append(audit)
             fitted_models.append({
                 "variant": variant, "origin_quarter": origin, "model_file": model_path.name,
                 "fit_rows": int(len(fit)), "fit_target_max_quarter": str(fit["target_quarter"].max()),
                 "feature_columns": columns, "categorical_columns": [c for c in categorical if c in columns],
                 "prediction_floor_usd": 0.0,
+                "sha256": sha256(model_path), "reload_max_abs_diff": audit["reload_max_abs_diff"],
             })
             out = score[VALIDATION_COLUMNS].copy()
             out["variant"] = variant
@@ -233,6 +271,7 @@ def main() -> int:
     scores = metric_table(prediction_frame)
     prediction_frame.to_csv(output_dir / "validation_predictions.csv", index=False, encoding="utf-8-sig")
     scores.to_csv(output_dir / "metrics.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame(fit_audit).to_csv(output_dir / "fit_audit.csv", index=False, encoding="utf-8-sig")
 
     git_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip() or None
     git_status = subprocess.run(["git", "status", "--short"], cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
@@ -245,7 +284,8 @@ def main() -> int:
         "train_file": train_path, "train_sha256": sha256(Path(train_path)),
         "validation_file": validation_path, "validation_sha256": sha256(Path(validation_path)),
         "train_period": train_period, "validation_period": validation_period,
-        "validation_method": "expanding_origin; fit train rows with target_quarter <= origin_quarter and row origin <= origin",
+        "validation_method": "expanding_origin; fit train plus past validation labels with target_quarter <= origin_quarter",
+        "final_test_used": False, "reload_verified": True, "status": "completed",
         "historical_asof_verified": bool(contract.get("historical_asof_use_verified", False)),
         "target": TARGET, "currency": "USD", "valuation": "FOB",
         "validation_candidate_rows": int(len(validation)), "scored_rows_per_variant": int(len(evaluation)),

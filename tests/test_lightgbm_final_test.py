@@ -9,6 +9,15 @@ from oinq.modeling.supervised.lightgbm_final_test import (
     check_features,check_test_inputs,select_scored_rows,test_metrics as calculate_test_metrics,TARGET,PRED)
 
 class FrozenFinalTestTests(unittest.TestCase):
+    def test_all_model_variant_labels_are_preserved(self):
+        frame=pd.DataFrame({"country_code":["USA"]*3,"hs_code":["330410"]*3,
+                            "horizon_quarters":[1,2,3],TARGET:[10.,20.,30.],PRED:[11.,19.,32.]})
+        for model in ["xgboost_l1_l2","catboost_l2_1","lightgbm_l1"]:
+            for variant in ["with_macro","without_macro"]:
+                values=calculate_test_metrics(frame,model,[2,3,4,5],variant=variant)
+                self.assertEqual(set(values.model_id),{model})
+                self.assertEqual(set(values.variant),{variant})
+                self.assertEqual(values.loc[values.group_by.eq("overall") & values.scope.eq("h1_3"),"n"].iloc[0],3)
     def test_target_metadata_cannot_be_input(self):
         contract={"categorical":["country_code"],"known_future":["horizon_quarters"],
                   "numeric_candidates":[TARGET],"forbidden_feature_columns":[TARGET],"target":TARGET}
