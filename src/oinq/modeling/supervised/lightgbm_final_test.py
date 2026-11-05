@@ -58,11 +58,11 @@ def select_scored_rows(df):
     return df.loc[available].copy(), df.loc[~available].copy()
 
 
-def test_metrics(predictions, model_id, primary_horizons):
+def test_metrics(predictions, model_id, primary_horizons, variant=None):
     records = []
     for scope, block in [("h1_3", predictions),
                          ("h2_3", predictions[predictions.horizon_quarters.isin(primary_horizons)])]:
-        identity = dict(model_id=model_id, variant=VARIANT if model_id == "lightgbm" else "baseline", scope=scope)
+        identity = dict(model_id=model_id, variant=variant if variant is not None else (VARIANT if model_id == "lightgbm" else "baseline"), scope=scope)
         records.append(identity | dict(group_by="overall", group_value="all") |
                        metric_values(block[TARGET], block[PRED]))
         for col in ["country_code", "hs_code", "horizon_quarters"]:
@@ -192,7 +192,7 @@ def run_final_test(root, run_id):
     modeldir=out/"model"
     modeldir.mkdir()
     joblib.dump(pipe,modeldir/"pipeline.joblib",compress=3)
-    pipe.named_steps["model"].booster_.save_model(str(modeldir/"model.txt"))
+    (modeldir/"model.txt").write_text(pipe.named_steps["model"].booster_.model_to_string(),encoding="utf-8")
     native=pipe.named_steps["model"].booster_.params
     if float(native.get("reg_lambda",native.get("lambda_l2",0)))!=1:
         raise AssertionError("L2 selection mismatch")

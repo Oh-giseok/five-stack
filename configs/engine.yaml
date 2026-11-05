@@ -1,0 +1,13 @@
+schema_version: 1
+model:
+  # Selected by validation before final-test results were examined.
+  id: xgboost_l2
+  variant: with_macro
+paths:
+  models_dir: artifacts/shared_models
+  features_file: data/shared/v002/forecast/origin_features_2026Q3.parquet
+  dataset_manifest: data/shared/v002/manifest.json
+  output_dir: .private/forecasts
+# Match the revised-source calendar candidates used in training.
+# Missing values are retained; publication-vintage verification is still pending.
+input_policy: current_revised_calendar_candidates

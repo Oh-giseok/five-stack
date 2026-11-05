@@ -25,9 +25,12 @@ dist/
 !/data/processed/.gitkeep
 /data/reference/
 
-# Models and experiment outputs; approved reports are stored in reports/
-/artifacts/*
+# Keep experiment outputs local; share only the selected saved model files.
+/artifacts/**
+!/artifacts/**/
 !/artifacts/.gitkeep
+!/artifacts/shared_models/**/*.joblib
+!/artifacts/shared_models/**/*.cbm
 *.log
 
 # data/shared/ and data/sample/ are intentionally not globally ignored.

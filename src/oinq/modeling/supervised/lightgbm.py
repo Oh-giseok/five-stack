@@ -52,15 +52,13 @@ def frame_hash(frame, columns):
 
 def load_inputs(root):
     root = Path(root)
-    folder = root / "data/shared/v001"
+    folder = root / "data/shared/v002"
     manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
     feature = load_yaml(root / "configs/features.yaml")
     split = load_yaml(root / "configs/splits.yaml")
     model = load_yaml(root / "configs/models/lightgbm.yaml")
-    if manifest["dataset_version"] != "v001" or not manifest["dataset_release_approved"]:
-        raise ValueError("Expected approved shared dataset v001")
-    if manifest["final_test_included"] or manifest["clustering_included"]:
-        raise ValueError("Shared training input must not include final test/clustering")
+    if manifest["dataset_version"] != "v002" or not manifest["dataset_release_approved"]:
+        raise ValueError("Expected approved shared dataset v002")
     if split["validation"]["method"] != "expanding_origin":
         raise ValueError("Unsupported validation protocol")
     features = manifest["feature_columns"]
@@ -79,6 +77,10 @@ def load_inputs(root):
         raise ValueError("Macro values and their missing indicators must be paired")
     protected = {}
     for item in manifest["files"]:
+        # The release also contains final_test and unsupervised files. This
+        # validation run only opens the train/validation partitions.
+        if Path(item["path"]).name not in {"train.csv", "train.parquet", "validation.csv", "validation.parquet"}:
+            continue
         path = root / item["path"]
         actual = sha256(path)
         if actual != item["sha256"]:
@@ -228,27 +230,34 @@ def baseline_predictions(evaluation, pool):
 
 def annual_results(predictions):
     """Two explicit consecutive-four-quarter windows, without mixing origins."""
-    records, skipped = [], []
     cols = ["model_id", "variant", "country_code", "hs_code", "origin_quarter"]
-    for key, group in predictions.groupby(cols, sort=True):
-        for window, horizons in [("h1_4", {1,2,3,4}), ("h2_5", {2,3,4,5})]:
-            block = group[group.horizon_quarters.isin(horizons)]
-            identity = dict(zip(cols, key)) | {"window": window}
-            if (len(block) != 4 or set(block.horizon_quarters) != horizons
-                    or block[[TARGET, PRED]].isna().any().any()):
-                skipped.append(identity | {"reason": "incomplete_four_quarters"})
-                continue
-            records.append(identity | {"actual_sum_usd": float(block[TARGET].sum()),
-                                        "predicted_sum_usd": float(block[PRED].sum()),
-                                        "target_start": block.target_quarter.min(),
-                                        "target_end": block.target_quarter.max()})
-    sums = pd.DataFrame(records)
+    # Aggregate the same completeness rules in groups once, rather than
+    # constructing tens of thousands of small frames for all experiments.
+    universe = predictions[cols].drop_duplicates()
+    complete, skipped = [], []
+    for window, horizons in [("h1_4", {1,2,3,4}), ("h2_5", {2,3,4,5})]:
+        block = predictions.loc[predictions.horizon_quarters.isin(horizons)]
+        stats = block.groupby(cols, sort=True).agg(
+            row_count=(TARGET, "size"), horizon_count=("horizon_quarters", "nunique"),
+            actual_count=(TARGET, "count"), prediction_count=(PRED, "count"),
+            actual_sum_usd=(TARGET, "sum"), predicted_sum_usd=(PRED, "sum"),
+            target_start=("target_quarter", "min"), target_end=("target_quarter", "max"),
+        ).reset_index()
+        stats = universe.merge(stats, on=cols, how="left", validate="one_to_one")
+        valid = stats[["row_count", "horizon_count", "actual_count", "prediction_count"]].eq(4).all(axis=1)
+        selected = stats.loc[valid, cols + ["actual_sum_usd", "predicted_sum_usd", "target_start", "target_end"]].copy()
+        selected["window"] = window
+        complete.append(selected)
+        missing = stats.loc[~valid, cols].copy()
+        missing["window"], missing["reason"] = window, "incomplete_four_quarters"
+        skipped.append(missing)
+    sums = pd.concat(complete, ignore_index=True)
     metrics = []
     if not sums.empty:
         for key, block in sums.groupby(["model_id", "variant", "window"]):
             metrics.append(dict(zip(["model_id", "variant", "window"], key)) |
                            metric_values(block.actual_sum_usd, block.predicted_sum_usd))
-    return sums, pd.DataFrame(metrics), pd.DataFrame(skipped)
+    return sums, pd.DataFrame(metrics), pd.concat(skipped, ignore_index=True)
 
 
 def git_state(root):
@@ -273,7 +282,7 @@ def resolve_model_params(config, reg_alpha=None, reg_lambda=None):
 def run_validation(root, run_id=None, max_origins=None, reg_alpha=None, reg_lambda=None):
     root = Path(root).resolve()
     train, validation, manifest, feature, split, model, removed, protected = load_inputs(root)
-    run_id = run_id or ("lightgbm_v001_initial_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
+    run_id = run_id or ("lightgbm_v002_initial_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
     if not re.fullmatch(r"[A-Za-z0-9_-]+", run_id) or run_id == "production":
         raise ValueError("Invalid experimental run_id")
     params = resolve_model_params(model, reg_alpha, reg_lambda)
@@ -297,14 +306,14 @@ def run_validation(root, run_id=None, max_origins=None, reg_alpha=None, reg_lamb
         "status": "running", "started_at_utc": datetime.now(timezone.utc).isoformat(),
         "smoke_only": max_origins is not None, "origins": origins,
         "dataset_version": manifest["dataset_version"], "protected_checksums": protected,
-        "manifest_sha256": sha256(root / "data/shared/v001/manifest.json"),
+        "manifest_sha256": sha256(root / "data/shared/v002/manifest.json"),
         "model_params": params, "training_config": model["training"],
         "parameter_overrides": {k: float(v) for k,v in [("reg_alpha",reg_alpha),("reg_lambda",reg_lambda)] if v is not None},
         "split_config": split, "macro_removed_columns": removed,
         "fit_pool_policy": "expanding: train plus earlier validation targets <= current origin; missing targets excluded",
         "historical_asof_verified": False, "origin_cutoff_at": None,
         "availability_limitation": manifest["availability_limitation"],
-        "ac_alignment_status": "document_rules_implemented; A/C code and row agreement not externally confirmed; no tuning",
+        "ac_alignment_status": "common expanding pool; cross-model row/fit hashes checked by scripts/evaluate.py; no tuning",
         "git": git_state(root), "python": platform.python_version(),
         "libraries": {name: importlib.metadata.version(name) for name in
                       ["lightgbm", "scikit-learn", "pandas", "numpy", "scipy", "pyarrow", "joblib", "PyYAML"]},
@@ -363,7 +372,9 @@ def run_validation(root, run_id=None, max_origins=None, reg_alpha=None, reg_lamb
             path = output / variant / origin
             path.mkdir(parents=True)
             joblib.dump(pipe, path / "pipeline.joblib", compress=3)
-            pipe.named_steps["model"].booster_.save_model(str(path / "model.txt"))
+            # Native Windows file APIs can reject the Korean workspace path.
+            # Serialize in memory and let Python write the exact model text.
+            (path / "model.txt").write_text(pipe.named_steps["model"].booster_.model_to_string(), encoding="utf-8")
             transformed = pipe.named_steps["transformer"].get_feature_names_out().tolist()
             write_json(path / "input_columns.json", {"manifest_selected": features, "raw_input_order": used,
                         "dropped_all_missing": dropped, "transformed_order": transformed,
@@ -429,7 +440,7 @@ def run_readme(root, run_id, summary, params):
 
 This is a current-revised-snapshot experiment, NOT a historically reproduced publication-as-of backtest.
 No 2026 final-test data, clustering data or operational predictions were read/generated.
-A/C implementation and row agreement is pending; no tuning has been performed.
+Cross-model row/fit agreement is checked separately by scripts/evaluate.py; no tuning has been performed.
 
 ## Re-run from repository root (PowerShell)
 ```
@@ -468,7 +479,7 @@ from pathlib import Path
 p = Path("artifacts/{run_id}/with_macro/2020Q4")
 cols = json.loads((p / "input_columns.json").read_text(encoding="utf-8"))
 model = joblib.load(p / "pipeline.joblib")
-rows = pd.read_parquet("data/shared/v001/validation.parquet")
+rows = pd.read_parquet("data/shared/v002/validation.parquet")
 rows = rows[rows.origin_quarter.eq("2020Q4")]
 predicted_usd = model.predict(prepare_x(rows, cols["raw_input_order"], cols["categorical"])).clip(min=0)
 ```
