@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 from oinq.modeling.supervised.lightgbm_final_test import (
-    check_features,check_test_inputs,select_scored_rows,test_metrics,TARGET,PRED)
+    check_features,check_test_inputs,select_scored_rows,test_metrics as calculate_test_metrics,TARGET,PRED)
 
 class FrozenFinalTestTests(unittest.TestCase):
     def test_target_metadata_cannot_be_input(self):
@@ -34,7 +34,7 @@ class FrozenFinalTestTests(unittest.TestCase):
     def test_metrics_report_h1_3_and_h2_3_without_annual_claim(self):
         df=pd.DataFrame({"country_code":["USA"]*3,"hs_code":["330410"]*3,
                          "horizon_quarters":[1,2,3],TARGET:[10.,10.,10.],PRED:[11.,12.,13.]})
-        result=test_metrics(df,"lightgbm",[2,3,4,5])
+        result=calculate_test_metrics(df,"lightgbm",[2,3,4,5])
         overall=result[result.group_by.eq("overall")].set_index("scope")
         self.assertEqual(overall.loc["h1_3","n"],3)
         self.assertEqual(overall.loc["h2_3","n"],2)
