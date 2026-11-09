@@ -87,8 +87,21 @@ def install_styles() -> None:
           [data-testid="stMain"] { scroll-behavior:smooth; }
           [data-testid="stMainBlockContainer"] { padding-top:1rem; padding-bottom:1rem; }
           .st-emotion-cache-8ezv7j { margin-left:.5rem !important; }
-          [class*="st-key-gem_nav_"] button { width:100%; justify-content:flex-start; text-align:left; }
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] button {
+            width:100% !important; justify-content:flex-start !important; text-align:left !important;
+          }
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] button > div {
+            width:100%; display:flex; align-items:center; justify-content:flex-start !important; gap:.55rem;
+          }
           [class*="st-key-gem_country_tab_"] button { width:100%; justify-content:center; }
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="stBaseButton-secondary"],
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"] {
+            background:#eef0f3 !important; border-color:transparent !important; color:var(--gem-ink) !important;
+          }
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="stBaseButton-secondary"]:hover,
+          [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"]:hover {
+            background:#e1e6eb !important; border-color:#d9dee7 !important;
+          }
           @media (max-width: 768px) {
             .st-emotion-cache-1mr5ib5 { min-width:calc(100% - 10px) !important; }
             .st-key-gem_country_tabs [data-testid="stHorizontalBlock"] {

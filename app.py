@@ -100,13 +100,18 @@ def main_app() -> None:
 
     st.sidebar.markdown("# GEM")
     st.sidebar.caption("Global Export Management")
-    menu_items = ["메인", "국가별 분석", "품목별 수요", "생산 시나리오"]
+    menu_items = [
+        ("메인", ":material/home:"),
+        ("국가별 분석", ":material/public:"),
+        ("품목별 수요", ":material/query_stats:"),
+        ("생산 시나리오", ":material/precision_manufacturing:"),
+    ]
     if "gem_main_navigation" not in st.session_state:
         st.session_state["gem_main_navigation"] = "메인"
     page_label = st.session_state["gem_main_navigation"]
-    for index, item in enumerate(menu_items):
+    for index, (item, icon) in enumerate(menu_items):
         st.sidebar.button(
-            item, key=f"gem_nav_{index}", use_container_width=True,
+            item, icon=icon, key=f"gem_nav_{index}", use_container_width=True,
             type="primary" if page_label == item else "secondary",
             on_click=_select_main_navigation, args=(item,),
         )
