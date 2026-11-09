@@ -1,0 +1,21 @@
+schema_version: 1
+params:
+  n_estimators: 16
+  criterion: squared_error
+  max_depth: null
+  min_samples_leaf: 1
+  max_features: 1.0
+  ccp_alpha: 0.0
+  bootstrap: false
+  random_state: 42
+  n_jobs: 6
+experiments:
+  depth: {parameter: max_depth, values: [8, 16, null]}
+  leaf: {parameter: min_samples_leaf, values: [1, 4, 16]}
+  features: {parameter: max_features, values: [0.4, 0.7, 1.0]}
+  pruned:
+    parameter: ccp_alpha
+    # Absolute USD^2 alphas from positive pruning-path quantiles of a pilot
+    # ExtraTree fitted ONLY at the earliest validation origin, per macro mode.
+    path_quantiles: [0.8, 0.95, 0.995]
+    include_unpruned: true
