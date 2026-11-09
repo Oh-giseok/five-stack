@@ -67,6 +67,29 @@ class ForecastRun:
     grid_audit: GridAudit
 
 
+def load_historical_exports(project_root: str | Path) -> pd.DataFrame:
+    """Load the released observed labels, retaining missing and partial statuses."""
+    root = Path(project_root)
+    frames = []
+    for name in ("train", "validation", "final_test"):
+        path = root / "data" / "shared" / "v002" / f"{name}.parquet"
+        if not path.is_file():
+            continue
+        frames.append(pd.read_parquet(path, columns=[
+            "country_code", "hs_code", "country_name", "product_name", "target_quarter",
+            "target_export_value_usd", "target_data_status", "target_observed_months",
+        ]))
+    if not frames:
+        return pd.DataFrame(columns=["country_code", "hs_code", "country_name", "product_name",
+                                     "target_quarter", "target_export_value_usd", "target_data_status",
+                                     "target_observed_months"])
+    frame = pd.concat(frames, ignore_index=True)
+    # Each label appears once per forecast origin; collapse the repeated target safely.
+    return (frame.sort_values("target_observed_months")
+            .drop_duplicates(["country_code", "hs_code", "target_quarter"], keep="last")
+            .sort_values(["country_code", "hs_code", "target_quarter"]).reset_index(drop=True))
+
+
 def discover_forecast_runs(project_root: str | Path) -> list[str]:
     """Return complete run IDs found under the private forecast output folder."""
     folder = Path(project_root) / ".private" / "forecasts"
