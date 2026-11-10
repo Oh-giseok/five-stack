@@ -64,6 +64,18 @@ def fit_record(rows, origin):
             "last_target": rows.target_quarter.max(), "fit_rows_sha256": frame_hash(rows, KEY)}
 
 
+def select_ridge_alpha(metrics):
+    """Select only on the team's primary h=2–5 validation window."""
+    ranking = metrics.loc[metrics.model_id.eq("ridge") & metrics.scope.eq("h2_5")
+                          & metrics.group_by.eq("overall")].sort_values(["wape", "alpha"])
+    if ranking.empty or not np.isfinite(ranking[["wape", "alpha"]].to_numpy(float)).all():
+        raise ValueError("Primary validation WAPE or alpha is undefined")
+    selected = ranking.drop_duplicates("variant").set_index("variant").alpha.to_dict()
+    if set(selected) != {"with_macro", "without_macro"}:
+        raise ValueError("Both macro variants require primary validation results")
+    return selected
+
+
 def run_training(root, run_id, *, publish=True):
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", run_id):
         raise ValueError("Invalid run ID")
@@ -111,16 +123,12 @@ def _run_training(root, run_id, publish):
         .assign(alpha=np.nan if alpha is None else alpha)
         for (_, alpha), part in predictions.groupby(["model_id", "alpha"], dropna=False)
     ], ignore_index=True)
-    ranking = metrics.loc[metrics.model_id.eq("ridge") & metrics.scope.eq("h1_5")
-                          & metrics.group_by.eq("overall")].sort_values(["wape", "alpha"])
-    if ranking.wape.isna().any():
-        raise ValueError("Validation WAPE is undefined")
-    selected = ranking.drop_duplicates("variant").set_index("variant").alpha.to_dict()
+    selected = select_ridge_alpha(metrics)
     predictions.to_csv(output / "validation_predictions.csv", index=False)
     metrics.to_csv(output / "validation_metrics.csv", index=False)
     pd.DataFrame(audit).to_csv(output / "validation_fit_audit.csv", index=False)
     write_json(output / "selection_lock.json", {
-        "criterion": "Lowest pooled validation h=1–5 WAPE; ties by smaller alpha",
+        "criterion": "Lowest pooled validation h=2–5 WAPE; ties by smaller alpha",
         "selected_alpha": selected, "grid_edge": {
             variant: alpha in (min(alphas), max(alphas)) for variant, alpha in selected.items()
         },
@@ -143,11 +151,16 @@ def _run_training(root, run_id, publish):
         columns = features[variant]
         alpha = selected[variant] if model == "ridge" else None
         pipe = fit_pipeline(frozen, columns, cats, model, config, alpha)
-        result = score(pipe, scoring, columns, cats, model, variant, minimum)
+        result = score(pipe, test.sort_values(KEY), columns, cats, model, variant, minimum)
         results.append(result.assign(alpha=np.nan if alpha is None else alpha))
-        reports.append(add_r2(test_metrics(result, model, primary, variant), result, {
+        observed = result.loc[result[TARGET].notna()]
+        reports.append(add_r2(test_metrics(observed, model, primary, variant), observed, {
             "h1_3": spec["horizon_quarters"], "h2_3": primary,
         }).assign(alpha=np.nan if alpha is None else alpha))
+        frozen_path = output / "test_models" / model / variant / "pipeline.joblib"
+        frozen_path.parent.mkdir(parents=True, exist_ok=True)
+        save_pipeline(frozen_path, pipe, columns, cats, manifest["dataset_version"],
+                      frozen.target_quarter.max(), prepare_x(test.head(32), columns, cats))
     pd.concat(results).to_csv(output / "final_test_predictions.csv", index=False)
     pd.concat(reports).to_csv(output / "final_test_metrics.csv", index=False)
 
@@ -177,6 +190,8 @@ def _run_training(root, run_id, publish):
         "availability_limitation": manifest["availability_limitation"], "config": config,
         "evaluation_rows_sha256": frame_hash(evaluation, KEY),
         "final_test_rows_sha256": frame_hash(scoring, KEY),
+        "final_test_prediction_rows_per_configuration": len(test),
+        "validation_primary_horizons": primary,
         "final_test_fit": fit_record(frozen, spec["origin_quarter"]),
         "deployment_fit": fit_record(deployment, deployment_origin),
         "excluded_missing": {"validation": len(val_missing), "final_test": len(test_missing)},

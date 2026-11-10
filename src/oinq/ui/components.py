@@ -93,7 +93,6 @@ def install_styles() -> None:
           [data-testid="stSidebar"] [class*="st-key-gem_nav_"] button > div {
             width:100%; display:flex; align-items:center; justify-content:flex-start !important; gap:.55rem;
           }
-          [class*="st-key-gem_country_tab_"] button { width:100%; justify-content:center; }
           [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="stBaseButton-secondary"],
           [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"] {
             background:#eef0f3 !important; border-color:transparent !important; color:var(--gem-ink) !important;
@@ -102,31 +101,37 @@ def install_styles() -> None:
           [data-testid="stSidebar"] [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"]:hover {
             background:#e1e6eb !important; border-color:#d9dee7 !important;
           }
-          @media (max-width: 768px) {
-            .st-emotion-cache-1mr5ib5 { min-width:calc(100% - 10px) !important; }
-            .st-key-gem_country_tabs [data-testid="stHorizontalBlock"] {
-              display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
-              width:100% !important; gap:.25rem !important; column-gap:.25rem !important;
-            }
-            .st-key-gem_country_tabs [data-testid="column"] {
-              display:block !important; flex:none !important; width:100% !important; min-width:0 !important;
-            }
-            .st-key-gem_country_tabs [data-testid="column"] [class*="st-key-gem_country_tab_"] button {
-              box-sizing:border-box !important; width:100% !important; min-width:0 !important;
-              padding-left:.1rem !important; padding-right:.1rem !important;
-              white-space:nowrap !important; font-size:.76rem !important; text-align:center !important;
-            }
-            .st-key-gem_country_tabs [data-testid="column"] [data-testid="stButton"],
-            .st-key-gem_country_tabs [data-testid="column"] [data-testid="stButton"] > div,
-            .st-key-gem_country_tabs [data-testid="column"] [class*="st-key-gem_country_tab_"] {
-              box-sizing:border-box !important; display:block !important; width:100% !important; min-width:0 !important;
-            }
-            .st-key-gem_country_tabs [data-testid="column"] [data-testid="stButton"] button,
-            .st-key-gem_country_tabs [data-testid="column"] [class*="st-key-gem_country_tab_"] button {
-              box-sizing:border-box !important; display:flex !important; align-items:center !important;
-              justify-content:center !important; width:100% !important; min-width:100% !important;
-              max-width:100% !important; height:2.5rem !important; margin:0 !important;
-            }
+          [data-testid="stMain"] [role="tablist"] {
+            justify-content:flex-start; gap:.35rem; border-bottom:1px solid var(--gem-line);
+          }
+          [data-testid="stMain"] [role="tab"] {
+            background:transparent !important; border:0 !important; border-radius:10px 10px 0 0;
+            padding:.7rem 1.1rem !important; margin:0; color:var(--gem-muted) !important;
+          }
+          [data-testid="stMain"] [role="tab"][aria-selected="true"] {
+            background:#e8f0f2 !important; color:#205f73 !important; font-weight:700;
+            box-shadow:inset 0 -3px 0 #205f73;
+          }
+          [data-testid="stMain"] [data-baseweb="tab-highlight"],
+          [data-testid="stMain"] [data-testid="stTabsActiveLine"] { display:none; }
+          [class*="st-key-gem_home_icon_"] {
+            width:84% !important; max-width:20rem; margin-inline:auto;
+            aspect-ratio:1; flex-shrink:0; container-type:inline-size; color:#205f73;
+          }
+          [class*="st-key-gem_home_icon_"] [data-testid="stMarkdownContainer"] p {
+            display:flex; justify-content:center; margin:0; line-height:1;
+          }
+          [class*="st-key-gem_home_icon_"] [data-testid="stMarkdownContainer"] span {
+            display:flex; align-items:center; justify-content:center;
+            width:100% !important; height:auto !important; aspect-ratio:1;
+            font-size:100cqw !important; line-height:1 !important;
+          }
+          [class*="st-key-gem_home_description_"] { min-height:4rem; }
+          [class*="st-key-gem_equal_panels_"] [data-testid="stPlotlyChart"] {
+            padding:0; border:0; box-shadow:inset 0 0 0 1px var(--gem-line);
+          }
+          @media (min-width:641px) {
+            [class*="st-key-gem_equal_panels_"] h3 { min-height:4.5rem; }
           }
           [data-testid="stBaseButton-primary"], [data-testid="baseButton-primary"], button[kind="primary"] {
             background:#205f73 !important; border:1px solid #205f73 !important;
@@ -154,15 +159,11 @@ def install_styles() -> None:
             background:#92400E !important; background-color:#92400E !important; border-color:#92400E !important;
           }
           [class*="st-key-gem_nav_"] [data-testid="stBaseButton-secondary"],
-          [class*="st-key-gem_country_tab_"] [data-testid="stBaseButton-secondary"],
-          [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"],
-          [class*="st-key-gem_country_tab_"] [data-testid="baseButton-secondary"] {
+          [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"] {
             background:#fff !important; border:1px solid var(--gem-line) !important; color:var(--gem-ink) !important;
           }
           [class*="st-key-gem_nav_"] [data-testid="stBaseButton-secondary"]:hover,
-          [class*="st-key-gem_country_tab_"] [data-testid="stBaseButton-secondary"]:hover,
-          [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"]:hover,
-          [class*="st-key-gem_country_tab_"] [data-testid="baseButton-secondary"]:hover {
+          [class*="st-key-gem_nav_"] [data-testid="baseButton-secondary"]:hover {
             background:#e8f0f2 !important; border-color:#9bb7bf !important;
           }
           [class*="st-key-gem_section_"] {
@@ -247,14 +248,15 @@ def format_percent(value: object, digits: int = 1) -> str:
     return f"{amount:,.{digits}f}%"
 
 
-def render_run_caption(metadata: dict, audit=None) -> None:
+def render_run_caption(metadata: dict, audit=None, *, show_context: bool = True) -> None:
     text = (
         f"기준분기 {metadata.get('origin_quarter', '미상')} · "
         f"모델 {metadata.get('model_id', '미상')} / {metadata.get('model_variant', '미상')} · "
         "예측 대상 2027Q1~Q4 · USD·FOB"
     )
-    st.caption(text)
-    if metadata.get("missing_input_rows", 0):
+    if show_context:
+        st.caption(text)
+    if show_context and metadata.get("missing_input_rows", 0):
         st.info(
             f"입력 변수 결측이 포함된 예측 {metadata['missing_input_rows']:,}행이 있습니다. "
             "각 행의 결측 수를 확인하세요. 과거 공개시점 재현은 검증되지 않았습니다."

@@ -38,9 +38,8 @@ def render(countries: list[dict], products: list[dict], run: ForecastRun | None 
     product_names = product_labels(products)
     with onepage_section("p05_inputs"):
         st.title("생산 시나리오 | 기업 가정 기반 계획")
-        st.caption("기업 입력값과 2027년 전망을 사용한 시나리오입니다. 예측 사실값이나 확정 생산 지시가 아닙니다.")
         if run is not None:
-            render_run_caption(run.metadata, run.grid_audit)
+            render_run_caption(run.metadata, run.grid_audit, show_context=False)
         with st.expander("기업 조건 입력", expanded="p05_scenario_inputs" not in st.session_state):
             with st.form("p05_scenario_form"):
                 left, middle, right = st.columns(3)
@@ -83,7 +82,7 @@ def render(countries: list[dict], products: list[dict], run: ForecastRun | None 
             display[col] = display[col].map(lambda value: "미확보" if pd.isna(value) else f"{value:,.1f}")
         chart_col, table_col = st.columns([1.2, 1], gap="large")
         with chart_col:
-            st.plotly_chart(chart, use_container_width=True)
+            st.plotly_chart(chart, width="stretch", alt="분기별 필요 생산량과 생산능력")
         with table_col:
-            st.dataframe(display, hide_index=True, use_container_width=True, height=450)
+            st.dataframe(display, hide_index=True, width="stretch", height=450, alt="분기별 생산 시나리오 계산 결과")
         st.caption("계산: 전망 수출액×목표 비중÷기업 단가로 수요를 환산하고, 안전재고 목표에서 시작 재고·입고를 차감합니다. 미확보 전망은 임의 보간하지 않습니다.")

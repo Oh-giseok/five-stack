@@ -7,10 +7,20 @@ import pytest
 from oinq.common.config import load_yaml
 from oinq.modeling.loader import load_model
 from oinq.modeling.supervised.lightgbm import TARGET, prepare_x, training_rows
-from oinq.modeling.supervised.linear_regression import fit_pipeline
+from oinq.modeling.supervised.linear_regression import fit_pipeline, select_ridge_alpha
 from oinq.modeling.supervised.random_forest import save_pipeline
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_ridge_selection_uses_h2_5_instead_of_better_h1_5_score():
+    records = []
+    for variant in ["with_macro", "without_macro"]:
+        for alpha, full_wape, primary_wape in [(1., 10., 40.), (10., 20., 30.)]:
+            for scope, wape in [("h1_5", full_wape), ("h2_5", primary_wape)]:
+                records.append(dict(model_id="ridge", variant=variant, alpha=alpha,
+                                    group_by="overall", scope=scope, wape=wape))
+    assert select_ridge_alpha(pd.DataFrame(records)) == {"with_macro": 10., "without_macro": 10.}
 
 
 @pytest.mark.parametrize("model,alpha", [("linear_regression", None), ("ridge", 1)])

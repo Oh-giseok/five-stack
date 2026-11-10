@@ -35,7 +35,7 @@ def render(countries: list[dict], products: list[dict], run: ForecastRun | None)
         if run is None:
             st.info("저장된 예측 결과가 없습니다. 사이드바의 공통 예측 설정에서 모델을 선택하세요.")
         else:
-            render_run_caption(run.metadata, run.grid_audit)
+            render_run_caption(run.metadata, run.grid_audit, show_context=False)
 
     if run is None:
         rank = pd.DataFrame()
@@ -48,18 +48,19 @@ def render(countries: list[dict], products: list[dict], run: ForecastRun | None)
             rank_rows.append({"품목": product["name_ko"], "예상 수출액 (백만 USD)": value / 1_000_000 if pd.notna(value) else math.nan})
         rank = pd.DataFrame(rank_rows).dropna().sort_values("예상 수출액 (백만 USD)")
 
-    rank_col, trend_col = st.columns(2, gap="large")
+    rank_col, trend_col = st.container(key="gem_equal_panels_products").columns(2, gap="large")
     with rank_col:
-        st.subheader(f"{countries_by_code[country]} | 2027 품목별 예상 수출액")
+        st.subheader("2027년 품목별 예상 수출액")
         if rank.empty:
             render_empty_result("완전한 연간 예측값이 없어 품목 순위를 표시할 수 없습니다.")
         else:
             fig = px.bar(rank, x="예상 수출액 (백만 USD)", y="품목", orientation="h", color_discrete_sequence=["#EA580C"])
-            fig.update_layout(height=390, xaxis_title="예상 수출액 (백만 USD)", yaxis_title="품목", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(height=440, margin={"l":20,"r":20,"t":55,"b":55},
+                              xaxis_title="예상 수출액 (백만 USD)", yaxis_title="품목", showlegend=False)
+            st.plotly_chart(fig, width="stretch", alt="선택 국가의 품목별 연간 예상 수출액")
 
     with trend_col:
-        st.subheader(f"{countries_by_code[country]} · {product_names[hs_code]} | 실제 실적과 2027년 전망")
+        st.subheader("선택 품목의 실제 실적·전망")
         root = Path(__file__).resolve().parents[4]
         observed = _history(str(root))
         observed = observed.loc[observed.country_code.astype(str).eq(country) & observed.hs_code.astype(str).eq(hs_code)].copy()
@@ -79,8 +80,9 @@ def render(countries: list[dict], products: list[dict], run: ForecastRun | None)
                 fig.add_trace(go.Scatter(x=forecast.target_quarter.astype(str), y=forecast.predicted_export_value_usd / 1_000_000,
                     name="2027 예측", mode="lines+markers", connectgaps=False, line={"color":"#d48a28", "width":3, "dash":"dash"}))
         if len(fig.data):
-            fig.update_layout(height=390, xaxis_title="분기", yaxis_title="수출액 (백만 USD)", hovermode="x unified", legend={"orientation":"h", "y":1.12})
-            st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(height=440, margin={"l":20,"r":20,"t":55,"b":55},
+                              xaxis_title="분기", yaxis_title="수출액 (백만 USD)", hovermode="x unified", legend={"orientation":"h", "y":1.12})
+            st.plotly_chart(fig, width="stretch", alt="선택 품목의 과거 실적과 2027년 수출 전망")
         else:
             render_empty_result("선택한 국가·품목의 실적과 전망 자료가 없습니다.")
         st.caption("실적은 2013Q1–2026Q3이며 2026년은 1~9월 누적입니다. 실제 0과 결측·미확보는 구분하며, 2026Q4는 비워 둡니다.")

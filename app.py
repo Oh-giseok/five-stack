@@ -49,10 +49,6 @@ def _select_main_navigation(page: str) -> None:
     st.session_state["gem_main_navigation"] = page
 
 
-def _select_country_navigation(page: str) -> None:
-    st.session_state["gem_country_navigation"] = page
-
-
 def _select_forecast():
     models = saved_forecast_models(ROOT)
     if not models:
@@ -67,7 +63,8 @@ def _select_forecast():
                                    key=f"gem_variant_{model_id}")
     key = f"{model_id}/{variant}"
     path = models[key]
-    if model_id in {"random_forest", "elastic_net"}:
+    if model_id in {"random_forest", "elastic_net", "linear_regression", "ridge",
+                    "linear_regression_test_2025Q4", "ridge_test_2025Q4", "mlp_64_32"}:
         try:
             stat = path.stat()
             cutoff = _training_end(str(path), stat.st_size, stat.st_mtime_ns)
@@ -117,22 +114,18 @@ def main_app() -> None:
             on_click=_select_main_navigation, args=(item,),
         )
     subpage = None
+    country_tabs = None
     if page_label == "국가별 분석":
         st.title("국가별 분석")
-        st.subheader(st.session_state.get("gem_country_navigation", "수출 현황"))
         country_items = ["수출 현황", "수출 전망", "유사 국가"]
-        if "gem_country_navigation" not in st.session_state:
-            st.session_state["gem_country_navigation"] = country_items[0]
+        # Keep the chosen view when the tab widget is absent on another page.
+        if "gem_country_tab_selection" not in st.session_state:
+            st.session_state["gem_country_tab_selection"] = st.session_state.get(
+                "gem_country_navigation", country_items[0])
         with st.container(key="gem_country_tabs"):
-            country_cols = st.columns(len(country_items), gap="small")
-            for index, (column, item) in enumerate(zip(country_cols, country_items)):
-                with column:
-                    st.button(
-                        item, key=f"gem_country_tab_{index}", use_container_width=True,
-                        type="primary" if st.session_state["gem_country_navigation"] == item else "secondary",
-                        on_click=_select_country_navigation, args=(item,),
-                    )
-        subpage = st.session_state["gem_country_navigation"]
+            country_tabs = st.tabs(country_items, key="gem_country_tab_selection", on_change="rerun")
+        subpage = st.session_state["gem_country_tab_selection"]
+        st.session_state["gem_country_navigation"] = subpage
     uses_forecasts = page_label in {"품목별 수요", "생산 시나리오"} or (
         page_label == "국가별 분석" and subpage == "수출 전망"
     )
@@ -143,12 +136,15 @@ def main_app() -> None:
 
     if page_label == "메인":
         main.render(COUNTRIES, PRODUCTS, run)
-    elif page_label == "국가별 분석" and subpage == "수출 현황":
-        countries.render_history(COUNTRIES, PRODUCTS, run)
-    elif page_label == "국가별 분석" and subpage == "수출 전망":
-        countries.render_comparison(COUNTRIES, PRODUCTS, run)
     elif page_label == "국가별 분석":
-        countries.render_similar(COUNTRIES, PRODUCTS)
+        active = country_tabs[country_items.index(subpage)]
+        with active:
+            if subpage == "수출 현황":
+                countries.render_history(COUNTRIES, PRODUCTS, run)
+            elif subpage == "수출 전망":
+                countries.render_comparison(COUNTRIES, PRODUCTS, run)
+            else:
+                countries.render_similar(COUNTRIES, PRODUCTS)
     elif page_label == "품목별 수요":
         products.render(COUNTRIES, PRODUCTS, run)
     elif page_label == "생산 시나리오":

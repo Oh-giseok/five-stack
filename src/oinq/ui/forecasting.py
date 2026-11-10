@@ -10,7 +10,11 @@ from oinq.ui.data import discover_forecast_runs
 
 
 MODEL_LABELS = {"random_forest": "Random Forest", "elastic_net": "ElasticNet",
-                "xgboost_l2": "XGBoost L2", "xgboost": "XGBoost", "lightgbm": "LightGBM", "catboost": "CatBoost"}
+                "xgboost_l2": "XGBoost L2", "xgboost": "XGBoost", "lightgbm": "LightGBM", "catboost": "CatBoost",
+                "linear_regression": "Linear Regression (2026Q3 학습)",
+                "linear_regression_test_2025Q4": "Linear Regression (2025Q4 학습)",
+                "ridge": "Ridge (2026Q3 학습)", "ridge_test_2025Q4": "Ridge (2025Q4 학습)",
+                "mlp_64_32": "MLP (64, 32)"}
 VARIANT_LABELS = {"with_macro": "거시지표 포함", "without_macro": "거시지표 제외"}
 
 

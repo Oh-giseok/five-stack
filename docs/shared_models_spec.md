@@ -28,6 +28,8 @@ artifacts/shared_models/
 
 모델 비교 화면의 공용 실행 데이터는 `data/shared/model_comparison/summary.json` 1개로 관리한다. 모델별 성능값·2027년 예상 수출액·평가 조건·모델 및 공통 입력 체크섬만 포함한다. 개인 실행 경로와 행별 실험 기록은 넣지 않는다. 이 파일은 화면 구동용이며, `shared_models/`에는 계속 모델 파일만 저장한다. ElasticNet의 2025Q4 테스트용 모델은 `elastic_net_test_2025Q4/`에서 운영용 `elastic_net/`과 구분한다.
 
+일반 선형회귀·Ridge의 2025Q4 테스트용 모델은 `linear_regression_test_2025Q4/`, `ridge_test_2025Q4/`에 저장한다. 기존 `linear_regression/`, `ridge/`의 2026Q3 운영 모델은 보존하며, 운영 모델에 2026년 최종 테스트 점수를 붙이지 않는다. MLP의 두 은닉층 모델은 `mlp_64_32/`에 2025Q4 학습본을 저장한다. 각 경로 아래의 거시 포함·제외 구분은 동일하다.
+
 ## 3. joblib 저장 기준
 
 - 새 모델은 학습 완료된 Pipeline을 저장한다. `fit()` 전 객체나 모델 클래스·학습 코드만 저장하지 않는다.

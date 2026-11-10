@@ -931,6 +931,218 @@
       "validation": null,
       "test": null,
       "forecast_2027_usd": 4950378155.980328
+    },
+    {
+      "model_id": "ridge_test_2025Q4",
+      "model_name": "Ridge",
+      "experiment": "L2 (alpha=1000)",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "공통 h=2~5 검증·2025Q4 고정 테스트용 모델",
+      "model_path": "artifacts/shared_models/ridge_test_2025Q4/without_macro/pipeline.joblib",
+      "model_sha256": "75451a58f738f1cd0eb65d2b95c9d20238f25cfce522893db4590187ec82cb83",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 34.337202235266304,
+        "mae": 3701704.2511119475,
+        "rmse": 23691109.678177003,
+        "r2": 0.8122086462631126
+      },
+      "test": {
+        "n": 447,
+        "wape": 27.82179988543384,
+        "mae": 3983462.4695406086,
+        "rmse": 16530307.946793625,
+        "r2": 0.9231674383498762
+      },
+      "forecast_2027_usd": 10299673439.85202
+    },
+    {
+      "model_id": "ridge_test_2025Q4",
+      "model_name": "Ridge",
+      "experiment": "L2 (alpha=10000)",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "공통 h=2~5 검증·2025Q4 고정 테스트용 모델",
+      "model_path": "artifacts/shared_models/ridge_test_2025Q4/with_macro/pipeline.joblib",
+      "model_sha256": "3899ddb6df49e7b97c43ea253fb4ce3a2f17a4238dc742ee7a2fa835adb6c108",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 34.492494003008595,
+        "mae": 3718445.3994698054,
+        "rmse": 21462785.30162653,
+        "r2": 0.8458736305295329
+      },
+      "test": {
+        "n": 447,
+        "wape": 29.4919899594151,
+        "mae": 4222596.512057637,
+        "rmse": 18541600.462664228,
+        "r2": 0.9033330843326853
+      },
+      "forecast_2027_usd": 8464922137.273319
+    },
+    {
+      "model_id": "linear_regression_test_2025Q4",
+      "model_name": "Linear Regression",
+      "experiment": "기본",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "공통 h=2~5 검증·2025Q4 고정 테스트용 모델",
+      "model_path": "artifacts/shared_models/linear_regression_test_2025Q4/without_macro/pipeline.joblib",
+      "model_sha256": "2fbb20af27ffa98d4e3b9d1edfd6c7759220bc3d9ee20481cff6c045e6b71f4d",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 35.46930380508891,
+        "mae": 3823749.8727962556,
+        "rmse": 25871167.821952213,
+        "r2": 0.7760573297293825
+      },
+      "test": {
+        "n": 447,
+        "wape": 28.40586344606389,
+        "mae": 4067087.370991149,
+        "rmse": 16347206.772977978,
+        "r2": 0.9248601131709213
+      },
+      "forecast_2027_usd": 11127974813.767412
+    },
+    {
+      "model_id": "linear_regression_test_2025Q4",
+      "model_name": "Linear Regression",
+      "experiment": "기본",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "공통 h=2~5 검증·2025Q4 고정 테스트용 모델",
+      "model_path": "artifacts/shared_models/linear_regression_test_2025Q4/with_macro/pipeline.joblib",
+      "model_sha256": "fba3a91587d85e0ab5e98e23973716c6686ebf6fa94e56914ef4d0399673418c",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 36.011849102144375,
+        "mae": 3882238.686729626,
+        "rmse": 25821210.195058737,
+        "r2": 0.776921368236365
+      },
+      "test": {
+        "n": 447,
+        "wape": 28.730932050502016,
+        "mae": 4113629.9595777043,
+        "rmse": 16357977.985111455,
+        "r2": 0.924761060860336
+      },
+      "forecast_2027_usd": 10609312190.683966
+    },
+    {
+      "model_id": "mlp_64_32",
+      "model_name": "MLP",
+      "experiment": "은닉층 (64, 32)",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "전달받은 설정의 20개 origin 검증·저장 모델 재현 확인",
+      "model_path": "artifacts/shared_models/mlp_64_32/without_macro/pipeline.joblib",
+      "model_sha256": "a8dae6cf1ed94f0b55e2e141c93acef00edc6093b48dd013b08e1818fc5ece0d",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 36.931753609084396,
+        "mae": 3981408.5142719396,
+        "rmse": 25222699.93372701,
+        "r2": 0.7871430021356951
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.122257551013032,
+        "mae": 3596948.0952591896,
+        "rmse": 12743688.303156434,
+        "r2": 0.9543360258302618
+      },
+      "forecast_2027_usd": 8324528060.172932
+    },
+    {
+      "model_id": "mlp_64_32",
+      "model_name": "MLP",
+      "experiment": "은닉층 (64, 32)",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "전달받은 설정의 20개 origin 검증·저장 모델 재현 확인",
+      "model_path": "artifacts/shared_models/mlp_64_32/with_macro/pipeline.joblib",
+      "model_sha256": "a0710c29736caad63fbb8e7f034d07fa24b4836e0642ef783c19b9d07705bb3f",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 42.554397518773136,
+        "mae": 4587554.720371602,
+        "rmse": 22418088.739659086,
+        "r2": 0.8318480322318674
+      },
+      "test": {
+        "n": 447,
+        "wape": 27.37415540644651,
+        "mae": 3919369.744084817,
+        "rmse": 14022525.506930066,
+        "r2": 0.944711360664195
+      },
+      "forecast_2027_usd": 8036526145.871472
+    },
+    {
+      "model_id": "linear_regression",
+      "model_name": "Linear Regression",
+      "experiment": "운영용 (2026Q3 학습)",
+      "variant": "with_macro",
+      "status": "운영용·비교 제외",
+      "detail": "받아온 2026Q3 운영본 보존. 테스트용 점수와 분리",
+      "model_path": "artifacts/shared_models/linear_regression/with_macro/pipeline.joblib",
+      "model_sha256": "2bbd4f005bc25d3e3220e5c4836c6c15c94adab95b6b087712a96ae45edb596e",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 10973103032.781593
+    },
+    {
+      "model_id": "linear_regression",
+      "model_name": "Linear Regression",
+      "experiment": "운영용 (2026Q3 학습)",
+      "variant": "without_macro",
+      "status": "운영용·비교 제외",
+      "detail": "받아온 2026Q3 운영본 보존. 테스트용 점수와 분리",
+      "model_path": "artifacts/shared_models/linear_regression/without_macro/pipeline.joblib",
+      "model_sha256": "a35c998e3ac9276e65267e84929667838c190ffdb4a593805d28c8d294a952f5",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 11378231085.202015
+    },
+    {
+      "model_id": "ridge",
+      "model_name": "Ridge",
+      "experiment": "운영용 (2026Q3 학습)",
+      "variant": "with_macro",
+      "status": "운영용·비교 제외",
+      "detail": "받아온 2026Q3 운영본 보존. 테스트용 점수와 분리",
+      "model_path": "artifacts/shared_models/ridge/with_macro/pipeline.joblib",
+      "model_sha256": "20abbc2c4d61585fda87aca3c1aebe753349f6b63edcc856f6bfeb4309dcadc4",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 8678948677.070095
+    },
+    {
+      "model_id": "ridge",
+      "model_name": "Ridge",
+      "experiment": "운영용 (2026Q3 학습)",
+      "variant": "without_macro",
+      "status": "운영용·비교 제외",
+      "detail": "받아온 2026Q3 운영본 보존. 테스트용 점수와 분리",
+      "model_path": "artifacts/shared_models/ridge/without_macro/pipeline.joblib",
+      "model_sha256": "9fdf9abb0ecf9f8be1cd5e43141254e24621c40db392aa4a05af0611fa4eae0e",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 10533655195.699535
     }
   ],
   "shared_inputs_sha256": {

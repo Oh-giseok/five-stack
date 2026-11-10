@@ -32,7 +32,6 @@ def render_history(countries: list[dict], products: list[dict], run: ForecastRun
     labels = country_labels(countries)
     root = Path(__file__).resolve().parents[4]
     with onepage_section("p02_actual_filters"):
-        st.caption("실제 관측 수출액 · USD·FOB · 2013Q1–2026Q3")
         left, middle, right, view_col = st.columns(4)
         with left:
             grain = st.selectbox("기간 단위", ["분기", "연간"], key="actual_grain")
@@ -46,7 +45,11 @@ def render_history(countries: list[dict], products: list[dict], run: ForecastRun
         frame = _historical(str(root))
         periods = sorted(frame.target_quarter.astype(str).unique())
         period_options = sorted(set(p[:4] for p in periods)) if grain == "연간" else periods
-        period = st.selectbox("국가 비교 기간", period_options, index=len(period_options)-1 if period_options else 0, key="actual_period") if period_options else None
+        period_col, plot_col = st.columns([3, 1], vertical_alignment="bottom")
+        with period_col:
+            period = st.selectbox("국가 비교 기간", period_options, index=len(period_options)-1 if period_options else 0, key="actual_period") if period_options else None
+        with plot_col:
+            plot_kind = st.radio("표현", ["선", "막대"], horizontal=True, key="actual_plot_kind")
     if frame.empty or period is None:
         with onepage_section("p02_actual_compare"):
             render_empty_result("공유된 실제 수출 자료를 찾을 수 없습니다.")
@@ -87,7 +90,7 @@ def render_history(countries: list[dict], products: list[dict], run: ForecastRun
     trend["백만 USD"] = trend["수출액"] / 1_000_000
     if range_choice == "최근 5년":
         trend = trend.loc[trend["기간"].astype(str).str[:4].astype(int).ge(2022)]
-    compare_col, trend_col = st.columns(2, gap="large")
+    compare_col, trend_col = st.container(key="gem_equal_panels_history").columns(2, gap="large")
     with compare_col:
         st.subheader(f"{period} 실제 수출액 | 국가 비교")
         if chosen.empty:
@@ -95,20 +98,21 @@ def render_history(countries: list[dict], products: list[dict], run: ForecastRun
         else:
             chosen["백만 USD"] = chosen.value / 1_000_000
             fig = px.bar(chosen, x="백만 USD", y="국가명", orientation="h", color_discrete_sequence=["#0F766E"])
-            fig.update_layout(height=max(390, 20*len(chosen)+60), xaxis_title="실제 수출액 (백만 USD)", yaxis_title="국가", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(height=520, margin={"l":20,"r":20,"t":30,"b":55},
+                              xaxis_title="실제 수출액 (백만 USD)", yaxis_title="국가", showlegend=False)
+            st.plotly_chart(fig, width="stretch", alt="선택 기간의 국가별 실제 수출액")
     with trend_col:
         label = "연간" if grain == "연간" else "분기"
         st.subheader(f"{labels[focus]} | 실제 수출 {label} 추이")
         if trend["백만 USD"].notna().any():
-            plot_kind = st.radio("표현", ["선", "막대"], horizontal=True, key="actual_plot_kind")
             if plot_kind == "선":
                 fig = px.line(trend, x="기간", y="백만 USD", markers=True)
                 fig.update_traces(connectgaps=False)
             else:
                 fig = px.bar(trend, x="기간", y="백만 USD", color_discrete_sequence=["#38BDF8"])
-            fig.update_layout(height=390, xaxis_title="연도" if grain == "연간" else "분기", yaxis_title="실제 수출액 (백만 USD)", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(height=520, margin={"l":20,"r":20,"t":30,"b":55},
+                              xaxis_title="연도" if grain == "연간" else "분기", yaxis_title="실제 수출액 (백만 USD)", showlegend=False)
+            st.plotly_chart(fig, width="stretch", alt="선택 국가의 실제 수출액 시계열 추이")
         else:
             render_empty_result("선택한 국가·품목에 실제 관측값이 없습니다.")
         st.caption("2026년은 1~9월 누적입니다. 결측 구간은 연결하거나 0으로 채우지 않습니다. 0은 실제 수출액 0으로 유지됩니다.")
@@ -262,19 +266,19 @@ def render_similar(countries: list[dict], products: list[dict]) -> None:
     if view == "군집 분포":
         selected = results.loc[results.window_id.eq(window)]
         label = WINDOW_LABELS[window]
-        distribution_col, details_col = st.columns([1.15, 1], gap="large")
+        missing = int(selected.cluster_id.isna().sum())
+        st.caption(f"{label} · 전체 {len(selected)}개국 · 분류 {len(selected) - missing}개국 · 미분류 {missing}개국")
+        distribution_col, details_col = st.container(key="gem_equal_panels_clusters").columns(2, gap="large")
         with distribution_col:
-            st.subheader(f"{label} | 국가 특성·군집 분포")
-            missing = int(selected.cluster_id.isna().sum())
-            st.caption(f"전체 {len(selected)}개국 · 분류 {len(selected) - missing}개국 · 미분류 {missing}개국")
+            st.subheader("국가 특성·군집 분포")
             st.plotly_chart(distribution_figure(results, window), width="stretch", theme=None,
                             key="p02b_distribution", alt="1인당 GDP와 인터넷 이용률에 따른 국가 군집, 점 면적은 인구")
             st.caption("X축=1인당 GDP · Y축=인터넷 이용률 · 점 면적=인구 · 색상=군집. 축 범위와 인구 크기 척도는 기간 간 동일합니다.")
             if missing:
                 st.info(f"입력 결측으로 미분류된 {missing}개국은 아래 표에 유지합니다. 좌표가 없는 국가는 산점도에 표시하지 않습니다.")
         with details_col:
-            st.subheader(f"{label} | 전체 국가의 군집·경제지표·수출 맥락")
-            st.dataframe(distribution_table(selected), hide_index=True, width="stretch", height=620,
+            st.subheader("국가별 군집·경제지표")
+            st.dataframe(distribution_table(selected), hide_index=True, width="stretch", height=520,
                          alt="미분류를 포함한 20개국 군집과 실제 지표 관측 연도 및 관측 수출액")
             st.caption("관측 수출액은 확보된 월·품목의 합계입니다. 수출 집계 상태를 함께 확인하세요. 수출액은 군집 학습에 사용하지 않습니다.")
         return
@@ -283,11 +287,13 @@ def render_similar(countries: list[dict], products: list[dict]) -> None:
     values = country_history(results, country)
     values["기간"] = values.window_id.astype(str).map(WINDOW_LABELS)
     value_col = f"{indicator}_observed_mean"
-    history_col, details_col = st.columns(2, gap="large")
+    history_col, details_col = st.container(key="gem_equal_panels_cluster_history").columns(2, gap="large")
     with history_col:
         st.subheader(f"{labels[country]} | {axis_title} 기간별 변화")
         if values[value_col].notna().any():
-            st.plotly_chart(history_figure(values, indicator, axis_title), width="stretch", theme=None,
+            figure = history_figure(values, indicator, axis_title)
+            figure.update_layout(height=520)
+            st.plotly_chart(figure, width="stretch", theme=None,
                             key="p02b_history", alt="다섯 분석기간의 국가 경제지표 추이와 군집 변화")
         else:
             render_empty_result("선택한 지표의 관측값이 없습니다.")
@@ -299,5 +305,5 @@ def render_similar(countries: list[dict], products: list[dict]) -> None:
             "start_month": "시작월", "end_month": "종료월", value_col: axis_title,
             observed_years: "실제 관측 연도", "missing_features": "군집 입력 결측",
         })
-        st.dataframe(display, hide_index=True, width="stretch", alt="결측과 미분류를 유지한 다섯 기간의 국가 지표 및 군집")
+        st.dataframe(display, hide_index=True, width="stretch", height=520, alt="결측과 미분류를 유지한 다섯 기간의 국가 지표 및 군집")
         st.caption("지표는 확보된 실제 관측 연도의 평균입니다. 결측은 0으로 대체하지 않습니다.")
