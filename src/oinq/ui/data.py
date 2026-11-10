@@ -90,6 +90,28 @@ def load_historical_exports(project_root: str | Path) -> pd.DataFrame:
             .sort_values(["country_code", "hs_code", "target_quarter"]).reset_index(drop=True))
 
 
+def load_monthly_exports(project_root: str | Path, country_codes, hs_codes) -> pd.DataFrame:
+    """Load the display-only v003 release, including observed partial sums."""
+    path = Path(project_root) / "data/shared/history/customs_monthly_hs6.parquet"
+    columns = ["country_code", "hs_code", "period_month", "export_value_usd", "currency", "valuation"]
+    frame = pd.read_parquet(path, columns=columns)
+    keys = ["country_code", "hs_code", "period_month"]
+    months = pd.period_range("2013-01", "2026-09", freq="M").astype(str).tolist()
+    expected = set(product(map(str, country_codes), map(str, hs_codes), months))
+    if frame[keys].isna().any().any() or frame.duplicated(keys).any():
+        raise ResultDataError("관세청 실적의 국가·품목·월 키에 누락 또는 중복이 있습니다.")
+    if set(frame[keys].itertuples(index=False, name=None)) != expected:
+        raise ResultDataError("화면용 관세청 실적의 국가·품목·기간 범위를 확인하세요.")
+    if set(frame.currency.dropna()) != {"USD"} or set(frame.valuation.dropna()) != {"FOB"}:
+        raise ResultDataError("실적의 통화·평가기준이 USD·FOB와 다릅니다.")
+    values = pd.to_numeric(frame.export_value_usd, errors="raise")
+    if values.dropna().lt(0).any() or values.dropna().isin([float("inf"), -float("inf")]).any():
+        raise ResultDataError("실적에 음수 또는 유한하지 않은 금액이 있습니다.")
+    frame["year"] = frame.period_month.str[:4].astype(int)
+    frame["quarter"] = pd.PeriodIndex(frame.period_month, freq="M").asfreq("Q").astype(str)
+    return frame
+
+
 def discover_forecast_runs(project_root: str | Path) -> list[str]:
     """Return complete run IDs found under the private forecast output folder."""
     folder = Path(project_root) / ".private" / "forecasts"

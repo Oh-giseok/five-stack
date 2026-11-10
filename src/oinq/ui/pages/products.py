@@ -1,90 +1,101 @@
-"""Integrated product demand ranking and observed/forecast trend."""
-
+"""Product demand cards with forecast ranking and observed/forecast timeline."""
 from pathlib import Path
 import math
 
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.express as px
 import streamlit as st
 
-from oinq.ui.components import country_labels, product_labels, onepage_section, render_empty_result, render_run_caption
-from oinq.ui.data import ForecastRun, load_historical_exports
+from oinq.ui.components import (
+    country_labels, product_labels, install_analysis_styles,
+    render_empty_result, render_run_caption, render_export_timeline,
+)
+from oinq.ui.country_charts import forecast_series, history_series, ranking_figure
+from oinq.ui.data import ForecastRun, load_monthly_exports
 
 
-@st.cache_data(show_spinner=False, max_entries=1)
-def _history(root: str):
-    return load_historical_exports(root)
+@st.cache_data(show_spinner=False, max_entries=2)
+def _history(root: str, country_codes: tuple, hs_codes: tuple, signature: tuple):
+    del signature
+    return load_monthly_exports(root, country_codes, hs_codes)
 
 
 def _open_production() -> None:
     st.session_state["gem_main_navigation"] = "생산 시나리오"
 
 
+def _ranking_records(run, country, products, period):
+    records = []
+    frequency = "연간" if period == "2027년 연간" else "분기"
+    for product in products:
+        if run is None:
+            row = {"value_usd": math.nan, "status": "forecast", "valid_count": 0,
+                   "expected_count": 4 if frequency == "연간" else 1}
+        else:
+            values = forecast_series(run, country, product["hs_code"], frequency)
+            selected = values.iloc[0] if frequency == "연간" else values.loc[values.period.eq(period)].iloc[0]
+            row = selected.to_dict()
+        records.append({**row, "code": product["hs_code"], "label": product["name_ko"]})
+    return pd.DataFrame(records)
+
+
 def render(countries: list[dict], products: list[dict], run: ForecastRun | None) -> None:
-    countries_by_code = country_labels(countries)
+    country_names = country_labels(countries)
     product_names = product_labels(products)
-    with onepage_section("product_filters"):
-        st.title("품목별 수요")
-        st.caption("국가 내 8개 품목의 2027년 전망 순위와 선택 품목의 과거 실적·전망을 확인합니다.")
-        left, right = st.columns(2)
-        with left:
-            country = st.selectbox("국가", list(countries_by_code), format_func=countries_by_code.get, key="gem_selected_country")
-        with right:
-            hs_code = st.selectbox("상세 품목", list(product_names), format_func=product_names.get, key="gem_selected_product")
+    short_countries = {row["iso3"]: row["name_ko"] for row in countries}
+    short_products = {row["hs_code"]: row["name_ko"] for row in products}
+    install_analysis_styles("products")
+    with st.container(key="gem_products_page"):
+        st.title("품목별 수요", anchor=False)
+        st.caption("어떤 품목을 어느 분기에 수출할지 비교합니다.")
+        with st.container(border=True, key="gem_products_filters_selection"):
+            a, b, c = st.columns([1.2, 1.8, 1])
+            with a:
+                country = st.selectbox("국가", list(country_names), format_func=country_names.get,
+                                        key="gem_selected_country", persist_state="session")
+            with b:
+                hs_code = st.selectbox("품목", list(product_names), format_func=product_names.get,
+                                        key="gem_selected_product", persist_state="session")
+            with c:
+                period = st.selectbox("품목 비교 기간", ["2027년 연간", "2027Q1", "2027Q2", "2027Q3", "2027Q4"],
+                                       key="product_period")
         if run is None:
             st.info("저장된 예측 결과가 없습니다. 사이드바의 공통 예측 설정에서 모델을 선택하세요.")
         else:
             render_run_caption(run.metadata, run.grid_audit, show_context=False)
-
-    if run is None:
-        rank = pd.DataFrame()
-    else:
-        annual = run.annual.loc[run.annual.country_code.astype(str).eq(country)]
-        rank_rows = []
-        for product in products:
-            matched = annual.loc[annual.hs_code.astype(str).eq(product["hs_code"])]
-            value = matched.iloc[0]["predicted_annual_export_value_usd"] if not matched.empty else math.nan
-            rank_rows.append({"품목": product["name_ko"], "예상 수출액 (백만 USD)": value / 1_000_000 if pd.notna(value) else math.nan})
-        rank = pd.DataFrame(rank_rows).dropna().sort_values("예상 수출액 (백만 USD)")
-
-    rank_col, trend_col = st.container(key="gem_equal_panels_products").columns(2, gap="large")
-    with rank_col:
-        st.subheader("2027년 품목별 예상 수출액")
-        if rank.empty:
-            render_empty_result("완전한 연간 예측값이 없어 품목 순위를 표시할 수 없습니다.")
-        else:
-            fig = px.bar(rank, x="예상 수출액 (백만 USD)", y="품목", orientation="h", color_discrete_sequence=["#EA580C"])
-            fig.update_layout(height=440, margin={"l":20,"r":20,"t":55,"b":55},
-                              xaxis_title="예상 수출액 (백만 USD)", yaxis_title="품목", showlegend=False)
-            st.plotly_chart(fig, width="stretch", alt="선택 국가의 품목별 연간 예상 수출액")
-
-    with trend_col:
-        st.subheader("선택 품목의 실제 실적·전망")
         root = Path(__file__).resolve().parents[4]
-        observed = _history(str(root))
-        observed = observed.loc[observed.country_code.astype(str).eq(country) & observed.hs_code.astype(str).eq(hs_code)].copy()
-        observed["분기"] = observed.target_quarter.astype(str)
-        actual = observed.copy()
-        valid = actual.target_data_status.astype(str).isin(["actual", "partial"])
-        actual["chart_value"] = (actual.target_export_value_usd / 1_000_000).where(valid)
-        fig = go.Figure()
-        if not actual.empty and valid.any():
-            fig.add_trace(go.Scatter(x=actual["분기"], y=actual.chart_value, name="실제 실적",
-                mode="lines+markers", connectgaps=False, line={"color":"#205f73", "width":2},
-                customdata=actual[["target_data_status", "target_observed_months"]],
-                hovertemplate="%{x}<br>%{y:,.2f} 백만 USD<br>상태: %{customdata[0]}<br>관측 월: %{customdata[1]}<extra>실제 실적</extra>"))
-        if run is not None:
-            forecast = run.quarterly.loc[run.quarterly.country_code.astype(str).eq(country) & run.quarterly.hs_code.astype(str).eq(hs_code)].sort_values("target_quarter")
-            if not forecast.empty:
-                fig.add_trace(go.Scatter(x=forecast.target_quarter.astype(str), y=forecast.predicted_export_value_usd / 1_000_000,
-                    name="2027 예측", mode="lines+markers", connectgaps=False, line={"color":"#d48a28", "width":3, "dash":"dash"}))
-        if len(fig.data):
-            fig.update_layout(height=440, margin={"l":20,"r":20,"t":55,"b":55},
-                              xaxis_title="분기", yaxis_title="수출액 (백만 USD)", hovermode="x unified", legend={"orientation":"h", "y":1.12})
-            st.plotly_chart(fig, width="stretch", alt="선택 품목의 과거 실적과 2027년 수출 전망")
-        else:
-            render_empty_result("선택한 국가·품목의 실적과 전망 자료가 없습니다.")
-        st.caption("실적은 2013Q1–2026Q3이며 2026년은 1~9월 누적입니다. 실제 0과 결측·미확보는 구분하며, 2026Q4는 비워 둡니다.")
-        st.button("선택 국가·품목으로 생산 시나리오 이동", key="product_to_production",
-                  on_click=_open_production)
+        monthly = None
+        history_error = None
+        try:
+            path = root / "data/shared/history/customs_monthly_hs6.parquet"
+            stat = path.stat()
+            monthly = _history(str(root), tuple(country_names), tuple(product_names),
+                               (stat.st_size, stat.st_mtime_ns))
+        except (OSError, ValueError) as error:
+            history_error = str(error)
+        with st.container(border=True, key="gem_products_card_ranking"):
+            st.subheader(f"{short_countries[country]} | 8개 품목 예상 수출액", anchor=False)
+            st.plotly_chart(
+                ranking_figure(_ranking_records(run, country, products, period), hs_code, predicted=True,
+                               height=380, main_color="#EA580C", secondary_color="#F6D1BB"),
+                width="stretch", theme=None, key="product_ranking",
+                config={"displayModeBar": False}, alt="선택 국가의 8개 품목 예상 수출액과 미확보 품목",
+            )
+            if monthly is not None and run is not None:
+                baseline = history_series(monthly, country, hs_code, "연간").set_index("period").loc["2025"]
+                future = forecast_series(run, country, hs_code, "연간").iloc[0].value_usd
+                if pd.notna(baseline.complete_value_usd) and baseline.complete_value_usd > 0 and pd.notna(future):
+                    growth = (future / baseline.complete_value_usd - 1) * 100
+                    st.caption(f"{short_products[hs_code]} · 2025년 대비 2027년 예상 증감률 {growth:+,.1f}% (2년 누적)")
+                elif pd.isna(future):
+                    st.caption("2027년 네 분기 예측이 모두 확보되지 않아 증감률을 계산하지 않습니다.")
+                else:
+                    st.caption("2025년의 완전한 양수 기준 실적이 없어 증감률을 계산하지 않습니다.")
+        with st.container(border=True, key="gem_products_card_timeline"):
+            st.subheader(f"{short_products[hs_code]} | 실적과 분기별 전망", anchor=False)
+            if monthly is None:
+                render_empty_result("공유된 실제 수출 자료를 확인하세요.", detail=history_error)
+            else:
+                render_export_timeline(monthly, country, hs_code, key="product_timeline", run=run,
+                                       colors={"actual": "#205f73", "ytd": "#205f73", "forecast": "#d48a28"})
+        st.button("이 품목으로 생산 시나리오 만들기", icon=":material/factory:", key="product_to_production",
+                   on_click=_open_production)

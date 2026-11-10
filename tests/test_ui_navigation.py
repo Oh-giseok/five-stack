@@ -33,8 +33,9 @@ def test_native_country_tabs_are_lazy_and_survive_page_navigation(monkeypatch):
     assert not page.exception
     assert not page.info
     assert "분석 시작하기" not in [item.value for item in page.subheader]
-    assert {item.value for item in page.markdown if item.value.startswith(":material/")} == {
-        ":material/public:", ":material/health_and_beauty:", ":material/factory:",
+    assert len(page.get("image")) == 3
+    assert {item.proto.imgs[0].alt for item in page.get("image")} == {
+        "지구 아이콘", "화장품 아이콘", "공장 아이콘",
     }
     page.button(key="home_go_국가별 분석").click().run()
     assert [tab.label for tab in page.tabs] == ["수출 현황", "수출 전망", "유사 국가"]

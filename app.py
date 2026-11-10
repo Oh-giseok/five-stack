@@ -7,7 +7,7 @@ from pathlib import Path
 import streamlit as st
 
 from oinq.common.config import load_yaml
-from oinq.ui.components import install_styles
+from oinq.ui.components import install_styles, install_country_styles
 from oinq.ui.data import load_forecast_run
 from oinq.ui.forecasting import (
     MODEL_LABELS, VARIANT_LABELS, saved_forecast_models, matching_forecast_runs,
@@ -116,14 +116,17 @@ def main_app() -> None:
     subpage = None
     country_tabs = None
     if page_label == "국가별 분석":
-        st.title("국가별 분석")
+        install_country_styles()
         country_items = ["수출 현황", "수출 전망", "유사 국가"]
         # Keep the chosen view when the tab widget is absent on another page.
         if "gem_country_tab_selection" not in st.session_state:
             st.session_state["gem_country_tab_selection"] = st.session_state.get(
                 "gem_country_navigation", country_items[0])
-        with st.container(key="gem_country_tabs"):
-            country_tabs = st.tabs(country_items, key="gem_country_tab_selection", on_change="rerun")
+        with st.container(key="gem_country_page"):
+            st.title("국가별 분석", anchor=False)
+            st.caption("과거 실적·2027년 수출 전망·국가 경제 특성을 나누어 살펴봅니다.")
+            with st.container(key="gem_country_tabs"):
+                country_tabs = st.tabs(country_items, key="gem_country_tab_selection", on_change="rerun")
         subpage = st.session_state["gem_country_tab_selection"]
         st.session_state["gem_country_navigation"] = subpage
     uses_forecasts = page_label in {"품목별 수요", "생산 시나리오"} or (

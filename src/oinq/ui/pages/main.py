@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from oinq.ui.components import onepage_section
+from oinq.ui.components import onepage_section, render_navigation_icon
 
 
 def _navigate(destination: str) -> None:
@@ -24,7 +24,7 @@ def render(countries: list[dict], products: list[dict], run=None) -> None:
             with column:
                 st.markdown(f"#### {title}")
                 with st.container(key=f"gem_home_icon_{index}"):
-                    st.markdown(f":material/{icon}:")
+                    render_navigation_icon(icon)
                 with st.container(key=f"gem_home_description_{index}"):
                     st.write(description)
                 st.button(f"{title} 열기", key=f"home_go_{destination}", width="stretch",

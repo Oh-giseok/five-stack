@@ -115,18 +115,17 @@ def install_styles() -> None:
           [data-testid="stMain"] [data-baseweb="tab-highlight"],
           [data-testid="stMain"] [data-testid="stTabsActiveLine"] { display:none; }
           [class*="st-key-gem_home_icon_"] {
-            width:84% !important; max-width:20rem; margin-inline:auto;
-            aspect-ratio:1; flex-shrink:0; container-type:inline-size; color:#205f73;
+            width:76% !important; max-width:18rem; margin-inline:auto;
+            aspect-ratio:1; flex-shrink:0;
           }
-          [class*="st-key-gem_home_icon_"] [data-testid="stMarkdownContainer"] p {
-            display:flex; justify-content:center; margin:0; line-height:1;
+          [class*="st-key-gem_home_icon_"] [data-testid="stImageContainer"] img {
+            height:auto !important; aspect-ratio:1;
+            object-fit:contain;
           }
-          [class*="st-key-gem_home_icon_"] [data-testid="stMarkdownContainer"] span {
-            display:flex; align-items:center; justify-content:center;
-            width:100% !important; height:auto !important; aspect-ratio:1;
-            font-size:100cqw !important; line-height:1 !important;
+          [class*="st-key-gem_home_description_"] { min-height:4rem; text-align:center; }
+          [class*="st-key-gem_home_description_"] p {
+            text-align:center !important; word-break:keep-all; text-wrap:balance;
           }
-          [class*="st-key-gem_home_description_"] { min-height:4rem; }
           [class*="st-key-gem_equal_panels_"] [data-testid="stPlotlyChart"] {
             padding:0; border:0; box-shadow:inset 0 0 0 1px var(--gem-line);
           }
@@ -218,6 +217,134 @@ def install_comparison_styles() -> None:
       }
     </style>
     """)
+
+
+def install_analysis_styles(page: str = "country") -> None:
+    """Use the reviewed demo card layout while isolating each analysis page."""
+    if page not in {"country", "products"}:
+        raise ValueError("지원하지 않는 분석 페이지입니다.")
+    styles = """
+    <style>
+      .st-key-gem_country_page { gap:1rem; }
+      .st-key-gem_country_page h1 { font-size:38px !important; font-weight:750; }
+      .st-key-gem_country_page h3 { font-size:21px !important; line-height:1.35; }
+      .st-key-gem_country_page [role="tablist"] { gap:0; }
+      .st-key-gem_country_page [role="tab"] {
+        padding:.45rem 0 .65rem !important; margin-right:1.1rem;
+        border-radius:0; font-size:15px; color:var(--gem-ink) !important;
+      }
+      .st-key-gem_country_page [role="tab"][aria-selected="true"] {
+        background:transparent !important; color:var(--gem-accent) !important;
+        box-shadow:inset 0 -2px 0 var(--gem-accent); font-weight:600;
+      }
+      .st-key-gem_country_page [role="tab"] > .react-aria-SelectionIndicator { display:none; }
+      .st-key-gem_country_page [role="tabpanel"] { padding-top:.75rem; }
+      [class*="st-key-gem_country_filters_"],
+      [class*="st-key-gem_country_card_"] {
+        background:#fff; border-color:var(--gem-line) !important;
+        border-radius:10px; padding:1rem;
+      }
+      [class*="st-key-gem_country_filters_"] { padding:.75rem 1rem; }
+      .st-key-gem_country_page [data-testid="stPlotlyChart"] {
+        border:0; border-radius:0; background:transparent; padding:0; box-shadow:none;
+      }
+      .st-key-gem_country_page [data-testid="stCaptionContainer"] { font-size:12px; }
+      .st-key-gem_country_page [data-testid="stButtonGroup"] button {
+        border-color:var(--gem-line); font-size:13px;
+      }
+      .st-key-gem_country_page [data-testid="stButtonGroup"] button[aria-checked="true"],
+      .st-key-gem_country_page [data-testid="stButtonGroup"] button[aria-pressed="true"] {
+        background:#e8f0f2 !important; color:var(--gem-accent) !important; border-color:var(--gem-accent) !important;
+      }
+      .st-key-gem_country_page [data-testid="stSlider"] div:has(> [data-testid="stSliderThumbValue"]) {
+        background:var(--gem-accent) !important;
+      }
+      .st-key-gem_country_page [data-testid="stSliderThumbValue"] { color:var(--gem-accent); }
+      @media (min-width:641px) { .st-key-gem_country_page { margin-top:2.5rem; } }
+      @media (max-width:640px) {
+        [class*="st-key-gem_country_filters_"],
+        [class*="st-key-gem_country_card_"] { padding:.7rem; }
+        .st-key-gem_country_page h1 { font-size:30px !important; }
+      }
+    </style>
+    """
+    if page == "products":
+        styles = styles.replace("gem_country_", "gem_products_")
+    st.html(styles)
+
+
+def install_country_styles() -> None:
+    install_analysis_styles("country")
+
+
+def render_export_timeline(monthly, country, hs, *, key, run=None, height=440, mode_key=None, colors=None):
+    """Shared native timeline controls for the country and product pages."""
+    from oinq.ui.country_charts import export_timeline, timeline_figure
+
+    left, right = st.columns(2)
+    with left:
+        frequency = st.segmented_control("집계 단위", ["분기", "연간"], default="분기", required=True,
+                                         key=f"{key}_frequency", label_visibility="collapsed")
+    with right:
+        mode = st.segmented_control("그래프 종류", ["막대", "선"], default="막대", required=True,
+                                    key=mode_key or f"{key}_mode", label_visibility="collapsed")
+    series = export_timeline(monthly, country, hs, frequency, run)
+    n = len(series)
+    if frequency == "분기":
+        window_key = f"{key}_window"
+        st.session_state.setdefault(window_key, 20)
+        sizes = [("전체 보기", n), ("최근 5년", 20),
+                 ("＋ 확대", max(8, st.session_state[window_key] // 2)),
+                 ("－ 축소", min(n, st.session_state[window_key] * 2))]
+        for i, (column, (label, size)) in enumerate(zip(st.columns(4), sizes)):
+            if column.button(label, key=f"{key}_view_{i}", width="stretch"):
+                st.session_state[window_key] = min(n, size)
+        size = min(n, st.session_state[window_key])
+        maximum = n - size
+        offset = (st.slider("시계열 좌우 이동", 0, maximum, value=maximum,
+                            key=f"{key}_offset_{n}_{size}", label_visibility="collapsed") if maximum else 0)
+        if maximum:
+            percent = 100 * offset / maximum
+            st.html(f"""<style>
+              .st-key-{key}_offset_{n}_{size} [data-testid="stSlider"]
+              [role="group"] > [data-orientation="horizontal"] > div:first-child {{
+                background:linear-gradient(to right, var(--gem-accent) {percent}%,
+                                             var(--gem-line) {percent}%) !important;
+              }}
+            </style>""")
+        visible = [offset - .5, offset + size - .5]
+        st.caption(f"표시 구간 {series.iloc[offset].period}–{series.iloc[offset + size - 1].period} · "
+                   f"전체 {series.iloc[0].period}–{series.iloc[-1].period}")
+        if size > 32:
+            st.caption("각 막대·점은 한 분기입니다. 전체 보기에서는 연도 눈금을 표시하며 확대하면 Q1~Q4가 표시됩니다.")
+    else:
+        visible = [-.5, n - .5]
+        st.caption("2026년은 1–9월 누적이며 완전한 연간 실적과 구분합니다.")
+    st.plotly_chart(timeline_figure(series, frequency, mode, visible, height=height, colors=colors),
+                    width="stretch", theme=None, key=f"{key}_chart",
+                    config={"displayModeBar": False, "scrollZoom": False},
+                    alt="선택 국가·품목의 과거 실적과 관측 부분합 및 연결된 2027년 예측 시계열")
+    st.caption("빗금=1–9월 누적 · 적색 빗금=관측 부분합. 결측은 0으로 채우지 않습니다.")
+
+
+def render_navigation_icon(icon: str) -> None:
+    """Render matching thin-line SVGs without a font-weight dependency."""
+    drawings = {
+        "public": ("지구 아이콘", '<circle cx="32" cy="32" r="24"/>'
+                   '<path d="M9 25.5 24.8 41.2v2.5c0 3.2 2.6 5.8 5.8 5.8v6.3'
+                   'M39.2 9.1v4.5c0 3.6-2.9 6.5-6.5 6.5h-3.2v6.4h-6.4V32h13.5'
+                   'c2.1 0 3.9 1.8 3.9 3.9v8h3.1c2.7 0 5 1.8 5.9 4.6"/>'),
+        "health_and_beauty": ("화장품 아이콘", '<path d="M8 56V34h18v22ZM11 34V18l12-6v22M8 43h18"/>'
+                              '<rect x="34" y="24" width="22" height="32" rx="4"/>'
+                              '<path d="M41 24v-9h8v9M37 15V9h20v5M40 38h10M40 43h10"/>'),
+        "factory": ("공장 아이콘", '<path d="M8 56V30l16-9v9l16-9v13h16v22ZM42 34l2-26h8l2 26"/>'
+                    '<path d="M14 40h7v9h-7ZM27 40h7v9h-7ZM40 40h7v9h-7Z"/>'),
+    }
+    label, drawing = drawings[icon]
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" '
+           'fill="none" stroke="#205f73" stroke-width="1.6" stroke-linecap="round" '
+           f'stroke-linejoin="round">{drawing}</svg>')
+    st.image(svg, width="stretch", alt=label)
 
 
 def country_labels(countries: list[dict]) -> dict[str, str]:
