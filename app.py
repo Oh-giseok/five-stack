@@ -1,4 +1,4 @@
-"""Streamlit entry point for GEM's eight result screens."""
+"""Streamlit entry point for GEM's analysis and model comparison pages."""
 
 from __future__ import annotations
 
@@ -105,13 +105,14 @@ def main_app() -> None:
         ("국가별 분석", ":material/public:"),
         ("품목별 수요", ":material/query_stats:"),
         ("생산 시나리오", ":material/precision_manufacturing:"),
+        ("모델 비교", ":material/leaderboard:"),
     ]
     if "gem_main_navigation" not in st.session_state:
         st.session_state["gem_main_navigation"] = "메인"
     page_label = st.session_state["gem_main_navigation"]
     for index, (item, icon) in enumerate(menu_items):
         st.sidebar.button(
-            item, icon=icon, key=f"gem_nav_{index}", use_container_width=True,
+            item, icon=icon, key=f"gem_nav_{index}", width="stretch",
             type="primary" if page_label == item else "secondary",
             on_click=_select_main_navigation, args=(item,),
         )
@@ -152,6 +153,8 @@ def main_app() -> None:
         products.render(COUNTRIES, PRODUCTS, run)
     elif page_label == "생산 시나리오":
         production.render(COUNTRIES, PRODUCTS, run)
+    elif page_label == "모델 비교":
+        performance.render(ROOT)
     else:
         production.render(COUNTRIES, PRODUCTS, run)
 

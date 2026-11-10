@@ -1,0 +1,940 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "dataset_version": "v002",
+    "validation_period": [
+      "2022Q1",
+      "2025Q4"
+    ],
+    "primary_horizons": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "test_origin": "2025Q4",
+    "test_period": [
+      "2026Q1",
+      "2026Q3"
+    ],
+    "test_horizons": [
+      1,
+      2,
+      3
+    ],
+    "internal_currency": "USD",
+    "valuation": "FOB",
+    "historical_asof_verified": false,
+    "test_labels_previously_shared": true,
+    "forecast_origin": "2026Q3",
+    "forecast_period": [
+      "2027Q1",
+      "2027Q4"
+    ],
+    "forecast_horizons": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "forecast_rows_per_configuration": 640
+  },
+  "country_codes": [
+    "CHN",
+    "JPN",
+    "IND",
+    "IDN",
+    "THA",
+    "SGP",
+    "VNM",
+    "FRA",
+    "DEU",
+    "GBR",
+    "ITA",
+    "ESP",
+    "AUS",
+    "NZL",
+    "USA",
+    "CAN",
+    "BRA",
+    "GTM",
+    "ZAF",
+    "MAR"
+  ],
+  "hs_codes": [
+    "330410",
+    "330420",
+    "330499",
+    "330510",
+    "330590",
+    "340130",
+    "330491",
+    "330300"
+  ],
+  "models": [
+    {
+      "model_id": "xgboost_l2",
+      "model_name": "XGBoost",
+      "experiment": "L2",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l2/with_macro/pipeline.joblib",
+      "model_sha256": "c68eca91e208f5fa450a32185356303070343b736054a119a688103558697a4c",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 24.43823365403735,
+        "mae": 2634551.085059174,
+        "rmse": 16167524.8155796,
+        "r2": 0.9125435472119992
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.267594131244124,
+        "mae": 3617757.058560843,
+        "rmse": 17941190.23884978,
+        "r2": 0.9094922169478482
+      },
+      "forecast_2027_usd": 9213679595.46875
+    },
+    {
+      "model_id": "xgboost_l1_l2",
+      "model_name": "XGBoost",
+      "experiment": "L1+L2",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l1_l2/with_macro/pipeline.joblib",
+      "model_sha256": "1f69dc6a08ba4446398fd2b28bc4cbbe206badb49953128031a9349cae2403ee",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 24.438233768707505,
+        "mae": 2634551.0974211306,
+        "rmse": 16167525.107382616,
+        "r2": 0.9125435440550462
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.26759416594523,
+        "mae": 3617757.0635292684,
+        "rmse": 17941190.239745706,
+        "r2": 0.9094922169388088
+      },
+      "forecast_2027_usd": 9213679578.257812
+    },
+    {
+      "model_id": "xgboost_l1_l2",
+      "model_name": "XGBoost",
+      "experiment": "L1+L2",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l1_l2/without_macro/pipeline.joblib",
+      "model_sha256": "30f65fa3b5c1c2952c15623401bb9d8f6fcbbcc663d4b7ac21a5f0aec6932e73",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.005405194876573,
+        "mae": 2695694.7184119797,
+        "rmse": 16589807.180368738,
+        "r2": 0.9079153031425408
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.265774216099828,
+        "mae": 3760674.228630322,
+        "rmse": 19210706.10452076,
+        "r2": 0.8962304148178613
+      },
+      "forecast_2027_usd": 8957491431.326172
+    },
+    {
+      "model_id": "xgboost_l2",
+      "model_name": "XGBoost",
+      "experiment": "L2",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l2/without_macro/pipeline.joblib",
+      "model_sha256": "16568c225b555f9b2dcf48c2ffbb7ac967dac99f067b94d43070e7444ed56010",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.005405246340324,
+        "mae": 2695694.7239600024,
+        "rmse": 16589807.22207226,
+        "r2": 0.907915302679575
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.265773778602913,
+        "mae": 3760674.1659905007,
+        "rmse": 19210706.01034337,
+        "r2": 0.8962304158352886
+      },
+      "forecast_2027_usd": 8957491503.373047
+    },
+    {
+      "model_id": "xgboost_standard_scaler",
+      "model_name": "XGBoost",
+      "experiment": "StandardScaler",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_standard_scaler/with_macro/pipeline.joblib",
+      "model_sha256": "2419fcb67459cf5aa4609c52d24d5987bcb0b86eb2224ca11f1872085a64a6bb",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.346628905247126,
+        "mae": 2732480.163265771,
+        "rmse": 16813869.300284363,
+        "r2": 0.9054111118822031
+      },
+      "test": {
+        "n": 447,
+        "wape": 21.424439008824056,
+        "mae": 3067502.788246786,
+        "rmse": 13349106.92179808,
+        "r2": 0.9498942176103536
+      },
+      "forecast_2027_usd": 8968014989.730469
+    },
+    {
+      "model_id": "xgboost_l1",
+      "model_name": "XGBoost",
+      "experiment": "L1",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l1/with_macro/pipeline.joblib",
+      "model_sha256": "599f81eafbc4f0e02d7cf7e50f357014c9d3f1cbbf3c0b1b50e30430325f1f95",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.351829230789047,
+        "mae": 2733040.7816595994,
+        "rmse": 16819437.968927488,
+        "r2": 0.9053484467821371
+      },
+      "test": {
+        "n": 447,
+        "wape": 20.953788266649294,
+        "mae": 3000116.0779895484,
+        "rmse": 12939039.926101748,
+        "r2": 0.9529253032933497
+      },
+      "forecast_2027_usd": 8929121378.0625
+    },
+    {
+      "model_id": "xgboost",
+      "model_name": "XGBoost",
+      "experiment": "기본",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost/with_macro/pipeline.joblib",
+      "model_sha256": "1595422f35a1ed43b2ab23eb16e73fe214e838f22d07b7ed6bf598c4c2b7dae2",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.351829591156754,
+        "mae": 2733040.820508853,
+        "rmse": 16819438.037843112,
+        "r2": 0.9053484460064904
+      },
+      "test": {
+        "n": 447,
+        "wape": 20.953788231127085,
+        "mae": 3000116.0729035586,
+        "rmse": 12939039.782545038,
+        "r2": 0.9529253043379231
+      },
+      "forecast_2027_usd": 8929121416.601562
+    },
+    {
+      "model_id": "xgboost_standard_scaler",
+      "model_name": "XGBoost",
+      "experiment": "StandardScaler",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_standard_scaler/without_macro/pipeline.joblib",
+      "model_sha256": "e2d95b5009e8b333a475ce6de80182e3d6f8dce95f5b5fa5f05174cfa7b24498",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.410101867876943,
+        "mae": 2739322.833032155,
+        "rmse": 16903240.082008027,
+        "r2": 0.9044029026322759
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.803578114995275,
+        "mae": 3694498.0347859426,
+        "rmse": 18534497.21482818,
+        "r2": 0.9034071359264529
+      },
+      "forecast_2027_usd": 9286419557.279297
+    },
+    {
+      "model_id": "xgboost_l1",
+      "model_name": "XGBoost",
+      "experiment": "L1",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost_l1/without_macro/pipeline.joblib",
+      "model_sha256": "38442fd85d38d138d584b61f1174a6869d978b42578d7df8b41c89b50d3a4ce3",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.421870418402847,
+        "mae": 2740591.5355086317,
+        "rmse": 16881557.147069715,
+        "r2": 0.9046480031165969
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.253533955937918,
+        "mae": 3758921.695826076,
+        "rmse": 18816212.614739552,
+        "r2": 0.9004484908294481
+      },
+      "forecast_2027_usd": 9287883384.515625
+    },
+    {
+      "model_id": "xgboost",
+      "model_name": "XGBoost",
+      "experiment": "기본",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/xgboost/without_macro/pipeline.joblib",
+      "model_sha256": "6f9cd957e886387741c60c02693610f03f318a7d03af457a0b5cfc4cf3922538",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.42187049285135,
+        "mae": 2740591.543534514,
+        "rmse": 16881557.30652353,
+        "r2": 0.9046480013153128
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.253534154965962,
+        "mae": 3758921.724322462,
+        "rmse": 18816212.5902926,
+        "r2": 0.9004484910881326
+      },
+      "forecast_2027_usd": 9287883234.234375
+    },
+    {
+      "model_id": "extra_trees_leaf",
+      "model_name": "Extra Trees",
+      "experiment": "잎 표본 수 제한",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_leaf/without_macro/pipeline.joblib",
+      "model_sha256": "26bf6ae12efd752ff9a1d9859d1bb1af358da2c7adb6195c333b5367dce5e467",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 25.78879954177103,
+        "mae": 2780148.1390584037,
+        "rmse": 16799017.16523742,
+        "r2": 0.9055781438063814
+      },
+      "test": {
+        "n": 447,
+        "wape": 21.811279161137566,
+        "mae": 3122889.687541502,
+        "rmse": 14856055.079444824,
+        "r2": 0.9379430500599945
+      },
+      "forecast_2027_usd": 8791852203.386822
+    },
+    {
+      "model_id": "extra_trees_leaf",
+      "model_name": "Extra Trees",
+      "experiment": "잎 표본 수 제한",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_leaf/with_macro/pipeline.joblib",
+      "model_sha256": "ba6c4467b77852a53ae2862944e63f7750488ecac3c4b30e108c78017a470b86",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.04879519904655,
+        "mae": 2808176.8358407808,
+        "rmse": 17285944.106083836,
+        "r2": 0.9000250962228671
+      },
+      "test": {
+        "n": 447,
+        "wape": 22.77430795504434,
+        "mae": 3260773.975165288,
+        "rmse": 16336533.545765495,
+        "r2": 0.924958200053239
+      },
+      "forecast_2027_usd": 9232048792.11089
+    },
+    {
+      "model_id": "random_forest",
+      "model_name": "Random Forest",
+      "experiment": "깊이 16·최소 잎 표본 2",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/random_forest/with_macro/pipeline.joblib",
+      "model_sha256": "dc274acc7eb89b20f52cdb7f8312236b2f3942ef2e98d1106b0c445b7c8dbb42",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.073029939181968,
+        "mae": 2810789.449412767,
+        "rmse": 16973681.312784046,
+        "r2": 0.9036044748175572
+      },
+      "test": {
+        "n": 447,
+        "wape": 23.49926027524072,
+        "mae": 3364571.011000507,
+        "rmse": 16846073.751646087,
+        "r2": 0.9202040554163821
+      },
+      "forecast_2027_usd": 8977215577.661737
+    },
+    {
+      "model_id": "extra_trees_depth",
+      "model_name": "Extra Trees",
+      "experiment": "깊이 제한",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_depth/without_macro/pipeline.joblib",
+      "model_sha256": "3c9e5a2e8f65b1025cf16f0b7823adcb1bbd10810d6a13612058fffdba62d42d",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.084065154351997,
+        "mae": 2811979.095052121,
+        "rmse": 17216045.286582276,
+        "r2": 0.9008319944560436
+      },
+      "test": {
+        "n": 447,
+        "wape": 21.993960912039583,
+        "mae": 3149045.6480323668,
+        "rmse": 14971600.433689306,
+        "r2": 0.9369739803218504
+      },
+      "forecast_2027_usd": 9116308228.988354
+    },
+    {
+      "model_id": "extra_trees_features",
+      "model_name": "Extra Trees",
+      "experiment": "변수 수 제한",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_features/without_macro/pipeline.joblib",
+      "model_sha256": "51050be2447d525b79baa10da1b8b852ead1d2cf60cbc2168b95888fdfc943c6",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.13450633723542,
+        "mae": 2817416.8805720755,
+        "rmse": 17266943.17042872,
+        "r2": 0.9002447628676724
+      },
+      "test": {
+        "n": 447,
+        "wape": 21.94574274481266,
+        "mae": 3142141.879753915,
+        "rmse": 14626458.867226532,
+        "r2": 0.9398463737638392
+      },
+      "forecast_2027_usd": 9200543980.625
+    },
+    {
+      "model_id": "catboost",
+      "model_name": "CatBoost",
+      "experiment": "기본",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/catboost/with_macro/model.cbm",
+      "model_sha256": "f7f485c6175ef10a3c80011cb03529b6d2d80cf579e756b126abb907e4ace651",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.374542276925094,
+        "mae": 2843293.830367838,
+        "rmse": 16857792.892908387,
+        "r2": 0.9049162691492708
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.33567798986631,
+        "mae": 3770682.8930741996,
+        "rmse": 18426454.505843483,
+        "r2": 0.9045299866805712
+      },
+      "forecast_2027_usd": 9084554420.118584
+    },
+    {
+      "model_id": "catboost",
+      "model_name": "CatBoost",
+      "experiment": "기본",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/catboost/without_macro/model.cbm",
+      "model_sha256": "763fb83e1fbf5f55992d5b4c673c1894f9920c43184326ee998a82dd0297accc",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.381599048594822,
+        "mae": 2844054.5819721757,
+        "rmse": 16602359.89436217,
+        "r2": 0.9077758982462387
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.702405610655433,
+        "mae": 3823190.1255312273,
+        "rmse": 17625812.27720289,
+        "r2": 0.9126462194405695
+      },
+      "forecast_2027_usd": 7684946145.862905
+    },
+    {
+      "model_id": "extra_trees_depth",
+      "model_name": "Extra Trees",
+      "experiment": "깊이 제한",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_depth/with_macro/pipeline.joblib",
+      "model_sha256": "598cc208c63287ae786bfec6a5a23bc2c92eff893bd5cd421745b7077dd90a4a",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.395188806376098,
+        "mae": 2845519.6187508237,
+        "rmse": 17505803.385589413,
+        "r2": 0.897465768923469
+      },
+      "test": {
+        "n": 447,
+        "wape": 21.716334576449974,
+        "mae": 3109295.736346879,
+        "rmse": 15310261.323361583,
+        "r2": 0.9340904067130419
+      },
+      "forecast_2027_usd": 9855212465.749912
+    },
+    {
+      "model_id": "extra_trees_pruned",
+      "model_name": "Extra Trees",
+      "experiment": "가지치기",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_pruned/without_macro/pipeline.joblib",
+      "model_sha256": "a8c28a007c6d098ed40dcf2b8c2617538786ca7e7c6554222fc5be194cba3cf9",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.554434150829536,
+        "mae": 2862686.9803924095,
+        "rmse": 17070453.547823757,
+        "r2": 0.9025021797606921
+      },
+      "test": {
+        "n": 447,
+        "wape": 23.51757222157762,
+        "mae": 3367192.8741178345,
+        "rmse": 16128726.694825217,
+        "r2": 0.9268551775297683
+      },
+      "forecast_2027_usd": 8931926522.190208
+    },
+    {
+      "model_id": "extra_trees_features",
+      "model_name": "Extra Trees",
+      "experiment": "변수 수 제한",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_features/with_macro/pipeline.joblib",
+      "model_sha256": "26a0559ba80fbd70fbdcf55683567a3e293b5b13923a45ba3cb689a0bb523c2b",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.61420065086188,
+        "mae": 2869130.07688373,
+        "rmse": 17551781.2291673,
+        "r2": 0.8969264627702662
+      },
+      "test": {
+        "n": 447,
+        "wape": 23.257099439763145,
+        "mae": 3329898.969519016,
+        "rmse": 16496257.674332695,
+        "r2": 0.9234836424015853
+      },
+      "forecast_2027_usd": 9524916547.375
+    },
+    {
+      "model_id": "lightgbm_l2",
+      "model_name": "LightGBM",
+      "experiment": "L2",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm_l2/with_macro/pipeline.joblib",
+      "model_sha256": "f2c446bfe3ef862bf6932db9bf5cf67ba11ce8f4ebf58708d23a67a278893fcb",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.732186650275114,
+        "mae": 2881849.4962647036,
+        "rmse": 17138503.532815117,
+        "r2": 0.9017232959913117
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.65875425543228,
+        "mae": 3816940.2230809177,
+        "rmse": 18631504.318835177,
+        "r2": 0.9023933814037451
+      },
+      "forecast_2027_usd": 9024620857.779482
+    },
+    {
+      "model_id": "catboost_l2_1",
+      "model_name": "CatBoost",
+      "experiment": "L2=1",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/catboost_l2_1/with_macro/model.cbm",
+      "model_sha256": "e051965e4a3b40f820d17baa82dc02ba7e8f9b4b8da52223dda99387343f0ffe",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.741044968588096,
+        "mae": 2882804.4626691355,
+        "rmse": 17152201.6222275,
+        "r2": 0.9015661362885397
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.15561176375828,
+        "mae": 3601723.676106542,
+        "rmse": 17022532.964028515,
+        "r2": 0.9185236073622005
+      },
+      "forecast_2027_usd": 9119030503.701986
+    },
+    {
+      "model_id": "lightgbm",
+      "model_name": "LightGBM",
+      "experiment": "기본",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm/without_macro/pipeline.joblib",
+      "model_sha256": "0a06a02ad208cab410e721a53fccbdd65e151f1046e1a56327c7168a8d59b79a",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.884774228042257,
+        "mae": 2898299.1208269345,
+        "rmse": 17272674.524939306,
+        "r2": 0.9001785290810399
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.17837350694121,
+        "mae": 3604982.6510860147,
+        "rmse": 17701041.938089784,
+        "r2": 0.9118989495307714
+      },
+      "forecast_2027_usd": 8531289275.040652
+    },
+    {
+      "model_id": "lightgbm_l1",
+      "model_name": "LightGBM",
+      "experiment": "L1",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm_l1/without_macro/pipeline.joblib",
+      "model_sha256": "934ec03242d04c8a806b4729b39c872530c196da72bdf6ddb3172d3a18a3f693",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.88477423009761,
+        "mae": 2898299.12104851,
+        "rmse": 17272674.525499348,
+        "r2": 0.9001785290745667
+      },
+      "test": {
+        "n": 447,
+        "wape": 25.178373501241875,
+        "mae": 3604982.650269997,
+        "rmse": 17701041.935922645,
+        "r2": 0.9118989495523439
+      },
+      "forecast_2027_usd": 8531289276.195414
+    },
+    {
+      "model_id": "lightgbm_l2",
+      "model_name": "LightGBM",
+      "experiment": "L2",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm_l2/without_macro/pipeline.joblib",
+      "model_sha256": "5b2fe02846dcd9b6dfdf46418b3faeede0f8eabc082237e5fe688c5c9a4d8dc7",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.88926340205786,
+        "mae": 2898783.0738998633,
+        "rmse": 17347069.600652073,
+        "r2": 0.8993167958721228
+      },
+      "test": {
+        "n": 447,
+        "wape": 24.868657189931838,
+        "mae": 3560638.168338977,
+        "rmse": 18124275.943228114,
+        "r2": 0.9076355696487364
+      },
+      "forecast_2027_usd": 8542484008.709841
+    },
+    {
+      "model_id": "catboost_l2_1",
+      "model_name": "CatBoost",
+      "experiment": "L2=1",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/catboost_l2_1/without_macro/model.cbm",
+      "model_sha256": "40639f39b0c58424767096e516e4038ee2e3d19437041eb38d205ea36aaf5c59",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.98108236610825,
+        "mae": 2908681.5696255555,
+        "rmse": 17049163.103156514,
+        "r2": 0.9027452286614309
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.456737112197665,
+        "mae": 3788015.8647866067,
+        "rmse": 17489135.196471937,
+        "r2": 0.9139957140123137
+      },
+      "forecast_2027_usd": 7894938158.965891
+    },
+    {
+      "model_id": "extra_trees_pruned",
+      "model_name": "Extra Trees",
+      "experiment": "가지치기",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "선정된 설정으로 검증 기록 재생성·저장 모델 테스트 대조 완료",
+      "model_path": "artifacts/shared_models/extra_trees_pruned/with_macro/pipeline.joblib",
+      "model_sha256": "4aef98a166388e23a445c389f06633ce7c808b08726a339dd0af9324be6d6b01",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 26.989355600414676,
+        "mae": 2909573.461352573,
+        "rmse": 18067819.146153085,
+        "r2": 0.89077645814687
+      },
+      "test": {
+        "n": 447,
+        "wape": 20.5695859811361,
+        "mae": 2945106.862505441,
+        "rmse": 13824851.40834411,
+        "r2": 0.9462591700817514
+      },
+      "forecast_2027_usd": 9790222889.896286
+    },
+    {
+      "model_id": "random_forest",
+      "model_name": "Random Forest",
+      "experiment": "깊이 10·최소 잎 표본 4",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/random_forest/without_macro/pipeline.joblib",
+      "model_sha256": "138d14d4adae5d0a9d84838b7b43fd462f5e97a71022ddc754a5f184d354fc8c",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 27.32911266079632,
+        "mae": 2946200.794766135,
+        "rmse": 17243782.076275334,
+        "r2": 0.9005121976830577
+      },
+      "test": {
+        "n": 447,
+        "wape": 23.024526250167586,
+        "mae": 3296599.6655203444,
+        "rmse": 16035106.237913348,
+        "r2": 0.9277018627497385
+      },
+      "forecast_2027_usd": 9441929931.66212
+    },
+    {
+      "model_id": "lightgbm_l1",
+      "model_name": "LightGBM",
+      "experiment": "L1",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm_l1/with_macro/pipeline.joblib",
+      "model_sha256": "ef8f02179d7f21321b7925a0b320b5a022d7eb97072284bfe1699e5fd0c9f31f",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 27.447588070650387,
+        "mae": 2958972.974785467,
+        "rmse": 17514613.599238757,
+        "r2": 0.8973625373518465
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.575361482730912,
+        "mae": 3805000.2342356686,
+        "rmse": 18105226.23779742,
+        "r2": 0.9078296287678719
+      },
+      "forecast_2027_usd": 8988110273.44917
+    },
+    {
+      "model_id": "lightgbm",
+      "model_name": "LightGBM",
+      "experiment": "기본",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/lightgbm/with_macro/pipeline.joblib",
+      "model_sha256": "4b0a0a9f19c92cf04f773c6eb5ab285368b0a977679ef874d2ed805d98b41997",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 27.447588071256796,
+        "mae": 2958972.974850841,
+        "rmse": 17514613.60034505,
+        "r2": 0.8973625373388805
+      },
+      "test": {
+        "n": 447,
+        "wape": 26.575361483933996,
+        "mae": 3805000.2344079236,
+        "rmse": 18105226.237047642,
+        "r2": 0.9078296287755058
+      },
+      "forecast_2027_usd": 8988110273.251743
+    },
+    {
+      "model_id": "elastic_net",
+      "model_name": "ElasticNet",
+      "experiment": "L1+L2·테스트용(2025Q4)",
+      "variant": "with_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/elastic_net_test_2025Q4/with_macro/pipeline.joblib",
+      "model_sha256": "1e5a029db242e81d279a0b12292a43491c97f2e25aa040469dcd7d34a00a0e6b",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 124.94456242113175,
+        "mae": 13469583.651535917,
+        "rmse": 54434348.52120337,
+        "r2": 0.00859559274060806
+      },
+      "test": {
+        "n": 447,
+        "wape": 118.23362866267675,
+        "mae": 16928423.91055928,
+        "rmse": 59753074.409044355,
+        "r2": -0.003931163575131347
+      },
+      "forecast_2027_usd": 4895638154.176535
+    },
+    {
+      "model_id": "elastic_net",
+      "model_name": "ElasticNet",
+      "experiment": "L1+L2·테스트용(2025Q4)",
+      "variant": "without_macro",
+      "status": "평가 완료",
+      "detail": "",
+      "model_path": "artifacts/shared_models/elastic_net_test_2025Q4/without_macro/pipeline.joblib",
+      "model_sha256": "0a7426cb6acbca6d253fdc341776ef35c47e6e3be52169afd28a4071a3e73e0a",
+      "trained_through_target_quarter": "2025Q4",
+      "validation": {
+        "n": 9164,
+        "wape": 124.94967940380815,
+        "mae": 13470135.28519542,
+        "rmse": 54438135.824321,
+        "r2": 0.008457632804503845
+      },
+      "test": {
+        "n": 447,
+        "wape": 118.24134130972422,
+        "mae": 16929528.189943824,
+        "rmse": 59757383.192983314,
+        "r2": -0.004075955403159526
+      },
+      "forecast_2027_usd": 4896063005.101001
+    },
+    {
+      "model_id": "elastic_net",
+      "model_name": "ElasticNet",
+      "experiment": "운영용(2026Q3)",
+      "variant": "with_macro",
+      "status": "운영용·비교 제외",
+      "detail": "2026Q3까지 학습. 테스트 기간 포함으로 비교 제외.",
+      "model_path": "artifacts/shared_models/elastic_net/with_macro/pipeline.joblib",
+      "model_sha256": "aeecd4738c1168cb93aa11ceb0ecfd1dc99459b813199a553464b49a62d6d529",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 4949886783.638459
+    },
+    {
+      "model_id": "elastic_net",
+      "model_name": "ElasticNet",
+      "experiment": "운영용(2026Q3)",
+      "variant": "without_macro",
+      "status": "운영용·비교 제외",
+      "detail": "2026Q3까지 학습. 테스트 기간 포함으로 비교 제외.",
+      "model_path": "artifacts/shared_models/elastic_net/without_macro/pipeline.joblib",
+      "model_sha256": "95656e93ca8e25200dcda94260cee4ea033f6d6ecc66e3f26f673c2b5c586d98",
+      "trained_through_target_quarter": "2026Q3",
+      "validation": null,
+      "test": null,
+      "forecast_2027_usd": 4950378155.980328
+    }
+  ],
+  "shared_inputs_sha256": {
+    "data/shared/v002/manifest.json": "dcb49469112a81eb2d88c4be4ea49b0d15141d41edef21a90f8499e1b1d55403",
+    "data/shared/v002/forecast/origin_features_2026Q3.parquet": "df0797cb5035ef7f6487017d7fa4cbda0b29f7e77eea8e9ceff876f77be71a42"
+  }
+}

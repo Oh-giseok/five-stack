@@ -26,6 +26,8 @@ artifacts/shared_models/
 **shared_models에는 `.joblib`·`.cbm`만 넣는다.** 예측·평가 CSV/Parquet, 입력·실행 기록 JSON, 로그, 노트북, `.ubj`·`.txt` 중복 저장물은 넣지 않는다.
 공통 사양서는 `docs/`에 두며, 실험 산출물은 각자의 로컬 실행 폴더에 보관한다. 이미 공유된 데이터·코드를 다시 복사할 필요는 없다.
 
+모델 비교 화면의 공용 실행 데이터는 `data/shared/model_comparison/summary.json` 1개로 관리한다. 모델별 성능값·2027년 예상 수출액·평가 조건·모델 및 공통 입력 체크섬만 포함한다. 개인 실행 경로와 행별 실험 기록은 넣지 않는다. 이 파일은 화면 구동용이며, `shared_models/`에는 계속 모델 파일만 저장한다. ElasticNet의 2025Q4 테스트용 모델은 `elastic_net_test_2025Q4/`에서 운영용 `elastic_net/`과 구분한다.
+
 ## 3. joblib 저장 기준
 
 - 새 모델은 학습 완료된 Pipeline을 저장한다. `fit()` 전 객체나 모델 클래스·학습 코드만 저장하지 않는다.

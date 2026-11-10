@@ -189,6 +189,36 @@ def onepage_section(section_id: str):
         yield
 
 
+def install_comparison_styles() -> None:
+    """Apply the approved palette only to the comparison page."""
+    st.html("""
+    <style>
+      .st-key-gem_comparison_page {
+        background:#fff; color:#182c49; border:1px solid #d7e0eb;
+        border-radius:12px; padding:1.2rem 1.35rem;
+      }
+      .st-key-gem_comparison_page h1,
+      .st-key-gem_comparison_page h2,
+      .st-key-gem_comparison_page h3 { color:#17365c; }
+      .st-key-gem_comparison_controls {
+        background:#f3f6fa; border-radius:10px; padding:.8rem 1rem;
+        border:1px solid #d7e0eb;
+      }
+      .st-key-gem_comparison_page [data-testid="stCaptionContainer"] { color:#546780; }
+      .st-key-gem_comparison_page [data-testid="stPlotlyChart"],
+      .st-key-gem_comparison_page [data-testid="stDataFrame"] { border-color:#d7e0eb; }
+      .st-key-gem_comparison_order button[aria-pressed="true"],
+      .st-key-gem_comparison_order button[aria-checked="true"] {
+        background:#17365c !important; border-color:#17365c !important; color:#fff !important;
+      }
+      @media (max-width:768px) {
+        .st-key-gem_comparison_page { padding:.7rem; }
+        .st-key-gem_comparison_controls { padding:.6rem; }
+      }
+    </style>
+    """)
+
+
 def country_labels(countries: list[dict]) -> dict[str, str]:
     return {row["iso3"]: f"{row['name_ko']} ({row['iso3']})" for row in countries}
 
