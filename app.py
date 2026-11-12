@@ -75,8 +75,10 @@ def _select_forecast():
     try:
         run_ids = matching_forecast_runs(ROOT, key, path)
         if st.button("저장 모델로 예측 생성", key="gem_generate_forecast"):
-            with st.spinner("저장 모델로 예측 중입니다. 재학습하지 않습니다."):
+            with st.status("저장 모델을 불러와 예측을 계산하고 있습니다…", expanded=True) as progress:
+                st.write("학습된 모델로 2027년 분기별 전망을 생성합니다.")
                 generated = create_forecast_run(ROOT, key)
+                progress.update(label="예측 생성이 완료되었습니다.", state="complete", expanded=False)
             run_ids = [generated, *run_ids]
             st.session_state[f"gem_forecast_run_{key}"] = generated
         if not run_ids:

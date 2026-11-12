@@ -22,10 +22,11 @@ def render(countries: list[dict], products: list[dict], run=None) -> None:
             (c, "생산 시나리오", "기업의 목표 비중과 재고·능력 가정으로 계획을 확인합니다.", "생산 시나리오", "factory"),
         )):
             with column:
-                st.markdown(f"#### {title}")
-                with st.container(key=f"gem_home_icon_{index}"):
-                    render_navigation_icon(icon)
-                with st.container(key=f"gem_home_description_{index}"):
-                    st.write(description)
-                st.button(f"{title} 열기", key=f"home_go_{destination}", width="stretch",
-                          on_click=_navigate, args=(destination,))
+                with st.container(key=f"gem_home_card_{index}"):
+                    st.markdown(f"#### {title}")
+                    with st.container(key=f"gem_home_icon_{index}"):
+                        render_navigation_icon(icon)
+                    with st.container(key=f"gem_home_description_{index}"):
+                        st.write(description)
+                    st.button(f"{title} 열기", key=f"home_go_{destination}", width="stretch",
+                              on_click=_navigate, args=(destination,))

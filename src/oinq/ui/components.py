@@ -114,17 +114,38 @@ def install_styles() -> None:
           }
           [data-testid="stMain"] [data-baseweb="tab-highlight"],
           [data-testid="stMain"] [data-testid="stTabsActiveLine"] { display:none; }
+          [class*="st-key-gem_home_card_"] {
+            height:100%; box-sizing:border-box; padding:1.1rem 1.15rem 1rem;
+            border:1px solid var(--gem-line); border-radius:14px; background:#fff;
+            box-shadow:0 2px 8px rgba(25,34,48,.045);
+            display:flex; flex-direction:column; gap:.65rem;
+            transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+          }
+          [class*="st-key-gem_home_card_"]:hover {
+            transform:translateY(-2px); border-color:#b8cbd1;
+            box-shadow:0 8px 20px rgba(25,34,48,.08);
+          }
+          [class*="st-key-gem_home_card_"] h4 { margin:0; font-size:1.15rem !important; }
           [class*="st-key-gem_home_icon_"] {
-            width:76% !important; max-width:18rem; margin-inline:auto;
-            aspect-ratio:1; flex-shrink:0;
+            width:5.25rem !important; max-width:100%; margin:.15rem auto .25rem;
+            flex-shrink:0;
           }
           [class*="st-key-gem_home_icon_"] [data-testid="stImageContainer"] img {
-            height:auto !important; aspect-ratio:1;
-            object-fit:contain;
+            display:block; width:100% !important; height:auto !important;
+            aspect-ratio:1; object-fit:contain;
           }
-          [class*="st-key-gem_home_description_"] { min-height:4rem; text-align:center; }
+          [class*="st-key-gem_home_description_"] { min-height:3.25rem; flex:1; text-align:center; }
           [class*="st-key-gem_home_description_"] p {
+            margin:0; color:var(--gem-muted); font-size:.92rem;
             text-align:center !important; word-break:keep-all; text-wrap:balance;
+          }
+          [class*="st-key-gem_home_card_"] [data-testid="stBaseButton-secondary"],
+          [class*="st-key-gem_home_card_"] [data-testid="baseButton-secondary"] {
+            border-radius:9px; font-weight:600;
+          }
+          @media (max-width: 768px) {
+            [class*="st-key-gem_home_icon_"] { width:4rem !important; }
+            [class*="st-key-gem_home_card_"] { padding:.85rem; }
           }
           [class*="st-key-gem_equal_panels_"] [data-testid="stPlotlyChart"] {
             padding:0; border:0; box-shadow:inset 0 0 0 1px var(--gem-line);

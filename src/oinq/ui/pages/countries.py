@@ -189,7 +189,8 @@ def render_similar(countries: list[dict], products: list[dict]) -> None:
                 indicator_label = st.selectbox("변화 지표", list(INDICATORS), key="p02b_indicator")
     root = Path(__file__).resolve().parents[4]
     try:
-        clusters = _read_clusters(str(root), cluster_source_signature(root))
+        with st.spinner("국가별 경제 지표와 K-means 군집 결과를 불러오고 있습니다…"):
+            clusters = _read_clusters(str(root), cluster_source_signature(root))
     except FileNotFoundError:
         render_empty_result("저장된 K-means 모델 또는 공유 자료가 없습니다.")
         return
